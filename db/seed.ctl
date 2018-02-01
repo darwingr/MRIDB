@@ -74,3 +74,4 @@ LOAD DATA
 INFILE "....users.dat"
 INTO TABLE users
 FIELDS TERMINATED BY ','
+(id, email, first_name, last_name, hippa_authorized)
