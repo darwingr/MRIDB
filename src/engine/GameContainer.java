@@ -10,7 +10,7 @@ public class GameContainer implements Runnable {
 	
 	private boolean running = false;
 	private final double UPDATE_CAP = 1.0 / 60.0;
-	public static final int width = 1600, height = 900;
+	public static final int width = 1080, height = 720;
 	private float scale = 1f;
 	private String title = "Jouvanile Diseases Database";
 	

@@ -56,13 +56,13 @@ public class Tab {
 	public void addButton(String text, int pos, int size, boolean smallText) {
 		int x, y, width, height;
 		if(this.width > this.height) {
-			x = pos;
+			x = pos+this.x;
 			y = this.y;
 			height = this.height;
 			width = size;
 		} else {
 			x = this.x;
-			y = pos;
+			y = pos+this.y;
 			height = size;
 			width = this.width;
 		}

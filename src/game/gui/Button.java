@@ -16,7 +16,8 @@ public class Button {
 	private int borderColor;
 	private int insideColor;
 	private int x, y;
-
+	private boolean active;
+	
 	public Button(int x, int y, int width, int height, int borderColor, int insideColor) {
 		this.x = x;
 		this.y = y;
@@ -26,6 +27,7 @@ public class Button {
 		this.height = height;
 		selected = false;
 		smallText = false;
+		active = false;
 	}
 
 	public Button setTitle(String text, boolean small) {
@@ -84,6 +86,16 @@ public class Button {
 		return height;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	
+	
 	public int getY() {
 		return y;
 	}
