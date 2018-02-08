@@ -1,0 +1,7 @@
+db/data/*
+!db/data/.keep
+
+bin/*
+!bin/.keep
+
+.vimrc
