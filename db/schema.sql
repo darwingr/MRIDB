@@ -1,6 +1,8 @@
 DROP TYPE measurement_set;
 DROP TABLE visits;
 CREATE TYPE measurement_set AS VARRAY(1125) OF DOUBLE;
+asdf
+asdf
 
 DROP TABLE patients;
 CREATE TABLE patients
