@@ -1,13 +1,22 @@
 DROP TYPE measurement_set;
 DROP TABLE visits;
-CREATE TYPE measurement_set AS VARRAY(1125) OF DOUBLE;
-asdf
-asdf
-
 DROP TABLE patients;
+DROP TABLE mri_scans;
+DROP TABLE diagnoses;
+DROP TABLE regimens;
+DROP TABLE measurements;
+DROP TABLE genomes;
+DROP TABLE conditions;
+DROP TABLE treatments;
+DROP TABLE devices;
+DROP TABLE users;
+DROP TABLE physicians;
+
+CREATE TYPE measurement_set AS VARRAY(1125) OF DOUBLE;
+
 CREATE TABLE patients
 (
-        number          INTEGER         NOT NULL,
+        number          INTEGER         NOT NULL,	
         first_name      VARCHAR2(20)    NOT NULL,
         last_name       VARCHAR2(20)    NOT NULL,
 
@@ -29,7 +38,7 @@ CREATE TABLE visits
 );
 GRANT SELECT ON visits TO PUBLIC;
 
-DROP TABLE mri_scans;
+
 CREATE TABLE mri_scans
 (
     id                  INTEGER            NOT NULL,
@@ -47,7 +56,7 @@ CREATE TABLE mri_scans
 );
 GRANT SELECT ON mri_scans TO PUBLIC;
 
-DROP TABLE diagnoses;
+
 CREATE TABLE diagnoses
 (
     id              INTEGER        NOT NULL,
@@ -66,7 +75,6 @@ CREATE TABLE diagnoses
 );
 GRANT SELECT ON diagnoses TO PUBLIC;
 
-DROP TABLE regimens;
 CREATE TABLE regimens
 (
     id              INTEGER,
@@ -79,7 +87,6 @@ CREATE TABLE regimens
 );
 GRANT SELECT ON regimens TO PUBLIC;
 
-DROP TABLE measurements;
 CREATE TABLE measurements
 (
     id              INTEGER,
@@ -92,7 +99,6 @@ CREATE TABLE measurements
 );
 GRANT SELECT ON regimens TO PUBLIC;
 
-DROP TABLE genomes;
 CREATE TABLE genomes
 (
     id              INTEGER,
@@ -106,7 +112,6 @@ CREATE TABLE genomes
 );
 GRANT SELECT ON genomes TO PUBLIC;
 
-DROP TABLE conditions;
 CREATE TABLE conditions
 (
     id                      INTEGER,
@@ -119,7 +124,6 @@ CREATE TABLE conditions
 );
 GRANT SELECT ON conditions TO PUBLIC;
 
-DROP TABLE treatments;
 CREATE TABLE treatments
 (
     id      INTEGER,
@@ -129,7 +133,6 @@ CREATE TABLE treatments
 );
 GRANT SELECT ON treatments TO PUBLIC;
 
-DROP TABLE devices;
 CREATE TABLE devices
 (
     id              INTEGER,
@@ -140,7 +143,6 @@ CREATE TABLE devices
 );
 GRANT SELECT ON patients TO PUBLIC;
 
-DROP TABLE physicians;
 CREATE TABLE physicians
 (
     id           INTEGER,
@@ -152,7 +154,6 @@ CREATE TABLE physicians
 );
 GRANT SELECT ON physicians TO PUBLIC;
 
-DROP TABLE users;
 CREATE TABLE users
 (
     id                  INTEGER,
