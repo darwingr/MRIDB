@@ -12,6 +12,7 @@ DROP TABLE devices;
 DROP TABLE users;
 DROP TABLE physicians;
 
+
 CREATE TYPE measurement_set AS VARRAY(1125) OF DOUBLE;
 
 CREATE TABLE patients
