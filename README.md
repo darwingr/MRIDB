@@ -22,10 +22,12 @@ What things you need to install the software:
 A step by step series of examples that tell you have to get a development env running
 
  1. Clone the project repo from GitHub
- 2. Setup environment variables for connecting to the database.
-    ```
-    Give the example
-    ```
+    - In eclipse go to `File > Import...`
+    - Click `Git(folder icon) > Projects from Git` then click next
+    - Click Clone URI, Next then put in the github clone address (use https)
+    - Continue on with default settings, whatever location you want
+    - On the wizard selection window use `Import existing Eclipse projects`
+
 
  3. ???
  4. PROFIT
