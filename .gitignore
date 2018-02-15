@@ -1,9 +1,8 @@
-db/data/*
-!db/data/.keep
-
 bin/*
-!bin/.keep
 
 lib/ojdbc8.jar
+
+tmp/*
+!tmp/.keep
 
 .vimrc

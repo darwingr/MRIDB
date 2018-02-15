@@ -4,7 +4,9 @@ _One Paragraph of project description goes here_
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your
+local machine for development and testing purposes. See deployment for notes on
+how to deploy the project on a live system.
 
 ### Prerequisites
 
@@ -48,16 +50,19 @@ A step by step series of examples that tell you have to get a development env ru
     - These ones may be useful on the commmand line outside of Eclipse when
     running SQL scripts with sqlloader:
       - `SQLPLUS_PATH`
-      - `SQLLOADER_PATH`
+      - `SQLPLUS_SPOOL_PATH`
+      - `SQLLDR_PATH`
 
  3. ???
  4. PROFIT
 
-End with an example of getting some data out of the system or using it for a little demo.
+End with an example of getting some data out of the system or using it for a
+little demo.
 
 
 ## Data
-The data used is from 3 different data sets:
+All the data used is stored with the source code under `db/data/`.
+It originally derives from 3 different data sets:
  - ABIDE
  - ???
  - ???
@@ -72,7 +77,42 @@ sqlloader.exe.
 ### Data Loader
 Data loader scripts are under `db/seed.ctl` and are just SQL files. The data
 itself is all under `db/data/` in csv format. This is run
-sqlloader.exe.
+sqlloader.exe. At tmp folder was added to the project as a place to put
+resulting logs, git will ignore the contents of this folder.
+
+[Oracle sqlldr cli documentation](https://docs.oracle.com/cd/B19306_01/server.102/b14215/ldr_params.htm)
+
+Example using environment variables to run sqlloader from project root folder:
+
+```shell
+export SQLLDR_PATH=/usr/bin/sqlloader
+export DB_USERNAME=jsdb
+export DB_PASSWORD=mypassword
+
+$SQLLDR_PATH userid=$DB_USERNAME/$DB_PASSWORD control=seed.ctl \
+             log=tmp/sqlldr.log bad=tmp/sqlldr-bad.log
+
+```
+
+## ORM
+Stands for object relational mapping, is the approach we take to mapping
+relations in our database to objects in our application.
+Given that this is a simple project, we will be using the popular
+[Active Record design pattern](https://www.martinfowler.com/eaaCatalog/activeRecord.html) 
+to model this layer of the application.
+
+From the description of an active record object in the above link:
+> An object that wraps a row in a database table or view, encapsulates the
+> database access, and adds domain logic on that data.
+
+The source code for all the classes of active record objects can be found under
+the `src/models/` folder and each one is named with the suffix "Model".
+
+It is worth noting that our application does not resemble a CRUD (create, read,
+update, delete) app. We are mostly reading from the database and do very little
+creating, updating and deleting of records. This is the nature of our problem
+as a research database for running statistics.
+
 
 
 
