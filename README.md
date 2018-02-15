@@ -22,25 +22,59 @@ What things you need to install the software:
 A step by step series of examples that tell you have to get a development env running
 
  1. Clone the project repo from GitHub
-    - In eclipse go to `File > Import...`
+    - In Eclipse go to `File > Import...`
     - Click `Git(folder icon) > Projects from Git` then click next
     - Click Clone URI, Next then put in the github clone address (use https)
     - Continue on with default settings, whatever location you want
     - On the wizard selection window use `Import existing Eclipse projects`
 
+ 2. Install the external ojdbc8.jar to the library.
+    - From the files shared on Martin's OneDrive download any of the folders
+    containing the file `ojdbc8.jar`.
+    - Drag `ojdbc8.jar` to the `lib/` folder in this project.
+    - That's it!
+
+ 3. Setup project environment variables. These are for information we don't
+ want saved as part of the project history such as the database address,
+ username and password. They'll be used by both from sqlloader and the java
+ app. To add them to Eclipse go to `Run > Run Configurations` then click the
+ Environment tab. Add the following variables with the appropriate values:
+    - `DB_ADDRESS`
+    - `DB_PORT`
+    - `DB_USERNAME`
+    - `DB_PASSWORD`
+    - `DB_HIPAA_USERNAME`
+    - `DB_HIPAA_PASSWORD`
+    - These ones may be useful on the commmand line outside of Eclipse when
+    running SQL scripts with sqlloader:
+      - `SQLPLUS_PATH`
+      - `SQLLOADER_PATH`
 
  3. ???
  4. PROFIT
 
 End with an example of getting some data out of the system or using it for a little demo.
 
-## Running the tests
 
-_Explain how to run the automated tests for this system_
+## Data
+The data used is from 3 different data sets:
+ - ABIDE
+ - ???
+ - ???
 
-### Unit Tests
+All data was anonymized long before it reached our hands.
+We've also generated random data using [mockaroo](https://www.mockaroo.com/).
 
-Explain what these tests test and why
+### Database Schema
+The schema for the database can be found under `db/schema.sql`. This is run
+sqlloader.exe.
+
+### Data Loader
+Data loader scripts are under `db/seed.ctl` and are just SQL files. The data
+itself is all under `db/data/` in csv format. This is run
+sqlloader.exe.
+
+
 
 ```
 Give an example
@@ -60,6 +94,7 @@ _Add additional notes about how to deploy this on a live system_
 
 ## Built With
 
+* Oracle-Java Database API - ojdbc8.jar
 * [???]() - ORM framework used
 
 ## Versioning

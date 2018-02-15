@@ -4,4 +4,6 @@ db/data/*
 bin/*
 !bin/.keep
 
+lib/ojdbc8.jar
+
 .vimrc
