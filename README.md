@@ -78,8 +78,8 @@ sqlloader.exe.
 ### Data Loader
 Data loader scripts are under `db/seed.ctl` and are just SQL files. The data
 itself is all under `db/data/` in csv format. This is run
-sqlloader.exe. At tmp folder was added to the project as a place to put
-resulting logs, git will ignore the contents of this folder.
+sqlloader.exe. The resulting logs will be placed in the `tmp/` directory of
+the project, git will ignore the contents of this folder.
 
 [Oracle sqlldr cli documentation](https://docs.oracle.com/cd/B19306_01/server.102/b14215/ldr_params.htm)
 
@@ -90,10 +90,21 @@ export SQLLDR_PATH=/usr/bin/sqlloader
 export DB_USERNAME=jsdb
 export DB_PASSWORD=mypassword
 
-$SQLLDR_PATH userid=$DB_USERNAME/$DB_PASSWORD control=seed.ctl \
+$SQLLDR_PATH userid=$DB_USERNAME/$DB_PASSWORD control=db/seed.ctl \
              log=tmp/sqlldr.log bad=tmp/sqlldr-bad.log
-
 ```
+
+On windows command prompt (use setx to permanently `setx` variable):
+```shell
+cd path\to\project\Database-Gui
+
+set SQLLDR_PATH="C:\\Users\Darwin\path\to\sqlldr.exe"
+set DB_USERNAME=jsdb
+set DB_PASSWORD=mypassword
+
+%SQLLDR_PATH% userid=%DB_USERNAME%/%DB_PASSWORD% control=db\seed.ctl log=tmp\sqlldr.log bad=tmp\sqlldr-bad.log
+```
+
 
 ## ORM
 Stands for object relational mapping, is the approach we take to mapping
