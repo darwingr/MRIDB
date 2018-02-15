@@ -115,6 +115,16 @@ as a research database for running statistics.
 
 
 
+## Running the tests
+The testing framework used is Junit5.
+
+### Unit Tests
+The tests are in a parallel folder to src, the `test/` folder. The classes
+written here mirror those written in src and each has the same name suffixed by
+"Test". For example, the PatientModel class would have a PatientModelTest
+class.
+
+To run simply click Run with a test selected in Eclipse.
 
 ```
 Give an example
@@ -122,7 +132,8 @@ Give an example
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
+These test the fully running program, as such take longer to run. May not be
+necessary.
 
 ```
 Give an example
@@ -135,7 +146,9 @@ _Add additional notes about how to deploy this on a live system_
 ## Built With
 
 * Oracle-Java Database API - ojdbc8.jar
-* [???]() - ORM framework used
+* sqlplus and sqlldr (Oracle)
+* JUnit5 testing framework/library
+
 
 ## Versioning
 
