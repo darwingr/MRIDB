@@ -14,6 +14,7 @@ What things you need to install the software:
 
  - git
  - Java version 8
+ - Java development kit (jdk)
  - Running instance of Oracle DB version 11
  - Eclipse
  - eGit plugin for Eclipse(not required but mike and Darwin like it)
