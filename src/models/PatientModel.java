@@ -16,8 +16,9 @@ public class PatientModel extends ActiveRecordModel {
 	/**
 	 * 
 	 */
-	public PatientModel() {
-		// TODO Auto-generated constructor stub
+	public PatientModel(String fname,String lname) {
+		first_name=fname;
+		last_name=lname;
 	}
 	
 	public String fullname() {

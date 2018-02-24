@@ -22,8 +22,8 @@ public class Gui {
 	}
 
 	public void update(GameContainer gc, float dt) {
-		for (Tab t : tabs) {
-			t.update(gc);
+		for (int i = 0; i < tabs.size(); i++) {
+			tabs.get(i).update(gc);
 		}
 	}
 
@@ -45,8 +45,13 @@ public class Gui {
 			tabs.get(tabID).addButton(text, pos, size, smallText);
 	}
 
+	public void addButtonBranch(String text, Gui gui, int tabWidth, int tabHeight, int pos, int size, int tabID, boolean smallText, String[] labels) {
+		if (tabs.size() > tabID)
+			tabs.get(tabID).addButtonBranch(text, gui, tabWidth, tabHeight, pos, size, smallText, labels);;
+	}
+	
 	public void addTab(int x, int y, int width, int height) {
-		tabs.add(new Tab(x, y, width, height, 0xff303030, 0xffE5E5D1));
+		tabs.add(new Tab(x, y, width, height, 0xff303030, 0xffd3c23d));
 	}
 
 	public Tab getTab(int id) {
