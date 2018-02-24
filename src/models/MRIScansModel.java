@@ -16,7 +16,7 @@ public class MRIScansModel extends ActiveRecordModel {
 	private int visitID;
 	private int deviceID;
 	
-	public PatientModel() {
+	public MRIScansModel() {
 		// TODO Auto-generated constructor stub
 	}
 }
