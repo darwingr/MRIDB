@@ -18,55 +18,94 @@ public class CommandLine {
 	private boolean dispalyCursor;
 	private float ctr = 0;
 
+	private boolean selected;
+
 	public CommandLine(int x, int y, int width, int height) {
 		text = new ArrayList<String>();
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		selected = false;
 	}
 
 	public void update(GameContainer gc, float delta) {
-		if (timer(.5f, delta)) {
-			dispalyCursor = !dispalyCursor;
+		if (selected) {
+			if (timer(.5f, delta)) {
+				dispalyCursor = !dispalyCursor;
+			}
+			checkKey(gc, "q", KeyEvent.VK_Q);
+			checkKey(gc, "w", KeyEvent.VK_W);
+			checkKey(gc, "e", KeyEvent.VK_E);
+			checkKey(gc, "r", KeyEvent.VK_R);
+			checkKey(gc, "t", KeyEvent.VK_T);
+			checkKey(gc, "y", KeyEvent.VK_Y);
+			checkKey(gc, "u", KeyEvent.VK_U);
+			checkKey(gc, "i", KeyEvent.VK_I);
+			checkKey(gc, "o", KeyEvent.VK_O);
+			checkKey(gc, "p", KeyEvent.VK_P);
+			checkKey(gc, "a", KeyEvent.VK_A);
+			checkKey(gc, "s", KeyEvent.VK_S);
+			checkKey(gc, "d", KeyEvent.VK_D);
+			checkKey(gc, "f", KeyEvent.VK_F);
+			checkKey(gc, "g", KeyEvent.VK_G);
+			checkKey(gc, "h", KeyEvent.VK_H);
+			checkKey(gc, "j", KeyEvent.VK_J);
+			checkKey(gc, "k", KeyEvent.VK_K);
+			checkKey(gc, "l", KeyEvent.VK_L);
+			checkKey(gc, "z", KeyEvent.VK_Z);
+			checkKey(gc, "x", KeyEvent.VK_X);
+			checkKey(gc, "c", KeyEvent.VK_C);
+			checkKey(gc, "v", KeyEvent.VK_V);
+			checkKey(gc, "b", KeyEvent.VK_B);
+			checkKey(gc, "n", KeyEvent.VK_N);
+			checkKey(gc, "m", KeyEvent.VK_M);
+			checkKey(gc, ";", KeyEvent.VK_SEMICOLON);
+			checkKey(gc, ",", KeyEvent.VK_COMMA);
+			checkKey(gc, ".", KeyEvent.VK_PERIOD);
+			checkKey(gc, "0", KeyEvent.VK_0);
+			checkKey(gc, "1", KeyEvent.VK_1);
+			checkKey(gc, "2", KeyEvent.VK_2);
+			checkKey(gc, "3", KeyEvent.VK_3);
+			checkKey(gc, "4", KeyEvent.VK_4);
+			checkKey(gc, "5", KeyEvent.VK_5);
+			checkKey(gc, "6", KeyEvent.VK_6);
+			checkKey(gc, "7", KeyEvent.VK_7);
+			checkKey(gc, "8", KeyEvent.VK_8);
+			checkKey(gc, "9", KeyEvent.VK_9);
+			
+
+			if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE))
+				enterChar(" ");
+			if (gc.getInput().isKeyDown(KeyEvent.VK_BACK_SPACE) && !gc.getInput().isKey(KeyEvent.VK_SHIFT))
+				removeChar();
+			if (gc.getInput().isKeyDown(KeyEvent.VK_BACK_SPACE) && gc.getInput().isKey(KeyEvent.VK_SHIFT))
+				text.clear();
 		}
-		checkKey(gc, "q", KeyEvent.VK_Q);
-		checkKey(gc, "w", KeyEvent.VK_W);
-		checkKey(gc, "e", KeyEvent.VK_E);
-		checkKey(gc, "r", KeyEvent.VK_R);
-		checkKey(gc, "t", KeyEvent.VK_T);
-		checkKey(gc, "y", KeyEvent.VK_Y);
-		checkKey(gc, "u", KeyEvent.VK_U);
-		checkKey(gc, "i", KeyEvent.VK_I);
-		checkKey(gc, "o", KeyEvent.VK_O);
-		checkKey(gc, "p", KeyEvent.VK_P);
-		checkKey(gc, "a", KeyEvent.VK_A);
-		checkKey(gc, "s", KeyEvent.VK_S);
-		checkKey(gc, "d", KeyEvent.VK_D);
-		checkKey(gc, "f", KeyEvent.VK_F);
-		checkKey(gc, "g", KeyEvent.VK_G);
-		checkKey(gc, "h", KeyEvent.VK_H);
-		checkKey(gc, "j", KeyEvent.VK_J);
-		checkKey(gc, "k", KeyEvent.VK_K);
-		checkKey(gc, "l", KeyEvent.VK_L);
-		checkKey(gc, "z", KeyEvent.VK_Z);
-		checkKey(gc, "x", KeyEvent.VK_X);
-		checkKey(gc, "c", KeyEvent.VK_C);
-		checkKey(gc, "v", KeyEvent.VK_V);
-		checkKey(gc, "b", KeyEvent.VK_B);
-		checkKey(gc, "n", KeyEvent.VK_N);
-		checkKey(gc, "m", KeyEvent.VK_M);
-		checkKey(gc, ";", KeyEvent.VK_SEMICOLON);
-		checkKey(gc, ",", KeyEvent.VK_COMMA);
-		checkKey(gc, ".", KeyEvent.VK_PERIOD);
+		int mx = gc.getInput().getMouseX();
+		int my = gc.getInput().getMouseY();
+		if(intersects(mx,my)&&gc.getInput().isButtonDown(1)) {
+			selected=true;
+		}
+		if(!intersects(mx,my)&&gc.getInput().isButtonDown(1)) {
+			selected = false;
+		}
+	}
+	
+	public boolean isSelected() {
+		return selected;
+	}
 
-		if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE))
-			enterChar(" ");
-		if (gc.getInput().isKeyDown(KeyEvent.VK_BACK_SPACE) && !gc.getInput().isKey(KeyEvent.VK_SHIFT))
-			removeChar();
-		if (gc.getInput().isKeyDown(KeyEvent.VK_BACK_SPACE) && gc.getInput().isKey(KeyEvent.VK_SHIFT))
-			text.clear();
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 
+	public String getWord() {
+		String a = "";
+		for(String s: text) {
+			a+=s;
+		}
+		return a;
 	}
 
 	public void checkKey(GameContainer gc, String key, int keyID) {
@@ -107,10 +146,20 @@ public class CommandLine {
 	public void setDisplayCursor(boolean dispaly) {
 		dispalyCursor = dispaly;
 	}
-	
+
 	public void removeChar() {
 		if (text.size() > 0)
 			text.remove(text.size() - 1);
 	}
 
+	public boolean intersects(int mx, int my) {
+		return (mx > x && my > y && mx < x + width && my < y + height);
+
+	}
+	
+	public void clearText() {
+		text.clear();
+		selected=false;
+	}
+	
 }

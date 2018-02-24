@@ -69,6 +69,26 @@ public class Tab {
 		buttons.add(new Button(x,y,width,height,borderColor,insideColor).setTitle(text,smallText));
 	}
 	
+	public void addButtonBranch(String text,Gui gui, int tabWidth, int tabHeight, int pos, int size, boolean smallText, String[] labels) {
+		int x, y, width, height;
+		if(this.width > this.height) {
+			x = pos+this.x;
+			y = this.y;
+			height = this.height;
+			width = size;
+		} else {
+			x = this.x;
+			y = pos+this.y;
+			height = size;
+			width = this.width;
+		}
+		Button b = new Button(x,y,width,height,borderColor,insideColor).setTitle(text,smallText).setBranchButton(gui, tabWidth, tabHeight, size);
+		for(int i = 0; i < labels.length;i++) {
+			b.addBranchButton(labels[i]);
+		}
+		buttons.add(b);
+	}
+	
 	public boolean isSelected() {
 		return selected;
 	}
