@@ -14,7 +14,6 @@ DROP TABLE devices;
 DROP TABLE users;
 DROP TABLE physicians;
 
-
 CREATE TABLE technicians
 (
     id                      NUMBER(5)          NOT NULL    unique,
