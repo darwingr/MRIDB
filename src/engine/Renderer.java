@@ -16,14 +16,13 @@ public class Renderer {
 	private ArrayList<ImageRequest> imageRequest = new ArrayList<ImageRequest>();
 	private ArrayList<LightRequest> lightRequest = new ArrayList<LightRequest>();
 	
-	
 	private int pW, pH;
 	private int[] p;
 	private int[] zb;
 	private int[] lm;
 	private int[] lb;
 
-	private int ambientColor = 0xffE5E5D1;
+	private int ambientColor = 0xff555555;
 	private int zDepth = 0;
 	private boolean processing = false;
 
@@ -388,6 +387,10 @@ public class Renderer {
 		return zDepth;
 	}
 
+	public void setAmbientColor(int color) {
+		ambientColor = color;
+	}
+	
 	public void setzDepth(int zDepth) {
 		this.zDepth = zDepth;
 	}

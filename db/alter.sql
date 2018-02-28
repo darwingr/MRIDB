@@ -17,13 +17,15 @@ ALTER TABLE mri_scans
 ALTER TABLE diagnoses
     ADD CONSTRAINT PK_Diagnoses PRIMARY KEY (id);
     ADD CONSTRAINT FK_Condition_Id FOREIGN KEY(condition_id); REFERENCES conditions(id),
-    ADD CONSTRAINT FK_Patient_Number FOREIGN KEY(patient_number); REFERENCES patients(patient_number),
+    ADD CONSTRAINT FK_Patient_Number FOREIGN KEY(patient_number); REFERENCES patients(number),
     ADD CONSTRAINT FK_Physician_Id FOREIGN KEY(physician_id); REFERENCES physicians(id),
     GRANT SELECT ON diagnoses TO PUBLIC;
 
 ALTER TABLE regimens
     ADD CONSTRAINT PK_Regimens PRIMARY KEY (id);
+    ADD CONSTRAINT FK_Patient_number FOREIGN KEY(patient_number) REFERENCES patients(number)
     ADD CONSTRAINT FK_Physician_Id FOREIGN KEY(physician_id) REFERENCES physicians(id),
+    ADD CONSTRAINT FK_Treatment_Id FOREIGN KEY(treatment_id) REFERENCES treatments(id),
     GRANT SELECT ON regimens TO PUBLIC;
 
 ALTER TABLE measurements
@@ -48,7 +50,7 @@ ALTER TABLE devices
     ADD CONSTRAINT PK_Devices PRIMARY KEY (id);
     GRANT SELECT ON patients TO PUBLIC;
 
-ALTER TABLE physicianS
+ALTER TABLE physicians
     ADD CONSTRAINT PK_Physicians PRIMARY KEY (id);
     GRANT SELECT ON physicians TO PUBLIC;
 
