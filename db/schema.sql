@@ -23,9 +23,9 @@ CREATE TABLE technicians
 
 CREATE TABLE patients
 (
-        patient_number      NUMBER(9)          NOT NULL    unique,	
-        first_name          VARCHAR2(20)       NOT NULL,
-        last_name           VARCHAR2(20)       NOT NULL
+    id                  NUMBER(9)          NOT NULL    unique,	
+    first_name          VARCHAR2(20)       NOT NULL,
+    last_name           VARCHAR2(20)       NOT NULL
 );
 
 CREATE TABLE visits
