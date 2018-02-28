@@ -76,25 +76,42 @@ The schema for the database can be found under `db/schema.sql`. This is run
 sqlloader.exe.
 
 ### Data Loader
-Data loader scripts are under `db/seed.ctl` and are just SQL files. The data
+Data loader scripts are under `db/seed.sql` and are just SQL files. The data
 itself is all under `db/data/` in csv format. This is run
 sqlloader.exe. The resulting logs will be placed in the `tmp/` directory of
 the project, git will ignore the contents of this folder.
 
 [Oracle sqlldr cli documentation](https://docs.oracle.com/cd/B19306_01/server.102/b14215/ldr_params.htm)
 
+Also note that you'll need to define the environment variables for sqlldr to
+know how to connect to the host `ORACLE_HOME`, in our case the path to the
+sqlldr and slqplus executables, and `TNS_ADMIN`, the folder where tnsnames.ora
+is found. Make sure you have a tnsnames.ora file and that it contains a
+definition for csci275.
+
+From Windows command prompt:
+```shell
+setx ORACLE_HOME "D:\example\path\instant_client"
+setx TNS_ADMIN %ORACLE_HOME%
+```
+
+
+#### Running SQL Loader
 Example using environment variables to run sqlloader from project root folder:
 
+On bash prompt (unix, mac, linux), although sqldr doesn't exist on this platform:
 ```shell
+cd path/to/project/Database-Gui
+
 export SQLLDR_PATH=/usr/bin/sqlloader
 export DB_USERNAME=jsdb
 export DB_PASSWORD=mypassword
 
-$SQLLDR_PATH userid=$DB_USERNAME/$DB_PASSWORD control=db/seed.ctl \
+$SQLLDR_PATH userid=$DB_USERNAME/$DB_PASSWORD control=db/seed.sql \
              log=tmp/sqlldr.log bad=tmp/sqlldr-bad.log
 ```
 
-On windows command prompt (use setx to permanently `setx` variable):
+On Windows command prompt (use `setx` instead to permanently set variable):
 ```shell
 cd path\to\project\Database-Gui
 
@@ -102,7 +119,7 @@ set SQLLDR_PATH="C:\\Users\Darwin\path\to\sqlldr.exe"
 set DB_USERNAME=jsdb
 set DB_PASSWORD=mypassword
 
-%SQLLDR_PATH% userid=%DB_USERNAME%/%DB_PASSWORD% control=db\seed.ctl log=tmp\sqlldr.log bad=tmp\sqlldr-bad.log
+%SQLLDR_PATH% userid=%DB_USERNAME%/%DB_PASSWORD%@csci275 control=db\seed.sql log=tmp\sqlldr.log bad=tmp\sqlldr-bad.log
 ```
 
 
