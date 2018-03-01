@@ -2,4 +2,4 @@ LOAD DATA
 INFILE "db/data/regimens.csv"
 INTO TABLE regimens
 FIELDS TERMINATED BY ','
-(id, physician_id, start_date)
+(id, patient_number, physician_id, physician_notes,treatment_id)
