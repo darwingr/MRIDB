@@ -1,5 +1,5 @@
 ALTER TABLE patients
-    ADD CONSTRAINT PK_Patient PRIMARY KEY(number);
+    ADD CONSTRAINT PK_Patient PRIMARY KEY(id);
     GRANT SELECT ON patients TO PUBLIC;
 
 ALTER TABLE visits
