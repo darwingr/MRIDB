@@ -18,6 +18,7 @@ CREATE TABLE technicians
     first_name              VARCHAR2(20)        NOT NULL,
     last_name               VARCHAR2(20)        NOT NULL
 );
+GRANT SELECT ON technicians TO PUBLIC;
 
 CREATE TABLE patients
 (
@@ -25,6 +26,7 @@ CREATE TABLE patients
     first_name          VARCHAR2(20)       NOT NULL,
     last_name           VARCHAR2(20)       NOT NULL
 );
+GRANT SELECT ON patients TO PUBLIC;
 
 CREATE TABLE visits
 (
@@ -34,6 +36,7 @@ CREATE TABLE visits
         check_out           TIMESTAMP,
         patient_number      NUMBER            NOT NULL
 );
+GRANT SELECT ON visits TO PUBLIC;
 
 CREATE TABLE mri_scans
 (
@@ -43,6 +46,7 @@ CREATE TABLE mri_scans
     visit_id                NUMBER            NOT NULL,
     device_id               NUMBER
 );
+GRANT SELECT ON mri_scans TO PUBLIC;
 
 CREATE TABLE diagnoses
 (
@@ -52,6 +56,7 @@ CREATE TABLE diagnoses
     physician_id            NUMBER(3)       NOT NULL,
     physician_notes         VARCHAR2(2000)
 );
+GRANT SELECT ON diagnoses TO PUBLIC;
 
 CREATE TABLE regimens
 (
@@ -61,6 +66,7 @@ CREATE TABLE regimens
     physician_notes         VARCHAR(4000),
     treatment_id            NUMBER            NOT NULL
 );
+GRANT SELECT ON regimens TO PUBLIC;
 
 CREATE TABLE measurements
 (
@@ -68,6 +74,7 @@ CREATE TABLE measurements
     label                   VARCHAR2(50)     NOT NULL,
     brain_region            VARCHAR2(20)
 );
+GRANT SELECT ON measurements TO PUBLIC;
 
 CREATE TABLE genomes
 (
@@ -75,6 +82,7 @@ CREATE TABLE genomes
     sequence                VARCHAR(120)      NOT NULL,
     visit_id                NUMBER
 );
+GRANT SELECT ON genomes TO PUBLIC;
 
 CREATE TABLE conditions
 (
@@ -83,6 +91,7 @@ CREATE TABLE conditions
     signs                   VARCHAR2(100),
     symptoms                VARCHAR2(4000)
 );
+GRANT SELECT ON conditions TO PUBLIC;
 
 CREATE TABLE treatments
 (
@@ -90,6 +99,7 @@ CREATE TABLE treatments
     type                    VARCHAR2(4000)    NOT NULL,
     description             VARCHAR(1000)     NOT NULL
 );
+GRANT SELECT ON treatments TO PUBLIC;
 
 CREATE TABLE devices
 (
@@ -98,6 +108,7 @@ CREATE TABLE devices
     model_number            VARCHAR2(25),
     hospital_location       VARCHAR(100)       NOT NULL
 );
+GRANT SELECT ON devices TO PUBLIC;
 
 CREATE TABLE physicians
 (
@@ -106,6 +117,7 @@ CREATE TABLE physicians
     last_name               VARCHAR2(20)      NOT NULL,
     specialty               VARCHAR2(100)      NOT NULL
 );
+GRANT SELECT ON physicians TO PUBLIC;
 
 CREATE TABLE users
 (
@@ -116,6 +128,7 @@ CREATE TABLE users
     last_name               VARCHAR2(20)      NOT NULL,
     hipaa_authorized        NUMBER(1)         NOT NULL CHECK  (hipaa_authorized in (0,1))
 );
+GRANT SELECT ON users TO PUBLIC;
 
 commit;
 cl scr
