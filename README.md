@@ -42,7 +42,7 @@ A step by step series of examples that tell you have to get a development env ru
  username and password. They'll be used by both from sqlloader and the java
  app. To add them to Eclipse go to `Run > Run Configurations` then click the
  Environment tab. Add the following variables with the appropriate values:
-    - `DB_ADDRESS`
+    - `DB_HOST`
     - `DB_PORT`
     - `DB_USERNAME`
     - `DB_PASSWORD`
