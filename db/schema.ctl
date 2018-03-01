@@ -54,7 +54,8 @@ CREATE TABLE diagnoses
     condition_id            NUMBER(3)       NOT NULL,
     patient_number          NUMBER(3)       NOT NULL,
     physician_id            NUMBER(3)       NOT NULL,
-    physician_notes         VARCHAR2(2000)
+    physician_notes         VARCHAR2(2000),
+    diagnoses_date          TIMESTAMP
 );
 GRANT SELECT ON diagnoses TO PUBLIC;
 
@@ -63,7 +64,8 @@ CREATE TABLE regimens
     id                      NUMBER(10)        NOT NULL    unique,
     patient_number          NUMBER            NOT NULL,
     physician_id            NUMBER            NOT NULL,
-    physician_notes         VARCHAR(4000),
+    physician_notes         VARCHAR2(4000),
+    start_date              TIMESTAMP,
     treatment_id            NUMBER            NOT NULL
 );
 GRANT SELECT ON regimens TO PUBLIC;
@@ -80,6 +82,7 @@ CREATE TABLE genomes
 (
     id                      NUMBER(10)        NOT NULL    unique,
     sequence                VARCHAR(120)      NOT NULL,
+    date_taken              TIMESTAMP,
     visit_id                NUMBER
 );
 GRANT SELECT ON genomes TO PUBLIC;
