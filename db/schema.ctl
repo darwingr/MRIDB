@@ -12,6 +12,7 @@ DROP TABLE visits CASCADE CONSTRAINT;
 DROP TABLE patients CASCADE CONSTRAINT;
 DROP TABLE technicians CASCADE CONSTRAINT;
 
+
 CREATE TABLE technicians
 (
     id                      NUMBER(5)          NOT NULL,
