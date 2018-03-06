@@ -12,6 +12,7 @@ DROP TABLE visits CASCADE CONSTRAINT;
 DROP TABLE patients CASCADE CONSTRAINT;
 DROP TABLE technicians CASCADE CONSTRAINT;
 
+CREATE OR REPLACE TYPE numbers AS VARRAY(4788) of NUMBER(7,6);
 
 CREATE TABLE technicians
 (
@@ -43,7 +44,8 @@ CREATE TABLE mri_scans
     technician_notes        VARCHAR2(1000),
     technician_id           NUMBER(3),
     visit_id                NUMBER(3)         NOT NULL,
-    device_id               NUMBER(2)
+    device_id               NUMBER(2);
+    vals                    numbers
 );
 
 CREATE TABLE diagnoses
