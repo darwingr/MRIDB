@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * @author darwingroskleg
  *
  */
-class ActiveRecordModelTest {
+class ActiveRecordTest {
 
 	/**
 	 * @throws java.lang.Exception

@@ -8,7 +8,7 @@ package models;
  * @author Michael
  *
  */
-public class MRIScansModel extends ActiveRecordModel {
+public class MRIScansModel extends ActiveRecord {
 	private int id;
 	private String TechnicianNotes;
 	private int TechnicianID;

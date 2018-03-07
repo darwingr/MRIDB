@@ -7,7 +7,7 @@ package models;
  * @author Michael
  *
  */
-public class VisitModel extends ActiveRecordModel {
+public class VisitModel extends ActiveRecord {
 	private  int id;
 	private String patientGender;
 	private int patientAge;

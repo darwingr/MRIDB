@@ -8,7 +8,7 @@ package models;
  * @author darwingroskleg
  *
  */
-public class PatientModel extends ActiveRecordModel {
+public class PatientModel extends ActiveRecord {
 	private int number;
 	private String first_name;
 	private String last_name;
