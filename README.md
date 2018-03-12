@@ -54,11 +54,11 @@ A step by step series of examples that tell you have to get a development env ru
       - `SQLPLUS_SPOOL_PATH`
       - `SQLLDR_PATH`
 
- 3. ???
- 4. PROFIT
+ Alternatively you can add them to a launch script under `bin/` that then
+ launches eclipse with the right environment. This allows you to avoid needing
+ to add them again for each testing environment via eclipse.
 
-End with an example of getting some data out of the system or using it for a
-little demo.
+ On mac just run `./bin/eclipse-mac.sh` from the project root.
 
 
 ## Data
@@ -146,6 +146,7 @@ as a research database for running statistics.
 
 ## Running the tests
 The testing framework used is Junit5.
+The documentation is available [HERE](https://junit.org/junit5/docs/current/user-guide/).
 
 ### Unit Tests
 The tests are in a parallel folder to src, the `test/` folder. The classes
@@ -154,6 +155,8 @@ written here mirror those written in src and each has the same name suffixed by
 class.
 
 To run simply click Run with a test selected in Eclipse.
+For more instructions with eclipse see this WashingtonU page: 
+[Unit Testing in Eclipse Using JUnit](http://faculty.washington.edu/stepp/courses/2005spring/tcss360/handouts/6-junit_eclipse_2.html)
 
 ```
 Give an example
