@@ -135,9 +135,10 @@ CREATE TABLE visits
     check_in            TIMESTAMP(0)      NOT NULL,
     check_out           TIMESTAMP(0),
     patient_id          NUMBER(5)         NOT NULL,
-    CONSTRAINT PK_Visit PRIMARY KEY (id),
+    CONSTRAINT Chk_dob CHECK (dob <= check_in),
     CONSTRAINT Chk_in CHECK (check_in <= check_out),
-    CONSTRAINT Chk_out CHECK (check_out >= check_in)
+    CONSTRAINT Chk_out CHECK (check_out >= check_in),
+    CONSTRAINT PK_Visit PRIMARY KEY (id)
 );
 
 commit;
