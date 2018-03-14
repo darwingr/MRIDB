@@ -55,9 +55,9 @@ CREATE TABLE genomes
 CREATE TABLE measurements
 (
     id                      NUMBER(5)         NOT NULL,
-    hemisphere              VARCHAR2(16)      NOT NULL,
-    label                   VARCHAR2(100)      NOT NULL,
-    brain_region            VARCHAR2(50)
+    hemisphere              VARCHAR2(20)      NOT NULL,
+    label                   VARCHAR2(100)     NOT NULL,
+    brain_region            VARCHAR2(50),
     CONSTRAINT PK_Measurements PRIMARY KEY (id)
 );
 
