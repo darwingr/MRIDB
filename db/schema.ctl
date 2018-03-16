@@ -26,7 +26,7 @@ CREATE TABLE conditions
 CREATE TABLE devices
 (
     id                      NUMBER(5)         NOT NULL,
-    manufacturer            VARCHAR2(50),
+    manufacturer            VARCHAR2(80),
     model_number            VARCHAR2(12),
     hospital_location       VARCHAR2(25)     NOT NULL,
     CONSTRAINT PK_Devices PRIMARY KEY (id)
@@ -64,7 +64,7 @@ CREATE TABLE measurements
 CREATE TABLE mri_scans
 (
     id                      NUMBER(5)         NOT NULL,
-    technician_notes        VARCHAR2(100),
+    technician_notes        VARCHAR2(200),
     technician_id           NUMBER(5),
     visit_id                NUMBER(5)         NOT NULL,
     device_id               NUMBER(5),
