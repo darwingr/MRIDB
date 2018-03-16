@@ -27,7 +27,7 @@ CREATE TABLE devices
 (
     id                      NUMBER(5)         NOT NULL,
     manufacturer            VARCHAR2(75),
-    model_number            VARCHAR2(25),
+    model_number            VARCHAR2(30),
     hospital_location       VARCHAR2(50)     NOT NULL,
     CONSTRAINT PK_Devices PRIMARY KEY (id)
 );
