@@ -26,9 +26,9 @@ CREATE TABLE conditions
 CREATE TABLE devices
 (
     id                      NUMBER(5)         NOT NULL,
-    manufacturer            VARCHAR2(100),
+    manufacturer            VARCHAR2(50),
     model_number            VARCHAR2(25),
-    hospital_location       VARCHAR2(100)     NOT NULL,
+    hospital_location       VARCHAR2(50)     NOT NULL,
     CONSTRAINT PK_Devices PRIMARY KEY (id)
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE diagnoses
     condition_id            NUMBER(3)         NOT NULL,
     patient_id              NUMBER(5)         NOT NULL,
     physician_id            NUMBER(5)         NOT NULL,
-    physician_notes         VARCHAR2(2000),
+    physician_notes         VARCHAR2(200),
     diagnoses_date          TIMESTAMP(0)      NOT NULL,
     CONSTRAINT PK_Diagnoses PRIMARY KEY (id)
 );
@@ -94,7 +94,7 @@ CREATE TABLE regimens
     id                      NUMBER(5)         NOT NULL,
     patient_number          NUMBER(5)         NOT NULL,
     physician_id            NUMBER(3)         NOT NULL,
-    physician_notes         VARCHAR2(4000),
+    physician_notes         VARCHAR2(2000),
     start_date              TIMESTAMP(0)      NOT NULL,
     treatment_id            NUMBER(1)         NOT NULL,
     CONSTRAINT PK_Regimens PRIMARY KEY (id)
@@ -111,8 +111,8 @@ CREATE TABLE technicians
 CREATE TABLE treatments
 (
     id                      NUMBER(5)         NOT NULL,
-    treatment_type          VARCHAR2(4000)    NOT NULL,
-    description             VARCHAR2(1000)    NOT NULL,
+    treatment_type          VARCHAR2(2000)    NOT NULL,
+    description             VARCHAR2(500)    NOT NULL,
     CONSTRAINT PK_Treatments PRIMARY KEY (id)
 );
 
