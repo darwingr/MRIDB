@@ -64,7 +64,7 @@ CREATE TABLE measurements
 CREATE TABLE mri_scans
 (
     id                      NUMBER(5)         NOT NULL,
-    technician_notes        VARCHAR2(200),
+    technician_notes        VARCHAR2(100),
     technician_id           NUMBER(5),
     visit_id                NUMBER(5)         NOT NULL,
     device_id               NUMBER(5),
