@@ -76,7 +76,7 @@ CREATE TABLE patients
 (
     id                  NUMBER(5)             NOT NULL,	
     first_name          VARCHAR2(15)          NOT NULL,
-    last_name           VARCHAR2(20)          NOT NULL,
+    last_name           VARCHAR2(25)          NOT NULL,
     CONSTRAINT PK_Patient PRIMARY KEY(id)
 );
 
