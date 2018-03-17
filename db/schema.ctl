@@ -77,7 +77,7 @@ CREATE TABLE patients
     id                  NUMBER(5)             NOT NULL,	
     first_name          VARCHAR2(15)          NOT NULL,
     last_name           VARCHAR2(20)          NOT NULL,
-    CONSTRAINT PK_Patient PRIMARY KEY(id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT PK_Patient PRIMARY KEY(id)
 );
 
 CREATE TABLE physicians
