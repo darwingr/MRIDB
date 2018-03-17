@@ -28,7 +28,7 @@ CREATE TABLE devices
     id                      NUMBER(5)         NOT NULL,
     manufacturer            VARCHAR2(70),
     model_number            VARCHAR2(20),
-    hospital_location       VARCHAR2(20)     NOT NULL,
+    hospital_location       VARCHAR2(20)      NOT NULL,
     CONSTRAINT PK_Devices PRIMARY KEY (id)
 );
 
@@ -39,15 +39,15 @@ CREATE TABLE diagnoses
     patient_id              NUMBER(5)         NOT NULL,
     physician_id            NUMBER(5)         NOT NULL,
     physician_notes         VARCHAR2(150),
-    diagnoses_date          TIMESTAMP(0)      NOT NULL,
+    diagnoses_date          TIMESTAMP(0),
     CONSTRAINT PK_Diagnoses PRIMARY KEY (id)
 );
 
 CREATE TABLE genomes
 (
     id                      NUMBER(5)         NOT NULL,
-    sequence                VARCHAR2(100)     NOT NULL,
-    date_taken              TIMESTAMP(0)      NOT NULL,
+    sequence                VARCHAR2(100),
+    date_taken              TIMESTAMP(0),
     visit_id                NUMBER(5)         NOT NULL,
     CONSTRAINT PK_Genomes PRIMARY KEY (id)
 );
@@ -56,7 +56,7 @@ CREATE TABLE measurements
 (
     id                      NUMBER(5)         NOT NULL,
     hemisphere              VARCHAR2(20)      NOT NULL,
-    label                   VARCHAR2(60)     NOT NULL,
+    label                   VARCHAR2(60)      NOT NULL,
     brain_region            VARCHAR2(25),
     CONSTRAINT PK_Measurements PRIMARY KEY (id)
 );
@@ -85,7 +85,7 @@ CREATE TABLE physicians
     id                      NUMBER(5)         NOT NULL,
     first_name              VARCHAR2(10)      NOT NULL,
     last_name               VARCHAR2(15)      NOT NULL,
-    specialty               VARCHAR2(50)     NOT NULL,
+    specialty               VARCHAR2(50)      NOT NULL,
     CONSTRAINT PK_Physicians PRIMARY KEY (id)
 );
 
@@ -95,7 +95,7 @@ CREATE TABLE regimens
     patient_number          NUMBER(5)         NOT NULL,
     physician_id            NUMBER(3)         NOT NULL,
     physician_notes         VARCHAR2(150),
-    start_date              TIMESTAMP(0)      NOT NULL,
+    start_date              TIMESTAMP(0),
     treatment_id            NUMBER(1)         NOT NULL,
     CONSTRAINT PK_Regimens PRIMARY KEY (id)
 );
@@ -111,8 +111,8 @@ CREATE TABLE technicians
 CREATE TABLE treatments
 (
     id                      NUMBER(5)         NOT NULL,
-    treatment_type          VARCHAR2(160)    NOT NULL,
-    description             VARCHAR2(140)    NOT NULL,
+    treatment_type          VARCHAR2(160),
+    description             VARCHAR2(140),
     CONSTRAINT PK_Treatments PRIMARY KEY (id)
 );
 
