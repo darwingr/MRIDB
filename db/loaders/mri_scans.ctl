@@ -1,3 +1,4 @@
+options(readsize = 1006000, bindsize = 500000, rows = 32)
 LOAD DATA
 INFILE "db/data/mri_scans.csv"
 INTO TABLE mri_scans
