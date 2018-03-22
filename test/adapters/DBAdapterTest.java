@@ -55,11 +55,15 @@ class DBAdapterTest {
 
 	@Test
 	void testExecuteQuery() throws Exception {
-		ResultSet result = db.executeQuery("SELECT * FROM diagnoses");
+		int result_id;
+		try (ResultSet rs = db.executeQuery("SELECT * FROM diagnoses WHERE id = " + 2)) {
+			rs.next();	// Requires next() be called at least once
+			result_id = rs.getInt("id");
 
-		result.next();	// Requires next() be called at least once
-		System.out.println(result.getString(1) + " "
-		              + result.getString(2) + " ");
+		} finally {
+			db.close();
+		}
+		assertEquals(2, result_id);
 	}
 	
 	@Test
