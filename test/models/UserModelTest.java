@@ -54,6 +54,12 @@ class UserModelTest {
 		assertTrue(!user.authenticate("dgroskleg", "XXX"));
 	}
 	
+	@Test
+	void testDelete() throws SQLException {
+		UserModel user = UserModel.findByID(1);
+		assertTrue(user.delete());
+	}
+	
 	/*
 	@Test
 	void testFetchAttributes() throws SQLException {
