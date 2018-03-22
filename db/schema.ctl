@@ -39,7 +39,7 @@ CREATE TABLE diagnoses
     patient_id              NUMBER(5)         NOT NULL,
     physician_id            NUMBER(5)         NOT NULL,
     physician_notes         VARCHAR2(150),
-    diagnoses_date          TIMESTAMP(0),
+    diagnosis_date          TIMESTAMP(0),
     CONSTRAINT PK_Diagnoses PRIMARY KEY (id)
 );
 
