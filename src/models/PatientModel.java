@@ -5,11 +5,12 @@ package models;
 
 
 /**
- * @author darwingroskleg
  *
  */
 public class PatientModel extends ActiveRecord {
-	private int number;
+	private static final String TABLE_NAME = "patients";
+
+	private int 	   id;
 	private String first_name;
 	private String last_name;
 
@@ -17,11 +18,11 @@ public class PatientModel extends ActiveRecord {
 	 * 
 	 */
 	public PatientModel(String fname,String lname) {
-		first_name=fname;
-		last_name=lname;
+		first_name = fname;
+		last_name = lname;
 	}
 	
-	public String fullname() {
+	public String fullName() {
 		return first_name + last_name;
 	}
 

@@ -4,17 +4,18 @@
 package models;
 
 /*
- * @author Michael
  * 
  */
 
-public class genomeModel {
-	private int id;
-	private String Sequence;
-	private String dateTaken;
-	private int visitID;
+public class GenomeModel {
+	private static final String TABLE_NAME = "genomes";
 
-	public genomeModel() {
+	private int    id;
+	private String sequence;
+	private String date_taken;
+	private int    visit_id;
+
+	public GenomeModel() {
 		// TODO Auto-generated constructor stub
 	}
 
