@@ -3,17 +3,21 @@
  */
 package models;
 
+import java.util.Date;
+import java.sql.Timestamp;
+
 /**
- * @author Michael
  *
  */
 public class VisitModel extends ActiveRecord {
-	private  int id;
-	private String patientGender;
-	private int patientAge;
-	private String checkIn;
-	private String checkOut;
-	private int patientNumber;	
+	private static final String TABLE_NAME = "visits";
+
+	private int       id;
+	private char      gender;
+	private Date      dob;
+	private Timestamp check_in;
+	private Timestamp check_out;
+	private int       patient_id;	
 	
 	public VisitModel() {
 		// TODO Auto-generated constructor stub
