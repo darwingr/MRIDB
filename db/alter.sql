@@ -10,12 +10,12 @@ GRANT SELECT ON technicians TO PUBLIC;
 
 ALTER TABLE diagnoses
     ADD CONSTRAINT FK_Condition_Id FOREIGN KEY(condition_id) REFERENCES conditions(id)
-    ADD CONSTRAINT FK_Patient_Num FOREIGN KEY(patient_id) REFERENCES patients(id)
+    ADD CONSTRAINT FK_Patient_ID FOREIGN KEY(patient_id) REFERENCES patients(id)
     ADD CONSTRAINT FK_Physician_id FOREIGN KEY(physician_id) REFERENCES physicians(id);
 GRANT SELECT ON diagnoses TO PUBLIC;
     
 ALTER TABLE visits
-    ADD CONSTRAINT FK_Patient_Number FOREIGN KEY(patient_id) REFERENCES patients(id);
+    ADD CONSTRAINT FK_Patient_ID FOREIGN KEY(patient_id) REFERENCES patients(id);
 GRANT SELECT ON visits TO PUBLIC;
 
 ALTER TABLE genomes
@@ -33,7 +33,7 @@ GRANT SELECT ON mri_scans TO PUBLIC;
 GRANT SELECT ON treatments TO PUBLIC;    
 
 ALTER TABLE regimens    
-    ADD CONSTRAINT FK_Patient_numb FOREIGN KEY(patient_number) REFERENCES patients(id)
+    ADD CONSTRAINT FK_Patient_id FOREIGN KEY(patient_id) REFERENCES patients(id)
     ADD CONSTRAINT FK_physicianid FOREIGN KEY(physician_id) REFERENCES physicians(id)
     ADD CONSTRAINT FK_Treatment_Id FOREIGN KEY(treatment_id) REFERENCES treatments(id);
 GRANT SELECT ON regimens TO PUBLIC;

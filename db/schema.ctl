@@ -92,7 +92,7 @@ CREATE TABLE physicians
 CREATE TABLE regimens
 (
     id                      NUMBER(5)         NOT NULL,
-    patient_number          NUMBER(5)         NOT NULL,
+    patient_id              NUMBER(5)         NOT NULL,
     physician_id            NUMBER(3)         NOT NULL,
     physician_notes         VARCHAR2(150),
     start_date              TIMESTAMP(0),
