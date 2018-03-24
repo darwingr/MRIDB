@@ -61,4 +61,16 @@ public class UserModel extends ActiveRecord {
 		return id;
 	}
 	
+	public boolean delete() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "DELETE FROM users WHERE id = '" + id + "'";
+		boolean success;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} finally {
+			db.close();
+		}
+		return success;
+	}
+	
 }

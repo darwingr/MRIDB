@@ -12,21 +12,29 @@ public class CommandLine {
 
 	private final int BACKGROUND_COLOR = 0xff000000;
 	private final int FONT_COLOR = 0xffE5E5D1;
+	private String title;
 	private List<String> text;
 	private int x, y;
 	private int width, height;
 	private boolean dispalyCursor;
+	private boolean censor;
 	private float ctr = 0;
 
 	private boolean selected;
 
-	public CommandLine(int x, int y, int width, int height) {
+	public CommandLine(String title, int x, int y, int width, int height) {
+		this.title = title;
 		text = new ArrayList<String>();
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		selected = false;
+		censor = false;
+	}
+
+	public void censor() {
+		censor = true;
 	}
 
 	public void update(GameContainer gc, float delta) {
@@ -73,7 +81,6 @@ public class CommandLine {
 			checkKey(gc, "7", KeyEvent.VK_7);
 			checkKey(gc, "8", KeyEvent.VK_8);
 			checkKey(gc, "9", KeyEvent.VK_9);
-			
 
 			if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE))
 				enterChar(" ");
@@ -84,14 +91,14 @@ public class CommandLine {
 		}
 		int mx = gc.getInput().getMouseX();
 		int my = gc.getInput().getMouseY();
-		if(intersects(mx,my)&&gc.getInput().isButtonDown(1)) {
-			selected=true;
+		if (intersects(mx, my) && gc.getInput().isButtonDown(1)) {
+			selected = true;
 		}
-		if(!intersects(mx,my)&&gc.getInput().isButtonDown(1)) {
+		if (!intersects(mx, my) && gc.getInput().isButtonDown(1)) {
 			selected = false;
 		}
 	}
-	
+
 	public boolean isSelected() {
 		return selected;
 	}
@@ -102,8 +109,8 @@ public class CommandLine {
 
 	public String getWord() {
 		String a = "";
-		for(String s: text) {
-			a+=s;
+		for (String s : text) {
+			a += s;
 		}
 		return a;
 	}
@@ -121,11 +128,15 @@ public class CommandLine {
 		String word = new String();
 		for (int i = 0; i < text.size(); i++) {
 			String a = text.get(i);
-			word += a;
+			if (censor)
+				word += "*";
+			else
+				word += a;
 		}
 		if (dispalyCursor)
 			word += "_";
 		r.drawText(Font.SMALL_STANDARD, word, x + 2, y + height / 2, FONT_COLOR);
+		r.drawText(Font.SMALL_STANDARD, title, x - title.length() * 8, y - 4 + (height / 2), 0xff000000);
 	}
 
 	public boolean timer(float timeInSeconds, float delta) {
@@ -156,10 +167,10 @@ public class CommandLine {
 		return (mx > x && my > y && mx < x + width && my < y + height);
 
 	}
-	
+
 	public void clearText() {
 		text.clear();
-		selected=false;
+		selected = false;
 	}
-	
+
 }

@@ -3,19 +3,22 @@ package game;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import engine.AbstractGame;
 import engine.GameContainer;
 import engine.Renderer;
-import engine.gfx.Font;
+import game.gui.Attribute;
 import game.gui.Button;
 import game.gui.CommandLine;
 import game.gui.Gui;
+import game.gui.Page;
 
 public class GameManager extends AbstractGame {
 
 	private List<User> users = new ArrayList<User>();
 	
+	private Page page;
 	private Gui leftSide, rightSide;
 	private boolean login;
 	private int gate;
@@ -23,16 +26,18 @@ public class GameManager extends AbstractGame {
 	private CommandLine password;
 
 	public GameManager() {
-		leftSide = new Gui();
-		rightSide = new Gui();
-		leftSide.addTab(0, 0, 144, GameContainer.height - 1);
-		rightSide.addTab(GameContainer.width - 145, 0, 144, GameContainer.height - 1);
-		leftSide.addButtonBranch("Filters", leftSide, 128, 256, 0, 64, 0, false, new String[] {"ADHD","DIABETES"});
-		leftSide.addButtonBranch("Branch", leftSide, 128, 256, 64, 64, 0, false, new String[] {"Option 1", "Option 2","Option 3"});
-		rightSide.addButton("Logout", 0, 64, 0, false);
+		leftSideInit();
+		rightSideInit();
+		Attribute[] attribs = new Attribute[100];
+		for(int i = 0 ; i < 100; i++) {
+			attribs[i]=new Attribute("Measurement In a certain region "+i*new Random().nextInt(100),""+new Random().nextInt(567)*new Random().nextFloat());
+		}
+		page = new Page("Test",attribs);
+		
 		login = false;
-		userName = new CommandLine(GameContainer.width/2-128,GameContainer.height/2,256,64);
-		password = new CommandLine(GameContainer.width/2-128,GameContainer.height/2+96,256,64);
+		userName = new CommandLine("Username:",GameContainer.width/2-128,GameContainer.height/2,256,64);
+		password = new CommandLine("Password:",GameContainer.width/2-128,GameContainer.height/2+96,256,64);
+		password.censor();
 		userName.setSelected(true);
 		gate = 0;
 		userInit();
@@ -46,10 +51,30 @@ public class GameManager extends AbstractGame {
 		
 	}
 	
+	private void leftSideInit() {
+		leftSide = new Gui();
+		leftSide.addTab(0, 0, 144, GameContainer.height - 1);
+		leftSide.addButton("Logout", GameContainer.height-65, 64, 0, false);
+		leftSide.addButtonBranch("Filters", leftSide, 144, 256, 0, 64, 0, false, new String[] {"Disorders","Brain Region"});
+		leftSide.addSection("Patient Filters", 64, 128, 0);
+		leftSide.addCheckBox("Male:", 44, 38, 10, 0, 0);
+		leftSide.addCheckBox("Female:", 120, 38, 10, 0, 0);
+		leftSide.addInputBox("Search:",60, 54, 48, 32, 0, 0);
+	}
+	
+	private void rightSideInit() {
+		rightSide = new Gui();
+		rightSide.addTab(GameContainer.width-360, 0, 359, GameContainer.height);
+		rightSide.setGraph(0, 256, 0);
+		
+	}
+	
 	public void update(GameContainer gc, float dt) {
 		if(login) {//Active Gui
 		leftSide.update(gc, dt);
 		rightSide.update(gc, dt);
+		if(page!=null)
+			page.update(gc, dt);
 		for(Button b: rightSide.getTab(0).getButtons()) {
 			if(isButton(b, "Logout") && b.isSelected() && gc.getInput().isButtonDown(1)) {
 				login = false;
@@ -76,20 +101,20 @@ public class GameManager extends AbstractGame {
 	}
 
 	public void render(GameContainer gc, Renderer r) {
-		r.drawFillRect(0, 0, gc.getWidth(), gc.getHeight(), 0xffd3c23d);
+		r.drawFillRect(0, 0, gc.getWidth(), gc.getHeight(), 0xffffffff);
+		if(login && page!=null)
+			page.render(gc, r);
 		if(login && gate == 0) {
 			gate = -1;
 			r.setAmbientColor(0xff999999);
 		}
 		if(!login && gate == -1) {
 			gate = 0;
-			r.setAmbientColor(0xff666666);
+			r.setAmbientColor(0xff555555);
 		}
 		leftSide.render(gc, r);
 		rightSide.render(gc, r);
 		if(!login) {
-			r.drawText(Font.STANDARD, "Username:", GameContainer.width/2-240,GameContainer.height/2+16, 0xff000000);
-			r.drawText(Font.STANDARD, "Password:", GameContainer.width/2-240,GameContainer.height/2+128, 0xff000000);
 			userName.render(gc, r);
 			password.render(gc, r);
 		}

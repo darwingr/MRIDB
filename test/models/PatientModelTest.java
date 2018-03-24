@@ -47,10 +47,10 @@ class PatientModelTest {
 
 	// Broken example of how to test a unit
 	@Test
-	void fullnameTest() {
+	void fullNameTest() {
 		fail("Not yet implemented");
 		PatientModel p = new PatientModel("John", "Smith");
-		assertEquals(p.fullname(), "John Smith");
+		assertEquals(p.fullName(), "John Smith");
 	}
 
 }
