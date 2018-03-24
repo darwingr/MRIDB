@@ -17,5 +17,6 @@ public class TreatmentModel extends ActiveRecord {
     public TreatmentModel(String treatment) {
     	treatment = treatment_type;
 	}
+    
 
 }

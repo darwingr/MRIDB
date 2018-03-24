@@ -9,7 +9,6 @@ package models;
 
 public class TechnicianModel extends ActiveRecord {
 
-	
 	private int id;
     private String first_name;
     private String last_name;

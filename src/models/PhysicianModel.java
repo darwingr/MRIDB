@@ -15,6 +15,7 @@ public class PhysicianModel extends ActiveRecord {
 	 private String last_name;          
 	 private String specialty; 
 	 
+	 
 	 public PhysicianModel() {
 			String fname;
 			String lname;
