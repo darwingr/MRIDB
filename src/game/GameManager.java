@@ -74,7 +74,7 @@ public class GameManager extends AbstractGame {
 			rightSide.update(gc, dt);
 			if (page != null)
 				page.update(gc, dt);
-			for (Button b : rightSide.getTab(0).getButtons()) {
+			for (Button b : leftSide.getTab(0).getButtons()) {
 				if (isButton(b, "Logout") && b.isSelected() && gc.getInput().isButtonDown(1)) {
 					login = false;
 				}
