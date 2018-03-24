@@ -9,15 +9,13 @@ import engine.gfx.Font;
 
 public class Button {
 
-	private final int selectedColor = 0xff8B7F28;
+	private final int selectedColor = 0xff888888;
 
 	private String text;
 	private boolean selected;
 	private boolean smallText;
 
 	private int width, height;
-	private int borderColor;
-	private int insideColor;
 	private int x, y;
 	private boolean active;
 
@@ -25,11 +23,9 @@ public class Button {
 	private List<String> buttons;
 	private int buttonScale, tabWidth, tabHeight;
 
-	public Button(int x, int y, int width, int height, int borderColor, int insideColor) {
+	public Button(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
-		this.borderColor = borderColor;
-		this.insideColor = insideColor;
 		this.width = width;
 		this.height = height;
 		selected = false;
@@ -68,7 +64,6 @@ public class Button {
 			List<Button> buttons = master.getTab(0).getButtons();
 			for (int i = 0; i < buttons.size(); i++) {
 				Button b = buttons.get(i);
-				// FILTER BUTTON
 				if (b.getText().equals(text)) {
 					if (b.isSelected() && gc.getInput().isButtonDown(1) && !b.isActive()) {
 						master.addTab(gc.getInput().getMouseX(), gc.getInput().getMouseY(), tabWidth, tabHeight);
@@ -88,7 +83,6 @@ public class Button {
 							if (b1.isSelected() && gc.getInput().isButtonDown(1)) {
 								for (String s : this.buttons) {
 									if (b1.getText().equals(s)) {
-										System.out.println("Clicked->" + s);
 										close = true;
 									}
 								}
@@ -109,18 +103,18 @@ public class Button {
 
 	public void render(Renderer r) {
 		if (selected) {
-			r.drawRect(x, y, width, height, borderColor);
+			r.drawRect(x, y, width, height, Gui.FONT_COLOR);
 			r.drawFillRect(x + 1, y + 1, width - 2, height - 2, selectedColor);
 		} else {
-			r.drawRect(x, y, width, height, borderColor);
-			r.drawRect(x + 1, y + 1, width - 2, height - 2, borderColor);
-			r.drawFillRect(x + 2, y + 2, width - 4, height - 4, insideColor);
+			r.drawRect(x, y, width, height, Gui.FONT_COLOR);
+			r.drawRect(x + 1, y + 1, width - 2, height - 2, Gui.FONT_COLOR);
+			r.drawFillRect(x + 2, y + 2, width - 4, height - 4, Gui.BACKGROUND_COLOR);
 		}
 		if (text != null)
 			if (smallText)
-				r.drawText(Font.SMALL_STANDARD, text, x + (width / 8), y + (height / 4), borderColor);
+				r.drawText(Font.SMALL_STANDARD, text, x + (width / 16), y + (height / 4), Gui.FONT_COLOR);
 			else
-				r.drawText(Font.STANDARD, text, x + (width / 8), y + (height / 4), borderColor);
+				r.drawText(Font.STANDARD, text, x + (width / 16), y + (height / 4), Gui.FONT_COLOR);
 	}
 
 	public boolean intersects(int mx, int my) {
