@@ -14,6 +14,7 @@ public class Tab {
 	private List<Button> buttons;
 	private List<Section> sections;
 	private Graph graph;
+	private Log log;
 	
 	public Tab(int x, int y, int width, int height) {
 		this.x = x;
@@ -34,6 +35,8 @@ public class Tab {
 			s.render(gc, r);
 		if(graph!=null)
 			graph.render(gc, r);
+		if(log!=null)
+			log.render(gc, r);
 	}
 	
 	public void update(GameContainer gc, float delta) {
@@ -49,6 +52,8 @@ public class Tab {
 			s.update(gc, delta);
 		if(graph!=null)
 			graph.update(gc, delta);
+		if(log!=null)
+			log.update(gc, delta);
 	}
 
 	public List<Button> getButtons() {
@@ -138,6 +143,22 @@ public class Tab {
 	
 	public void addButtonToSection(String text, int xOff, int yOff, int width, int height, int sectionID) {
 		sections.get(sectionID).addButton(text, xOff, yOff, width, height);
+	}
+	
+	public void addOutPutLog(int pos, int size) {
+		int x, y, width, height;
+		if(this.width > this.height) {
+			x = pos+this.x;
+			y = this.y;
+			height = this.height;
+			width = size;
+		} else {
+			x = this.x;
+			y = pos+this.y;
+			height = size;
+			width = this.width;
+		}
+		log= new Log(x,y,width,height);
 	}
 	
 	public boolean isSelected() {

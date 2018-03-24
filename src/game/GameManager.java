@@ -66,6 +66,7 @@ public class GameManager extends AbstractGame {
 		rightSide = new Gui();
 		rightSide.addTab(GameContainer.width-360, 0, 359, GameContainer.height);
 		rightSide.setGraph(0, 256, 0);
+		rightSide.getLastTabAdded().addOutPutLog(GameContainer.height-128, 128);
 		
 	}
 	
