@@ -31,6 +31,7 @@ public class GameManager extends AbstractGame {
 		Attribute[] attribs = new Attribute[100];
 		for(int i = 0 ; i < 100; i++) {
 			attribs[i]=new Attribute("Measurement In a certain region "+i*new Random().nextInt(100),""+new Random().nextInt(567)*new Random().nextFloat());
+			
 		}
 		page = new Page("Test",attribs);
 		
