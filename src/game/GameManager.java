@@ -35,7 +35,7 @@ public class GameManager extends AbstractGame {
 		}
 		page = new Page("Test", attribs);
 
-		login = false;
+		login = true;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
