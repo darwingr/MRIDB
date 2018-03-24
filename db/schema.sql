@@ -39,7 +39,7 @@ CREATE TABLE diagnoses
     patient_id              NUMBER(5)         NOT NULL,
     physician_id            NUMBER(5)         NOT NULL,
     physician_notes         VARCHAR2(150),
-    diagnosis_date          TIMESTAMP(0),
+    diagnoses_date          TIMESTAMP(0),
     CONSTRAINT PK_Diagnoses PRIMARY KEY (id)
 );
 
@@ -142,6 +142,4 @@ CREATE TABLE visits
     CONSTRAINT Chk_out CHECK (check_out >= check_in),
     CONSTRAINT PK_Visit PRIMARY KEY (id)
 );
-
-commit;
 exit
