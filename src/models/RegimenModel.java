@@ -3,12 +3,15 @@
  * Author: Cynthia F.
  * Based off of D. Groskleg's Patient Model.
  * 
+ * 
  */
 
 package models;
 import java.util.Date;
 
 public class RegimenModel extends ActiveRecord {
+	
+	private static final String TABLE_NAME = "regimens";
 	
     private String physician_notes;
     private Date start_date;

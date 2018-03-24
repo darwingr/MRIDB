@@ -3,11 +3,14 @@
  * Author: Cynthia F.
  * Based off of D. Groskleg's Patient Model.
  * 
+ * 
  */
 
 package models;
 
 public class TechnicianModel extends ActiveRecord {
+	
+	private static final String TABLE_NAME = "technicians";
 
 	private int id;
     private String first_name;
