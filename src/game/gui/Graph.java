@@ -68,11 +68,11 @@ public class Graph {
 		if (gc.getInput().isKeyDown(KeyEvent.VK_LEFT) && xScale > 1)
 			xScale--;
 	}
-
+	
 	public void render(GameContainer gc, Renderer r) {
 		r.drawRect(x, y, width, height, axisColor);
 		r.drawRect(oX, oY, width, 1, axisColor);
-		r.drawRect(oX, y, 1, height - 64, axisColor);
+		r.drawRect(oX, y, 1, height - 32, axisColor);
 		r.drawText(Font.STANDARD, title, x, y - 16, axisColor);
 		int ctr = 0;
 		for (int i = 0; oY - i > y; i += yScale) {
