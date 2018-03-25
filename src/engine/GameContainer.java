@@ -1,5 +1,7 @@
 package engine;
 
+import engine.gfx.Font;
+
 public class GameContainer implements Runnable {
 
 	private Thread thread;
@@ -74,6 +76,7 @@ public class GameContainer implements Runnable {
 			if (render) {
 				renderer.clear();
 				game.render(this, renderer);
+				renderer.drawText(Font.SMALL_STANDARD, "Fps:"+fps, width-64, height-96, 0xffffffff);
 				renderer.process();
 				window.update();
 				frames++;

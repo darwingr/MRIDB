@@ -30,9 +30,8 @@ class UserModelTest {
 
 	@Test
 	void testFindByID() throws SQLException {
-		UserModel user = UserModel.findByID(2);
-		
-		assertEquals(2, user.getID());
+	    UserModel user = UserModel.findByID(2);
+	    assertEquals(2, user.getID());
 	}
 
 	@Test
@@ -55,11 +54,29 @@ class UserModelTest {
 	}
 	
 	@Test
-	void testDelete() throws SQLException {
+	void testDeleteThenCreate() throws SQLException {
 		UserModel user = UserModel.findByID(1);
+		UserModel clone = UserModel.findByID(1);
+
 		assertTrue(user.delete());
+		
+		// Cleanup: tests create()
+		assertTrue(clone.create());
 	}
 	
+
+	@Test
+	void testChangePassword() throws SQLException {
+		UserModel user = UserModel.findByID(2);
+		String old_pword = user.getPassword();
+
+		String pword = "password";
+		assertTrue(user.changePassword(pword));
+		
+		// cleanup
+		assertTrue(user.changePassword(old_pword));
+	}
+
 	/*
 	@Test
 	void testFetchAttributes() throws SQLException {
