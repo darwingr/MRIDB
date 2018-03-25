@@ -29,7 +29,7 @@ public class UserModel extends ActiveRecord {
 			user.email = rs.getString("email");
 			user.hipaa_authorized = rs.getBoolean("hipaa_authorized");
 		} catch (SQLException sqle) {
-            System.err.println("Exception occurred while processing Building ResultSet.");
+            System.err.println("Exception occurred while processing Building ResultSet after findByID.");
 		} finally {
 			db.close();
 		}
@@ -39,12 +39,11 @@ public class UserModel extends ActiveRecord {
 	public UserModel() {
 	}
 
-
 	public boolean authenticate(String user_username, String user_password) throws SQLException {
 		DBAdapter db = new DBAdapter();
 		String sql = "select * from users where username = '" + user_username
 				+ "' AND password = '" + user_password + "'";
-		boolean user_exists;
+		boolean user_exists = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			user_exists = rs.next();
 		} finally {
@@ -57,14 +56,15 @@ public class UserModel extends ActiveRecord {
 		return first_name + " " + last_name;
 	}
 
+	// Required to test findByID
 	public int getID() {
-		return id;
-	}
-	
+        return id;
+    }
+
 	public boolean delete() throws SQLException {
 		DBAdapter db = new DBAdapter();
 		String sql = "DELETE FROM users WHERE id = '" + id + "'";
-		boolean success;
+		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			success = rs.next();
 		} finally {
@@ -72,5 +72,57 @@ public class UserModel extends ActiveRecord {
 		}
 		return success;
 	}
-	
+
+	public boolean changePassword(String new_pword) throws SQLException {
+		setPassword(new_pword);
+		return save();
+	}
+
+	public boolean create() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "INSERT INTO users\n" +
+					 "(id, first_name, last_name, username, email, password, hipaa_authorized)\n" +
+					 "VALUES\n" +
+					 "(" + id + ", '" + first_name + "', '" + last_name + "', '" + username + "', '"
+					 	 + email + "', '" + password + "', " + (hipaa_authorized ? 1 : 0) + ")";
+		boolean success = false;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} finally {
+			db.close();
+		}
+		return success;
+	}
+
+	// Because we don't want to be publicly getting and setting attributes, which breaks encapsulation,
+	// we as a result don't need save() to be a public method. If you think you need to make this public
+	// then try instead to implement your code as a method on this class and call save() from there.
+	// Note that we don't save or change ID, ever.
+	private boolean save() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "UPDATE users " +
+					 "SET username = '" + username + "', " +
+					 "    password = '" + password + "', " +
+					 "    first_name = '" + first_name + "', " +
+					 "    last_name = '" + last_name + "', " +
+					 "    email = '" + email + "', " +
+					 "    hipaa_authorized = " + (hipaa_authorized ? 1 : 0) + " " +
+					 "WHERE id = " + id;
+		boolean success = false;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} finally {
+			db.close();
+		}
+		return success;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	private boolean setPassword(String pword) {
+		password = pword;
+		return true;
+	}
 }
