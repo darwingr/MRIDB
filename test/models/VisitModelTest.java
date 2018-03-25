@@ -2,6 +2,8 @@ package models;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.SQLException;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,8 +29,9 @@ class VisitModelTest {
 	}
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void testFindByID() throws SQLException {
+	    VisitModel visit = VisitModel.findByID(2);
+	    assertEquals(2, visit.getID());
 	}
 
 }
