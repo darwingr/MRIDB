@@ -14,10 +14,9 @@ What things you need to install the software:
 
  - git
  - Java version 8
- - Java development kit (jdk)
+ - Java development kit (jdk) - possibly not required
  - Running instance of Oracle DB version 11
- - Eclipse
- - eGit plugin for Eclipse(not required but mike and Darwin like it)
+ - Eclipse (must have the built-in support for git, otherwise use comman)
 
 
 ### Installing
@@ -144,32 +143,26 @@ as a research database for running statistics.
 
 
 
-## Running the tests
+## Testing
 The testing framework used is Junit5.
-The documentation is available [HERE](https://junit.org/junit5/docs/current/user-guide/).
+
+### Running the tests
+The documentation is available [HERE](https://junit.org/junit5/docs/current/user-guide/). For more instructions with eclipse see this WashingtonU page: 
+[Unit Testing in Eclipse Using JUnit](http://faculty.washington.edu/stepp/courses/2005spring/tcss360/handouts/6-junit_eclipse_2.html).
+
+To run all the tests in Eclipse select or highlight the `test/models/` folder in the package explorer and then click the green Run button in the toolbar at the top of the window.
+To run tests for a single class just have that specific file selected when you click the run button.
 
 ### Unit Tests
-The tests are in a parallel folder to src, the `test/` folder. The classes
+The tests are in a parallel folder to `src/`, the `test/` folder. The classes
 written here mirror those written in src and each has the same name suffixed by
 "Test". For example, the PatientModel class would have a PatientModelTest
 class.
 
-To run simply click Run with a test selected in Eclipse.
-For more instructions with eclipse see this WashingtonU page: 
-[Unit Testing in Eclipse Using JUnit](http://faculty.washington.edu/stepp/courses/2005spring/tcss360/handouts/6-junit_eclipse_2.html)
-
-```
-Give an example
-```
 
 ### Break down into end to end tests
+There are no end to end tests.
 
-These test the fully running program, as such take longer to run. May not be
-necessary.
-
-```
-Give an example
-```
 
 ## Deployment
 
@@ -177,9 +170,10 @@ _Add additional notes about how to deploy this on a live system_
 
 ## Built With
 
-* Oracle-Java Database API - ojdbc8.jar
+* Oracle-to-Java Database API - ojdbc8.jar
 * sqlplus and sqlldr (Oracle)
 * JUnit5 testing framework/library
+* [Mockaroo](https://www.mockaroo.com) - to generate fake data
 
 
 ## Versioning
@@ -188,10 +182,10 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Teammate Credits
 
-* **Seven Randall** - *Created GUI Rendering Engine* - [ThreeFourSeven](https://github.com/ThreeFourSeven)
-* **Mike Kennedy** - [mikekenn](https://github.com/mikekenn)
-* **Darwin Groskleg** - [darwingr](https://github.com/darwingr)
-* **Cynthia Forgeron**
+* **Seven Randall** - *Created rendering engine and developed app GUI* - [ThreeFourSeven](https://github.com/ThreeFourSeven)
+* **Mike Kennedy** - *Oracle SQL expert and data wrangling* - [mikekenn](https://github.com/mikekenn)
+* **Darwin Groskleg** - *Project architect and ORM design* - [darwingr](https://github.com/darwingr)
+* **Cynthia Forgeron** - *Problem domain expert (brain MRI researcher)* - [cynthiaforgeron](https://github.com/cynthiaforgeron)
 
 See also the list of [contributors](https://github.com/ThreeFourSeven/Database-Gui/contributors) who participated in this project.
 
@@ -201,5 +195,5 @@ This project is licensed **NOT** under the MIT License - **DO NOT** see the [LIC
 
 ## Acknowledgments
 
-* Dr. Martin Van Bommel - How to DataBase (StFX - CSCI 275)
+* Dr. Martin Van Bommel - How to Database (StFX - CSCI 275)
 * Dr. Jacob Levman
