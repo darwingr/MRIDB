@@ -150,8 +150,8 @@ The testing framework used is Junit5.
 The documentation is available [HERE](https://junit.org/junit5/docs/current/user-guide/). For more instructions with eclipse see this WashingtonU page: 
 [Unit Testing in Eclipse Using JUnit](http://faculty.washington.edu/stepp/courses/2005spring/tcss360/handouts/6-junit_eclipse_2.html).
 
-To run all the tests in Eclipse select or highlight the `test/models/` folder in the package explorer and then click the green Run button in the toolbar at the top of the window.
-To run tests for a single class just have that specific file selected when you click the run button.
+To run all the tests in Eclipse select or highlight the `test/` folder in the package explorer and then click the green Run button in the toolbar at the top of the window.
+To run tests for a single class or just a subfolder of the tests, just have that specific file or subfolder selected when you click the run button.
 
 ### Unit Tests
 The tests are in a parallel folder to `src/`, the `test/` folder. The classes
