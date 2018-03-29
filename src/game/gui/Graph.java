@@ -12,9 +12,9 @@ import engine.gfx.Font;
 public class Graph {
 
 	private int width, height, x, y, axisColor = 0xff000000, xScale, yScale, maxX, maxY, oX, oY;
-	private List<Attribute[]> attribs;
 	private String xLabel, yLabel, title;
 	private List<Integer> colors;
+	private List<Integer> usedColors;
 	private List<Point> points;
 
 	public class Point {
@@ -49,13 +49,14 @@ public class Graph {
 		oX = x + 32;
 		oY = y + height - 33;
 		points = new ArrayList<Point>();
-		for(int i = 0; i < 100; i ++) {
-			addPoint(new Random().nextInt(64)*new Random().nextFloat(),new Random().nextInt(64)*new Random().nextFloat());
-		}
-	}
-
-	public void addAttributes(Attribute[] attribs) {
-		this.attribs.add(attribs);
+		colors = new ArrayList<Integer>();
+		usedColors = new ArrayList<Integer>();
+		colors.add(0xff0000FF);
+		colors.add(0xff00FF00);
+		colors.add(0xffFF0000);
+		colors.add(0xff00FFFF);
+		colors.add(0xffFF00FF);
+		colors.add(0xffFFFF00);
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -95,13 +96,13 @@ public class Graph {
 		ctr = 0;
 		for (int j = 0; oX + j < x + width; j += xScale) {
 			if (xScale > 8 && ctr % 2 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 16, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 8, 0xff000000);
 				r.drawRect(oX + j, oY - 4, 1, 8, 0xff000000);
 			} else if (xScale > 4 && ctr % 4 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 16, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 8, 0xff000000);
 				r.drawRect(oX + j, oY - 4, 1, 8, 0xff000000);
 			} else if (ctr % 32 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 16, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 8, 0xff000000);
 				r.drawRect(oX + j, oY - 4, 1, 8, 0xff000000);
 
 			} else {
@@ -114,7 +115,31 @@ public class Graph {
 				drawPoint(p.x,p.y,p.color,r);
 		}
 	}
-
+	
+	public void clear() {
+		points.clear();
+		usedColors.clear();
+	}
+	
+	public int getColor() {
+		int color = colors.get(new Random().nextInt(colors.size()-1));
+		if(usedColors.contains(color)) {
+			color = getColor();
+		}
+		usedColors.add(color);
+		return color;
+	}
+	
+	public void addAttribute(Attribute[] attribs, Float[] ages) {
+		if(attribs.length!=ages.length)
+			return;
+		int color = getColor();
+		for(int i = 0; i < ages.length;i ++) {
+			points.add(new Point(ages[i],attribs[i].getDataAsFloat(),color));
+		}
+		
+	}
+	
 	public void addPoint(float x, float y) {
 		points.add(new Point(x,y));
 	}

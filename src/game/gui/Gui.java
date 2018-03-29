@@ -5,8 +5,6 @@ import java.util.List;
 
 import engine.GameContainer;
 import engine.Renderer;
-import engine.gfx.Font;
-import game.Vector2i;
 
 public class Gui {
 
@@ -14,12 +12,10 @@ public class Gui {
 	public static final int BACKGROUND_COLOR = 0xffffffff;
 	private List<Tab> tabs;
 	private List<String> texts;
-	private List<Vector2i> textPos;
 
 	public Gui() {
 		tabs = new ArrayList<Tab>();
 		texts = new ArrayList<String>();
-		textPos = new ArrayList<Vector2i>();
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -32,9 +28,7 @@ public class Gui {
 		for (Tab t : tabs) {
 			t.render(gc,r);
 		}
-		for (String s : texts)
-			for (Vector2i v : textPos)
-				r.drawText(Font.SMALL_STANDARD, s, v.x, v.y, FONT_COLOR);
+		
 	}
 
 	public void addText(String text, int x, int y) {

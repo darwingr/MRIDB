@@ -7,6 +7,7 @@ import java.util.Random;
 import engine.AbstractGame;
 import engine.GameContainer;
 import engine.Renderer;
+import engine.gfx.Font;
 import game.gui.Attribute;
 import game.gui.Button;
 import game.gui.CommandLine;
@@ -18,7 +19,7 @@ public class GameManager extends AbstractGame {
 
 	private Page page;
 	private Gui leftSide, rightSide;
-	private boolean login;
+	private boolean login,hippaAuthorized;
 	private int gate;
 	private CommandLine userName;
 	private CommandLine password;
@@ -36,16 +37,13 @@ public class GameManager extends AbstractGame {
 		page = new Page("Test", attribs);
 
 		login = true;
+		if(login)
+			hippaAuthorized=false;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
 		userName.setSelected(true);
 		gate = 0;
-		userInit();
-	}
-
-	private void userInit() {
-
 	}
 
 	private void leftSideInit() {
@@ -65,6 +63,33 @@ public class GameManager extends AbstractGame {
 		rightSide.addTab(GameContainer.width - 360, 0, 359, GameContainer.height);
 		rightSide.setGraph(0, 256, 0);
 		rightSide.getLastTabAdded().addOutPutLog(GameContainer.height - 128, 128);
+		Attribute[] attribs = new Attribute[100];
+		for (int i = 0; i < 100; i++) {
+			attribs[i] = new Attribute("Measurement In a certain region " + i * new Random().nextInt(100),
+					"" + new Random().nextInt(128) * new Random().nextFloat());
+
+		}
+		Float[] ages = new Float[100];
+		for(int i = 0; i < ages.length; i++) {
+			ages[i] = (float)new Random().nextInt(99)+5;
+		}
+		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+		for(int i = 0; i < ages.length; i++) {
+			ages[i] = (float)new Random().nextInt(99)+5;
+		}
+		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+		for(int i = 0; i < ages.length; i++) {
+			ages[i] = (float)new Random().nextInt(99)+5;
+		}
+		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+		for(int i = 0; i < ages.length; i++) {
+			ages[i] = (float)new Random().nextInt(99)+5;
+		}
+		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+		for(int i = 0; i < ages.length; i++) {
+			ages[i] = (float)new Random().nextInt(99)+5;
+		}
+		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
 
 	}
 
@@ -90,6 +115,7 @@ public class GameManager extends AbstractGame {
 			try {
 				if (gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 					if (user.authenticate(userName.getWord(), password.getWord())) {
+						hippaAuthorized = true;
 						userName.clearText();
 						password.clearText();
 						password.setDisplayCursor(false);
@@ -117,6 +143,10 @@ public class GameManager extends AbstractGame {
 		}
 		leftSide.render(gc, r);
 		rightSide.render(gc, r);
+		if(hippaAuthorized)
+			r.drawText(Font.STANDARD, "HIPPA Authorized", gc.getWidth()-256, gc.getHeight()-64, 0xffff00ff);
+		else
+			r.drawText(Font.STANDARD, "not HIPPA Authorized", gc.getWidth()-256, gc.getHeight()-64, 0xffff00ff);
 		if (!login) {
 			userName.render(gc, r);
 			password.render(gc, r);
