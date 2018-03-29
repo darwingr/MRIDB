@@ -21,6 +21,7 @@ public class GameManager extends AbstractGame {
 
 	private Log log;
 	private FilterManager filter;
+	private CommandLine patientSearch;
 	private Page page;
 	private Gui leftSide, rightSide;
 	private boolean login, hippaAuthorized;
@@ -49,6 +50,7 @@ public class GameManager extends AbstractGame {
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
 		userName.setSelected(true);
+		patientSearch = new CommandLine("Search by ID:",256,0,64,32);
 		gate = 0;
 	}
 
@@ -61,6 +63,7 @@ public class GameManager extends AbstractGame {
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 62, 32, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("ADHD: ", 128, 8, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Autism:", 128, 32, 8);
+		
 	}
 
 	private void rightSideInit() {
@@ -147,6 +150,7 @@ public class GameManager extends AbstractGame {
 				e.printStackTrace();
 			}
 		}
+		patientSearch.update(gc, dt);
 
 	}
 
@@ -173,6 +177,8 @@ public class GameManager extends AbstractGame {
 			password.render(gc, r);
 		}
 
+		r.drawFillRect(196, 0, 256, 32, 0xff000000);
+		patientSearch.render(gc, r);
 	}
 
 	public boolean isButton(Button b, String text) {
