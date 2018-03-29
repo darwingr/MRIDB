@@ -4,20 +4,20 @@ public class FilterManager {
 
 	public static final int MALE_ONLY = 0, FEMALE_ONLY = 1, ALL_GENDERS = 2, ADHD_ONLY = 3, AUTISM_ONLY = 4,
 			ALL_DISORDERS = 5;
-	private float AGE_LOWER_BOUND = .1f, AGE_UPPER_BOUND = 120;
+	public static final float DEFAULT_AGE_LOWER_BOUND = .1f, DEFAULT_AGE_UPPER_BOUND = 120;
 
 	private float[] ageRange;
 	private int genderFilter;
 	private int disorderFilter;
 
 	public FilterManager() {
-		ageRange = new float[] { AGE_LOWER_BOUND, AGE_UPPER_BOUND };
+		ageRange = new float[] { DEFAULT_AGE_LOWER_BOUND, DEFAULT_AGE_UPPER_BOUND };
 		genderFilter=ALL_GENDERS;
 		disorderFilter=ALL_DISORDERS;
 	}
 
 	public void filterAge(float lower, float upper) {
-		if (lower > AGE_LOWER_BOUND && upper < AGE_UPPER_BOUND) {
+		if (lower > DEFAULT_AGE_LOWER_BOUND && upper < DEFAULT_AGE_UPPER_BOUND) {
 			ageRange[0] = lower;
 			ageRange[1] = upper;
 		}

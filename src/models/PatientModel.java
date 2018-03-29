@@ -10,7 +10,7 @@ package models;
 public class PatientModel extends ActiveRecord {
 	private static final String TABLE_NAME = "patients";
 
-	private int 	   id;
+	private int id;
 	private String first_name;
 	private String last_name;
 

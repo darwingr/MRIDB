@@ -50,7 +50,7 @@ public class GameManager extends AbstractGame {
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
 		userName.setSelected(true);
-		patientSearch = new CommandLine("Search by ID:",256,0,64,32);
+		patientSearch = new CommandLine("Search by ID:", 256, 0, 64, 32);
 		gate = 0;
 	}
 
@@ -63,7 +63,9 @@ public class GameManager extends AbstractGame {
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 62, 32, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("ADHD: ", 128, 8, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Autism:", 128, 32, 8);
-		
+		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 64, 78, 32);
+		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 98, 78, 32);
+
 	}
 
 	private void rightSideInit() {
@@ -135,7 +137,7 @@ public class GameManager extends AbstractGame {
 							password.clearText();
 							password.setDisplayCursor(false);
 							login = true;
-						} 
+						}
 					} catch (NullPointerException e) {
 						hippaAuthorized = false;
 						userName.clearText();
@@ -151,6 +153,21 @@ public class GameManager extends AbstractGame {
 			}
 		}
 		patientSearch.update(gc, dt);
+		float min = FilterManager.DEFAULT_AGE_LOWER_BOUND;
+		try {
+			min = Float.parseFloat(leftSide.getLastTabAdded().getSections().get(0).getInput(0).getWord());
+			if (min > FilterManager.DEFAULT_AGE_LOWER_BOUND)
+				min = FilterManager.DEFAULT_AGE_LOWER_BOUND;
+		} catch (NumberFormatException e) {
+		}
+		float max = FilterManager.DEFAULT_AGE_UPPER_BOUND;
+		try {
+			max = Float.parseFloat(leftSide.getLastTabAdded().getSections().get(0).getInput(1).getWord());
+			if(max > FilterManager.DEFAULT_AGE_UPPER_BOUND)
+				max = FilterManager.DEFAULT_AGE_UPPER_BOUND;
+		} catch(NumberFormatException e) {
+		}
+		
 
 	}
 
@@ -177,7 +194,7 @@ public class GameManager extends AbstractGame {
 			password.render(gc, r);
 		}
 
-		r.drawFillRect(196, 0, 256, 32, 0xff000000);
+		r.drawFillRect(145, 0, 512, 32, 0xffffffff);
 		patientSearch.render(gc, r);
 	}
 
