@@ -39,7 +39,7 @@ public class Section {
 
 	public void render(GameContainer gc, Renderer r) {
 		r.drawText(Font.STANDARD, title, x, y+4, 0xff000000);
-		r.drawRect(x, y, width, height/4, 0xff000000);
+		r.drawRect(x, y, width, 32, 0xff000000);
 		r.drawRect(x+1, y+1, width-2, height-2, 0xff000000);
 		for (CommandLine c : inputs)
 			c.render(gc, r);
@@ -51,15 +51,15 @@ public class Section {
 	}
 
 	public void addInput(String title, int xOff, int yOff, int width, int height) {
-		inputs.add(new CommandLine(title, x + xOff, y + yOff, width, height));
+		inputs.add(new CommandLine(title, x + xOff, y + yOff+32, width, height));
 	}
 
 	public void addCheckbox(String text, int xOff, int yOff, int size) {
-		checkBoxes.add(new CheckBox(text, xOff+x, yOff+y, size));
+		checkBoxes.add(new CheckBox(text, xOff+x, yOff+y+32, size));
 	}
 	
 	public void addButton(String text, int xOff, int yOff, int width, int height) {
-		buttons.add(new Button(x+xOff,y+yOff,width,height).setTitle(text, true));
+		buttons.add(new Button(x+xOff,y+yOff+32,width,height).setTitle(text, true));
 	}
 
 	public List<CheckBox> getCheckBoxes() {

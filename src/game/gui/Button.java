@@ -1,5 +1,6 @@
 package game.gui;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +55,15 @@ public class Button {
 	}
 
 	public void update(GameContainer gc) {
+		active=false;
 		int mx = gc.getInput().getMouseX();
 		int my = gc.getInput().getMouseY();
 		if (intersects(mx, my)) {
 			selected = true;
 		} else
 			selected = false;
+		if(selected && gc.getInput().isButtonDown(MouseEvent.BUTTON1))
+			active=!active;
 		if (master != null) {
 			List<Button> buttons = master.getTab(0).getButtons();
 			for (int i = 0; i < buttons.size(); i++) {

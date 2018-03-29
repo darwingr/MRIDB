@@ -10,7 +10,6 @@ import engine.Renderer;
 import engine.gfx.Font;
 import game.gui.Attribute;
 import game.gui.Button;
-import game.gui.CheckBox;
 import game.gui.CommandLine;
 import game.gui.FilterManager;
 import game.gui.Gui;
@@ -43,7 +42,7 @@ public class GameManager extends AbstractGame {
 		}
 		page = new Page("Test", attribs);
 
-		login = true;
+		login = false;
 		if (login)
 			hippaAuthorized = false;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
@@ -57,12 +56,11 @@ public class GameManager extends AbstractGame {
 		leftSide = new Gui();
 		leftSide.addTab(0, 0, 144, GameContainer.height - 1);
 		leftSide.addButton("Logout", GameContainer.height - 65, 64, 0, false);
-		leftSide.addButtonBranch("Filters", leftSide, 144, 256, 0, 64, 0, false,
-				new String[] { "Disorders", "Brain Region" });
-		leftSide.addSection("Patient Filters", 64, 128, 0);
-		leftSide.addCheckBox("Male:", 44, 38, 10, 0, 0);
-		leftSide.addCheckBox("Female:", 120, 38, 10, 0, 0);
-		leftSide.addInputBox("Search:", 60, 54, 48, 32, 0, 0);
+		leftSide.addSection("Filters", 0, 256, 0);
+		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Male:", 62, 8, 8);
+		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 62, 32, 8);
+		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("ADHD: ", 128, 8, 8);
+		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Autism:", 128, 32, 8);
 	}
 
 	private void rightSideInit() {
@@ -73,7 +71,7 @@ public class GameManager extends AbstractGame {
 		log = rightSide.getLastTabAdded().getLog();
 		Attribute[] attribs = new Attribute[100];
 		for (int i = 0; i < 100; i++) {
-			attribs[i] = new Attribute("Name"+new Random().nextInt(100),
+			attribs[i] = new Attribute("Name" + new Random().nextInt(100),
 					"" + new Random().nextInt(128) * new Random().nextFloat());
 
 		}
@@ -85,19 +83,6 @@ public class GameManager extends AbstractGame {
 		for (int i = 0; i < ages.length; i++) {
 			ages[i] = (float) new Random().nextInt(99) + 5;
 		}
-		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for (int i = 0; i < ages.length; i++) {
-			ages[i] = (float) new Random().nextInt(99) + 5;
-		}
-		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for (int i = 0; i < ages.length; i++) {
-			ages[i] = (float) new Random().nextInt(99) + 5;
-		}
-		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for (int i = 0; i < ages.length; i++) {
-			ages[i] = (float) new Random().nextInt(99) + 5;
-		}
-		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
 
 	}
 
@@ -107,27 +92,29 @@ public class GameManager extends AbstractGame {
 			rightSide.update(gc, dt);
 			if (page != null)
 				page.update(gc, dt);
-			for (Button b : leftSide.getTab(0).getButtons()) {
-				if (isButton(b, "Logout") && b.isSelected() && gc.getInput().isButtonDown(1)) {
-					login = false;
-				}
+			if (leftSide.getTab(0).isButtonActive("Logout"))
+				login = false;
+			boolean mActive = leftSide.getTab(0).isCheckBoxActive("Male:", 0);
+			boolean fActive = leftSide.getTab(0).isCheckBoxActive("Female:", 0);
+			boolean adhdActive = leftSide.getTab(0).isCheckBoxActive("ADHD: ", 0);
+			boolean autismActive = leftSide.getTab(0).isCheckBoxActive("Autism:", 0);
+			if (mActive == fActive)
+				filter.filter(FilterManager.ALL_GENDERS);
+			else {
+				if (mActive)
+					filter.filter(FilterManager.MALE_ONLY);
+				if (fActive)
+					filter.filter(FilterManager.FEMALE_ONLY);
+			}
+			if (adhdActive == autismActive) {
+				filter.filter(FilterManager.ALL_DISORDERS);
+			} else {
+				if (adhdActive)
+					filter.filter(FilterManager.ADHD_ONLY);
+				if (autismActive)
+					filter.filter(FilterManager.AUTISM_ONLY);
+			}
 
-			}
-			for (CheckBox c : leftSide.getTab(0).getSections().get(0).getCheckBoxes()) {
-				boolean maleActive = false, femaleActive = false;
-				if (c.getText().equals("Male:"))
-					maleActive=c.isActive();
-				if (c.getText().equals("Female:")) 
-					femaleActive=c.isActive();
-				if(maleActive==femaleActive) {
-					filter.filter(FilterManager.ALL_GENDERS);
-				} else {
-					if(femaleActive)
-						filter.filter(FilterManager.FEMALE_ONLY);
-					if(maleActive)
-						filter.filter(FilterManager.MALE_ONLY);
-				}
-			}
 		} else {// Login Screen
 			userName.update(gc, dt);
 			password.update(gc, dt);
@@ -138,12 +125,22 @@ public class GameManager extends AbstractGame {
 			}
 			try {
 				if (gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
-					if (user.authenticate(userName.getWord(), password.getWord())) {
-						hippaAuthorized = true;
+					try {
+						if (user.authenticate(userName.getWord(), password.getWord())) {
+							hippaAuthorized = true;
+							userName.clearText();
+							password.clearText();
+							password.setDisplayCursor(false);
+							login = true;
+						} 
+					} catch (NullPointerException e) {
+						hippaAuthorized = false;
 						userName.clearText();
 						password.clearText();
 						password.setDisplayCursor(false);
 						login = true;
+						Log.print("Not connected to DB adapter!!");
+						e.printStackTrace();
 					}
 				}
 			} catch (SQLException e) {
@@ -175,7 +172,7 @@ public class GameManager extends AbstractGame {
 			userName.render(gc, r);
 			password.render(gc, r);
 		}
-		log.err("Filter->" + filter.genderFilter(), r);
+
 	}
 
 	public boolean isButton(Button b, String text) {

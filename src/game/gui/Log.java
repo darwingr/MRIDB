@@ -6,6 +6,10 @@ import engine.gfx.Font;
 
 public class Log {
 	
+	public static void print(String msg) {
+		System.out.println(msg);
+	}
+	
 	private int x,y,width,height,outX,outY;
 	
 	public Log(int x, int y, int width, int height) {

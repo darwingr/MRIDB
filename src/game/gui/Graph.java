@@ -53,12 +53,12 @@ public class Graph {
 		colors = new ArrayList<Integer>();
 		usedColors = new ArrayList<Integer>();
 		attribs = new HashMap<Integer,String>();
-		colors.add(0xff0000FF);
-		colors.add(0xff00FF00);
-		colors.add(0xffFF0000);
-		colors.add(0xff00FFFF);
-		colors.add(0xffFF00FF);
-		colors.add(0xffFFFF00);
+		colors.add(0xff000099);
+		colors.add(0xff009900);
+		colors.add(0xff990000);
+		colors.add(0xff009999);
+		colors.add(0xff990099);
+		colors.add(0xff999900);
 	}
 
 	public void update(GameContainer gc, float dt) {

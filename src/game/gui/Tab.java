@@ -17,7 +17,7 @@ public class Tab {
 	private List<Section> sections;
 	private Graph graph;
 	private Log log;
-	
+
 	public Tab(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
@@ -30,32 +30,49 @@ public class Tab {
 
 	public void render(GameContainer gc, Renderer r) {
 		r.drawRect(x, y, width, height, Gui.FONT_COLOR);
-		r.drawFillRect(x+1, y+1, width-2, height-2, Gui.BACKGROUND_COLOR);
-		for(Button b: buttons)
+		r.drawFillRect(x + 1, y + 1, width - 2, height - 2, Gui.BACKGROUND_COLOR);
+		for (Button b : buttons)
 			b.render(r);
-		for(Section s: sections)
+		for (Section s : sections)
 			s.render(gc, r);
-		if(graph!=null)
+		if (graph != null)
 			graph.render(gc, r);
-		if(log!=null)
+		if (log != null)
 			log.render(gc, r);
 	}
-	
+
 	public void update(GameContainer gc, float delta) {
 		int mx = gc.getInput().getMouseX();
 		int my = gc.getInput().getMouseY();
-		if(intersects(mx,my)) {
+		if (intersects(mx, my)) {
 			selected = true;
 		} else
 			selected = false;
-		for(Button b: buttons)
+		for (Button b : buttons)
 			b.update(gc);
-		for(Section s: sections)
+		for (Section s : sections)
 			s.update(gc, delta);
-		if(graph!=null)
+		if (graph != null)
 			graph.update(gc, delta);
-		if(log!=null)
+		if (log != null)
 			log.update(gc, delta);
+	}
+
+	public boolean isButtonActive(String tag) {
+		for (Button b : buttons) {
+			if (b.getText().equals(tag)) {
+				return b.isActive();
+			}
+		}
+		return false;
+	}
+
+	public boolean isCheckBoxActive(String tag, int sectionID) {
+		for (CheckBox c : sections.get(sectionID).getCheckBoxes()) {
+			if (c.getText().equals(tag))
+				return c.isActive();
+		}
+		return false;
 	}
 
 	public List<Button> getButtons() {
@@ -65,119 +82,121 @@ public class Tab {
 	public List<Section> getSections() {
 		return sections;
 	}
-	
+
 	public boolean intersects(int mx, int my) {
 		return (mx > x && my > y && mx < x + width && my < y + height);
 
 	}
-	
+
 	public void setGraph(int pos, int size) {
 		int x, y, width, height;
-		if(this.width > this.height) {
-			x = pos+this.x;
+		if (this.width > this.height) {
+			x = pos + this.x;
 			y = this.y;
 			height = this.height;
 			width = size;
 		} else {
 			x = this.x;
-			y = pos+this.y;
+			y = pos + this.y;
 			height = size;
 			width = this.width;
 		}
-		graph=new Graph(x,y,width,height);
+		graph = new Graph(x, y, width, height);
 	}
-	
+
 	public void addSection(String title, int pos, int size) {
 		int x, y, width, height;
-		if(this.width > this.height) {
-			x = pos+this.x;
+		if (this.width > this.height) {
+			x = pos + this.x;
 			y = this.y;
 			height = this.height;
 			width = size;
 		} else {
 			x = this.x;
-			y = pos+this.y;
+			y = pos + this.y;
 			height = size;
 			width = this.width;
 		}
-		sections.add(new Section(title,x,y,width,height));
+		sections.add(new Section(title, x, y, width, height));
 	}
-	
+
 	public void addButton(String text, int pos, int size, boolean smallText) {
 		int x, y, width, height;
-		if(this.width > this.height) {
-			x = pos+this.x;
+		if (this.width > this.height) {
+			x = pos + this.x;
 			y = this.y;
 			height = this.height;
 			width = size;
 		} else {
 			x = this.x;
-			y = pos+this.y;
+			y = pos + this.y;
 			height = size;
 			width = this.width;
 		}
-		buttons.add(new Button(x,y,width,height).setTitle(text,smallText));
+		buttons.add(new Button(x, y, width, height).setTitle(text, smallText));
 	}
-	
-	public void addButtonBranch(String text,Gui gui, int tabWidth, int tabHeight, int pos, int size, boolean smallText, String[] labels) {
+
+	public void addButtonBranch(String text, Gui gui, int tabWidth, int tabHeight, int pos, int size, boolean smallText,
+			String[] labels) {
 		int x, y, width, height;
-		if(this.width > this.height) {
-			x = pos+this.x;
+		if (this.width > this.height) {
+			x = pos + this.x;
 			y = this.y;
 			height = this.height;
 			width = size;
 		} else {
 			x = this.x;
-			y = pos+this.y;
+			y = pos + this.y;
 			height = size;
 			width = this.width;
 		}
-		Button b = new Button(x,y,width,height).setTitle(text,smallText).setBranchButton(gui, tabWidth, tabHeight, size);
-		for(int i = 0; i < labels.length;i++) {
+		Button b = new Button(x, y, width, height).setTitle(text, smallText).setBranchButton(gui, tabWidth, tabHeight,
+				size);
+		for (int i = 0; i < labels.length; i++) {
 			b.addBranchButton(labels[i]);
 		}
 		buttons.add(b);
 	}
-	
+
 	public void addCheckBox(String text, int xOff, int yOff, int size, int sectionID) {
 		sections.get(sectionID).addCheckbox(text, xOff, yOff, size);
 	}
-	
+
 	public void addInputBox(String title, int xOff, int yOff, int width, int height, int sectionID) {
 		sections.get(sectionID).addInput(title, xOff, yOff, width, height);
 	}
-	
+
 	public void addButtonToSection(String text, int xOff, int yOff, int width, int height, int sectionID) {
 		sections.get(sectionID).addButton(text, xOff, yOff, width, height);
 	}
-	
+
 	public void addOutPutLog(int pos, int size) {
 		int x, y, width, height;
-		if(this.width > this.height) {
-			x = pos+this.x;
+		if (this.width > this.height) {
+			x = pos + this.x;
 			y = this.y;
 			height = this.height;
 			width = size;
 		} else {
 			x = this.x;
-			y = pos+this.y;
+			y = pos + this.y;
 			height = size;
 			width = this.width;
 		}
-		log= new Log(x,y,width,height);
+		log = new Log(x, y, width, height);
 	}
-	
+
 	public void addGraphAttribute(Attribute[] attribs, Float[] ages) {
 		graph.addAttribute(attribs, ages);
-		
+
 	}
-	
+
 	public Log getLog() {
 		return log;
 	}
-	
+
 	public boolean isSelected() {
 		return selected;
 	}
-	
+
 }
