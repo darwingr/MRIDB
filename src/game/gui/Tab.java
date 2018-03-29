@@ -62,6 +62,10 @@ public class Tab {
 		return buttons;
 	}
 
+	public List<Section> getSections() {
+		return sections;
+	}
+	
 	public boolean intersects(int mx, int my) {
 		return (mx > x && my > y && mx < x + width && my < y + height);
 
@@ -166,6 +170,10 @@ public class Tab {
 	public void addGraphAttribute(Attribute[] attribs, Float[] ages) {
 		graph.addAttribute(attribs, ages);
 		
+	}
+	
+	public Log getLog() {
+		return log;
 	}
 	
 	public boolean isSelected() {

@@ -44,6 +44,10 @@ public class Attribute {
 	public int getAttribID() {
 		return attribID;
 	}
+	
+	public String getUnits() {
+		return units;
+	}
 
 	public static Attribute[] genFakeAttributes() {
 		Random r = new Random();

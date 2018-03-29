@@ -10,22 +10,29 @@ import engine.Renderer;
 import engine.gfx.Font;
 import game.gui.Attribute;
 import game.gui.Button;
+import game.gui.CheckBox;
 import game.gui.CommandLine;
+import game.gui.FilterManager;
 import game.gui.Gui;
+import game.gui.Log;
 import game.gui.Page;
 import models.UserModel;
 
 public class GameManager extends AbstractGame {
 
+	private Log log;
+	private FilterManager filter;
 	private Page page;
 	private Gui leftSide, rightSide;
-	private boolean login,hippaAuthorized;
+	private boolean login, hippaAuthorized;
 	private int gate;
+
 	private CommandLine userName;
 	private CommandLine password;
 	private UserModel user = new UserModel();
 
 	public GameManager() {
+		filter = new FilterManager();
 		leftSideInit();
 		rightSideInit();
 		Attribute[] attribs = new Attribute[100];
@@ -37,8 +44,8 @@ public class GameManager extends AbstractGame {
 		page = new Page("Test", attribs);
 
 		login = true;
-		if(login)
-			hippaAuthorized=false;
+		if (login)
+			hippaAuthorized = false;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
@@ -63,31 +70,32 @@ public class GameManager extends AbstractGame {
 		rightSide.addTab(GameContainer.width - 360, 0, 359, GameContainer.height);
 		rightSide.setGraph(0, 256, 0);
 		rightSide.getLastTabAdded().addOutPutLog(GameContainer.height - 128, 128);
+		log = rightSide.getLastTabAdded().getLog();
 		Attribute[] attribs = new Attribute[100];
 		for (int i = 0; i < 100; i++) {
-			attribs[i] = new Attribute("Measurement In a certain region " + i * new Random().nextInt(100),
+			attribs[i] = new Attribute("Name"+new Random().nextInt(100),
 					"" + new Random().nextInt(128) * new Random().nextFloat());
 
 		}
 		Float[] ages = new Float[100];
-		for(int i = 0; i < ages.length; i++) {
-			ages[i] = (float)new Random().nextInt(99)+5;
+		for (int i = 0; i < ages.length; i++) {
+			ages[i] = (float) new Random().nextInt(99) + 5;
 		}
 		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for(int i = 0; i < ages.length; i++) {
-			ages[i] = (float)new Random().nextInt(99)+5;
+		for (int i = 0; i < ages.length; i++) {
+			ages[i] = (float) new Random().nextInt(99) + 5;
 		}
 		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for(int i = 0; i < ages.length; i++) {
-			ages[i] = (float)new Random().nextInt(99)+5;
+		for (int i = 0; i < ages.length; i++) {
+			ages[i] = (float) new Random().nextInt(99) + 5;
 		}
 		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for(int i = 0; i < ages.length; i++) {
-			ages[i] = (float)new Random().nextInt(99)+5;
+		for (int i = 0; i < ages.length; i++) {
+			ages[i] = (float) new Random().nextInt(99) + 5;
 		}
 		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for(int i = 0; i < ages.length; i++) {
-			ages[i] = (float)new Random().nextInt(99)+5;
+		for (int i = 0; i < ages.length; i++) {
+			ages[i] = (float) new Random().nextInt(99) + 5;
 		}
 		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
 
@@ -102,6 +110,22 @@ public class GameManager extends AbstractGame {
 			for (Button b : leftSide.getTab(0).getButtons()) {
 				if (isButton(b, "Logout") && b.isSelected() && gc.getInput().isButtonDown(1)) {
 					login = false;
+				}
+
+			}
+			for (CheckBox c : leftSide.getTab(0).getSections().get(0).getCheckBoxes()) {
+				boolean maleActive = false, femaleActive = false;
+				if (c.getText().equals("Male:"))
+					maleActive=c.isActive();
+				if (c.getText().equals("Female:")) 
+					femaleActive=c.isActive();
+				if(maleActive==femaleActive) {
+					filter.filter(FilterManager.ALL_GENDERS);
+				} else {
+					if(femaleActive)
+						filter.filter(FilterManager.FEMALE_ONLY);
+					if(maleActive)
+						filter.filter(FilterManager.MALE_ONLY);
 				}
 			}
 		} else {// Login Screen
@@ -135,7 +159,7 @@ public class GameManager extends AbstractGame {
 			page.render(gc, r);
 		if (login && gate == 0) {
 			gate = -1;
-			r.setAmbientColor(0xff999999);
+			r.setAmbientColor(0xffCCCCCC);
 		}
 		if (!login && gate == -1) {
 			gate = 0;
@@ -143,14 +167,15 @@ public class GameManager extends AbstractGame {
 		}
 		leftSide.render(gc, r);
 		rightSide.render(gc, r);
-		if(hippaAuthorized)
-			r.drawText(Font.STANDARD, "HIPPA Authorized", gc.getWidth()-256, gc.getHeight()-64, 0xffff00ff);
+		if (hippaAuthorized)
+			r.drawText(Font.STANDARD, "HIPPA Authorized", gc.getWidth() - 256, gc.getHeight() - 64, 0xffff00ff);
 		else
-			r.drawText(Font.STANDARD, "not HIPPA Authorized", gc.getWidth()-256, gc.getHeight()-64, 0xffff00ff);
+			r.drawText(Font.STANDARD, "not HIPPA Authorized", gc.getWidth() - 256, gc.getHeight() - 64, 0xffff00ff);
 		if (!login) {
 			userName.render(gc, r);
 			password.render(gc, r);
 		}
+		log.err("Filter->" + filter.genderFilter(), r);
 	}
 
 	public boolean isButton(Button b, String text) {

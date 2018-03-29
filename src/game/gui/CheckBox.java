@@ -54,7 +54,7 @@ public class CheckBox {
 			r.drawRect(x+width/2, y, 1, height, Gui.FONT_COLOR);
 			r.drawRect(x, y+height/2, width, 1, Gui.FONT_COLOR);
 		}
-		r.drawText(Font.SMALL_STANDARD, text, x-text.length()*8, y-4, Gui.BACKGROUND_COLOR);
+		r.drawText(Font.SMALL_STANDARD, text, x-text.length()*8, y-4, Gui.FONT_COLOR);
 	}
 
 	public boolean intersects(int mx, int my) {

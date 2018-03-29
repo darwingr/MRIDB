@@ -62,6 +62,14 @@ public class Section {
 		buttons.add(new Button(x+xOff,y+yOff,width,height).setTitle(text, true));
 	}
 
+	public List<CheckBox> getCheckBoxes() {
+		return checkBoxes;
+	}
+	
+	public List<Button> getButtons() {
+		return buttons;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
