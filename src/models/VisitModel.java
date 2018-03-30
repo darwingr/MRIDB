@@ -10,6 +10,10 @@ import adapters.DBAdapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -42,6 +46,10 @@ public class VisitModel extends ActiveRecord {
 		}
 		return visit;
 	}
+	
+	public VisitModel() {
+		this(1, new Date(1979-1900, 06-1, 30));
+	}
 
 	public VisitModel(int gen, Date dateOfBirth) {
 		gender = gen;
@@ -51,10 +59,11 @@ public class VisitModel extends ActiveRecord {
 
 	public boolean create() throws SQLException {
 		DBAdapter db = new DBAdapter();
+		DateFormat df = DateFormat.getDateInstance();
 		String sql = "INSERT INTO visits " +
 					 "(gender, dob, check_in)\n" +
 					 "VALUES " +
-					 "('" + gender + "', " + dob.toString() + ", '" + check_in.toString() + "')";
+					 "('" + gender + "', to_timestamp('" + df.format(dob) + " 00:00:00', 'dd-mon-yyyy hh24:mi:ss'), '" + check_in.toString() + "')";
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			success = rs.next();
@@ -69,7 +78,7 @@ public class VisitModel extends ActiveRecord {
         return id;
     }
 
-	public static char getGender() {
+	public char getGender() {
 		return gender;
 	}
 
@@ -77,11 +86,11 @@ public class VisitModel extends ActiveRecord {
 		this.gender = gender;
 	}
 
-	public static Date getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	public static void setDob(Date dob) {
+	public void setDob(Date dob) {
 		VisitModel.dob = dob;
 	}
 
