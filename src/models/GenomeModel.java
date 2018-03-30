@@ -2,7 +2,7 @@
  * 
  */
 package models;
-
+import java.util.Date;
 /*
  * 
  */
@@ -12,7 +12,7 @@ public class GenomeModel {
 
 	private int    id;
 	private String sequence;
-	private String date_taken;
+	private Date date_taken;
 	private int    visit_id;
 
 	public GenomeModel() {
