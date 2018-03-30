@@ -18,12 +18,12 @@ public class PatientFileModel extends ActiveRecord {
 	
 	/* Patient Identifying Information */
 	
-	private int id = PatientModel.getId();
-	private String first_name;
-	private String last_name;
-	private String address;
-	private String gender;
-	private String dob;
+	private static int patient_id;
+	private static String first_name;
+	private static String last_name;
+	private static String address;
+	private static String gender;
+	private static String dob;
 	
 	/* Medical Information */
 	
@@ -35,13 +35,13 @@ public class PatientFileModel extends ActiveRecord {
 	}
 	
 	final static class diagnoses {
-		private Date diagnosis_date;
-		private String physician_notes;
+		private static Date diagnosis_date;
+		private static String physician_notes;
 	}
 	
 	final static class regimens {
-		private String physician_notes;
-		private Date start_date;
+		private static String physician_notes;
+		private static Date start_date;
 	}
 	
 	final static class conditions {
@@ -110,9 +110,54 @@ public class PatientFileModel extends ActiveRecord {
             System.err.println("Exception occurred while processing Building ResultSet after findByID.");
 		} finally {
 			db.close();
+			printReport(id);
 		}
 		return patientfile;
 	}
+	
+	public static String printReport(int id) 
+	{
+	    String report = "                      PATIENT FILE                 " + 
+	    				"Patient ID: " + patient_id + "\n" +
+	    				"Name: " + last_name + ", " + first_name + "\n" +
+	    				"Address: " + address + "\n" +
+	    				"Gender:  " + gender + "\n" +
+	    				"Date of Birth: " + dob + "\n" +
+	    				"----------------------Last Visit-------------------" + "\n" +
+	    				"Check-In: " + visits.checkin + "\n" +
+	    				"Check-Out " + visits.checkout + "\n" +
+	    				"-----------------------Genome----------------------" + "\n" +
+	    				"Sequence:  " + genomes.sequence + "\n" +
+	    				"Date Taken:" + genomes.date_taken + "\n" +
+	    				"----------------------Diagnoses--------------------" + "\n" +
+	    				"Diagnosis: " + diagnoses.diagnosis_date + "\n" +
+	    				"Notes: " + diagnoses.physician_notes + "\n" +
+	    				"-----------------------Regimens--------------------" + "\n" +
+	    				"Regimen: " + regimens.physician_notes + "\n" +
+	    				"Start Date: " + regimens.start_date + "\n" +
+	    				"---------------------Conditions--------------------" + "\n" +
+	    				"Condition: " + conditions.name + "\n" +
+	    				"Symptoms: " + conditions.symptoms + "\n" +
+	    				"Treatment:" + treatments.description + "\n" +
+	    				"Type: " + treatments.treatment_type + "\n" +
+	    				"--------------------Physicians--------------------" + "\n" +
+	    				"ID: " + physicians.id + "\n" +
+	    				"Name: " + physicians.last_name + ", " + physicians.first_name + "\n" +
+	    				"Specialty: " + physicians.specialty + "\n" +
+	    				"-------------------END OF REPORT------------------" + "\n";
+		return report;    
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 }
