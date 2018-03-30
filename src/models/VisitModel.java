@@ -10,6 +10,7 @@ import adapters.DBAdapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -18,7 +19,7 @@ public class VisitModel extends ActiveRecord {
 	private static final String TABLE_NAME = "visits";
 
 	private int       id;
-	private char      gender;
+	private int       gender;
 	private Date      dob;
 	private Timestamp check_in;
 	private Timestamp check_out;
@@ -43,8 +44,25 @@ public class VisitModel extends ActiveRecord {
 		return visit;
 	}
 
-	public VisitModel() {
-		// TODO Auto-generated constructor stub
+	public VisitModel(int gen, Date dateOfBirth) {
+		gender = gen;
+		dob = dateOfBirth;
+		check_in = Timestamp.valueOf(LocalDateTime.now());
+	}
+
+	public boolean create() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "INSERT INTO visits " +
+					 "(gender, dob, check_in)\n" +
+					 "VALUES " +
+					 "('" + gender + "', " + dob.toString() + ", '" + check_in.toString() + "')";
+		boolean success = false;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} finally {
+			db.close();
+		}
+		return success;
 	}
 
 	// Required to test findByID
