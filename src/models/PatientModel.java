@@ -84,7 +84,6 @@ public class PatientModel extends ActiveRecord {
 		if(!userExists) {
 			String sql2 = "INSERT INTO patients " + 
 						"VALUES (" + first_name + ", " + last_name + ");";
-			//display message on gender that lets user know 1=male, 2=female, 3=N/A
 			System.out.println("1=male, 2=female, 3=N/A");
 			VisitModel visit = new VisitModel();
 			visit.create();
