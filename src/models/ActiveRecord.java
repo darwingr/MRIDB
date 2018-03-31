@@ -55,11 +55,27 @@ import java.lang.reflect.Field;
 
 @SuppressWarnings("unused")
 
-public class ActiveRecord {
-	private static final String TABLE_NAME = "records";
+abstract public class ActiveRecord {
 
 	public ActiveRecord() {
 		//constructor
 	}
 
+	public String table() { return "records"; }
+
+	public boolean delete() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "DELETE FROM "+ table() +" WHERE id = '" + getID() + "'";
+		boolean success = false;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} catch (Exception e) {
+            System.err.println("Exception occurred while deleting record.");
+		} finally {
+			db.close();
+		}
+		return success;
+	}
+
+	abstract public int getID();
 }
