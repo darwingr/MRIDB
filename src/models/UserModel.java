@@ -19,7 +19,7 @@ public class UserModel extends ActiveRecord {
 	public static UserModel findByID(int user_id) throws SQLException {
 		UserModel user = new UserModel();
 		DBAdapter db = new DBAdapter();
-		try (ResultSet rs = db.executeQuery("select * from " + TABLE_NAME + " where id = " + user_id)) {
+		try (ResultSet rs = db.executeQuery("select * from " + user.table() + " where id = " + user_id)) {
 			rs.next();
 			user.id = rs.getInt("id");
 			user.username = rs.getString("username");
@@ -39,6 +39,17 @@ public class UserModel extends ActiveRecord {
 	public UserModel() {
 	}
 
+	public UserModel(String fname, String lname, String email_addr, String passwrd, boolean authorized) {
+		first_name = fname;
+		last_name = lname;
+		username = fname.toLowerCase().charAt(0) + lname.toLowerCase();
+		password = passwrd;
+		email = email_addr;
+		hipaa_authorized = authorized;
+	}
+
+	@Override public String table() { return "users"; }
+
 	public boolean authenticate(String user_username, String user_password) throws SQLException {
 		DBAdapter db = new DBAdapter();
 		String sql = "select * from users where username = '" + user_username
@@ -56,43 +67,45 @@ public class UserModel extends ActiveRecord {
 		return first_name + " " + last_name;
 	}
 
-	// Required to test findByID
-	public int getID() {
-        return id;
-    }
-
-	public boolean delete() throws SQLException {
-		DBAdapter db = new DBAdapter();
-		String sql = "DELETE FROM users WHERE id = '" + id + "'";
-		boolean success = false;
-		try (ResultSet rs = db.executeQuery(sql)) {
-			success = rs.next();
-		} finally {
-			db.close();
-		}
-		return success;
-	}
 
 	public boolean changePassword(String new_pword) throws SQLException {
 		setPassword(new_pword);
 		return save();
 	}
 
+	/*
+	 * Will generate an id automatically
+	 */
 	public boolean create() throws SQLException {
-		DBAdapter db = new DBAdapter();
-		String sql = "INSERT INTO users\n" +
-					 "(id, first_name, last_name, username, email, password, hipaa_authorized)\n" +
-					 "VALUES\n" +
-					 "(" + id + ", '" + first_name + "', '" + last_name + "', '" + username + "', '"
-					 	 + email + "', '" + password + "', " + (hipaa_authorized ? 1 : 0) + ")";
 		boolean success = false;
-		try (ResultSet rs = db.executeQuery(sql)) {
-			success = rs.next();
-		} finally {
+		DBAdapter db = new DBAdapter();
+		String plsql = 
+				"DECLARE \n" +
+				"  rec_id NUMBER; \n" +
+				"BEGIN \n" +
+				"  INSERT INTO "+ table() +" \n" +
+				"    (first_name, last_name, username, email, password, hipaa_authorized) \n" +
+				"    VALUES \n" +
+				"    ('" + first_name + "', '" + last_name + "', '" + username + "', '"
+					 	 + email + "', '" + password + "', " + (hipaa_authorized ? 1 : 0) + ")\n" +
+				"    RETURNING id INTO rec_id; \n" +
+				"  ? := rec_id; \n" +
+				"END; \n";
+
+		try {
+			int rec_id = db.executeCall(plsql);
+			if (rec_id != -1) {
+				success = true;
+				id = rec_id;
+			}
+		} catch (Exception sqle) {
+            System.err.println("Exception occurred while processing returning the new record id.");
+		}  finally {
 			db.close();
 		}
 		return success;
 	}
+
 
 	// Because we don't want to be publicly getting and setting attributes, which breaks encapsulation,
 	// we as a result don't need save() to be a public method. If you think you need to make this public
@@ -100,13 +113,13 @@ public class UserModel extends ActiveRecord {
 	// Note that we don't save or change ID, ever.
 	private boolean save() throws SQLException {
 		DBAdapter db = new DBAdapter();
-		String sql = "UPDATE users " +
-					 "SET username = '" + username + "', " +
-					 "    password = '" + password + "', " +
-					 "    first_name = '" + first_name + "', " +
-					 "    last_name = '" + last_name + "', " +
-					 "    email = '" + email + "', " +
-					 "    hipaa_authorized = " + (hipaa_authorized ? 1 : 0) + " " +
+		String sql = "UPDATE "+TABLE_NAME+"\n" +
+					 "SET username = '" + username + "', \n" +
+					 "    password = '" + password + "', \n" +
+					 "    first_name = '" + first_name + "', \n" +
+					 "    last_name = '" + last_name + "', \n" +
+					 "    email = '" + email + "', \n" +
+					 "    hipaa_authorized = " + (hipaa_authorized ? 1 : 0) + " \n" +
 					 "WHERE id = " + id;
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
@@ -117,10 +130,13 @@ public class UserModel extends ActiveRecord {
 		return success;
 	}
 
+	public int getID() { return id; }
+
 	public String getPassword() {
 		return password;
 	}
 
+	// Use the change password method
 	private boolean setPassword(String pword) {
 		password = pword;
 		return true;
