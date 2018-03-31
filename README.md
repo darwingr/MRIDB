@@ -39,23 +39,10 @@ A step by step series of examples that tell you have to get a development env ru
  3. Setup project environment variables. These are for information we don't
  want saved as part of the project history such as the database address,
  username and password. They'll be used by both from sqlloader and the java
- app. To add them to Eclipse go to `Run > Run Configurations` then click the
- Environment tab. Add the following variables with the appropriate values:
-    - `DB_HOST`
-    - `DB_PORT`
-    - `DB_USERNAME`
-    - `DB_PASSWORD`
-    - `DB_HIPAA_USERNAME`
-    - `DB_HIPAA_PASSWORD`
-    - These ones may be useful on the commmand line outside of Eclipse when
-    running SQL scripts with sqlloader:
-      - `SQLPLUS_PATH`
-      - `SQLPLUS_SPOOL_PATH`
-      - `SQLLDR_PATH`
-
- Alternatively you can add them to a launch script under `bin/` that then
- launches eclipse with the right environment. This allows you to avoid needing
- to add them again for each testing environment via eclipse.
+ app.
+ To get started, make a COPY of `.env.template` file to `.env` in your project
+ folder. Then fill in the values on the right side. All scripts in the project
+ can read from this file.
 
  On mac just run `./bin/eclipse-mac.sh` from the project root.
 

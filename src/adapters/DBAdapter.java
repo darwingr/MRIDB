@@ -18,22 +18,60 @@ import oracle.jdbc.OracleConnection;
  *
  */
 public class DBAdapter {
+	final static String DB_USERNAME = System.getenv("DB_USERNAME");
+	final static String DB_PASSWORD = System.getenv("DB_PASSWORD");
 	final static String DB_SERVICE_NAME = System.getenv("DB_SERVICE_NAME");
 	final static String DB_HOST = System.getenv("DB_HOST");
 	final static String DB_PORT = System.getenv("DB_PORT");
+
 	final static String DB_URL = "jdbc:oracle:thin:@(DESCRIPTION = "
 			+ "(ADDRESS = (HOST = " + DB_HOST + ")(PORT = " + DB_PORT + ")(PROTOCOL = TCP))"
 			+ "(CONNECT_DATA = (SERVICE_NAME = " + DB_SERVICE_NAME + "))"
 			+ ")";
-	final static String DB_USERNAME = System.getenv("DB_USERNAME");
-	final static String DB_PASSWORD = System.getenv("DB_PASSWORD");
-	
-	//private OracleConnection connection;
+
+
 	private OracleDataSource ods;
-	
 	private OracleConnection connection;
 	private Statement statement;
 	private ResultSet result;
+	private CallableStatement callable_statement;
+
+    /*
+     * Purpose:
+     * To test if all the environment variables were declared and initialized
+     * when the program first starts to run.
+     * Returns a boolean so you can decide to exit the program prematurely.
+     */
+    public static boolean checkEnvironmentVariables() {
+        boolean success = true;
+        String var_names[] = {
+            "DB_USERNAME",
+            "DB_PASSWORD",
+            "DB_SERVICE_NAME",
+            "DB_HOST",
+            "DB_PORT"
+        };
+
+        for (String name : var_names){
+            String error_msg = "CONFIGURATION ERROR: the environment variable "
+                + name + " was unset! Setup environment variables before "
+                + "running the program again.";
+
+            try {
+                Class<DBAdapter> aClass = DBAdapter.class;
+                Field env_var = aClass.getDeclaredField(name);
+                if (env_var.get(null) == null || "".equals(env_var.get(null))) {
+                    System.err.println(error_msg);
+                    success = false;
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.err.println(error_msg);
+                success = false;
+            }
+        }
+        return success;
+    }
 
 	/**
 	 *
@@ -111,14 +149,14 @@ public class DBAdapter {
 	    System.out.println();
 	}
 
-	/*
-	 * Should return an exception if certain variables aren't defined
-	 */
 	public void showEnvironment() {
-		System.out.println(DB_HOST);
-		System.out.println(DB_PORT);
-		System.out.println(DB_URL);
 		System.out.println(DB_USERNAME);
 		System.out.println(DB_PASSWORD);
+		System.out.println(DB_SERVICE_NAME);
+		System.out.println(DB_HOST);
+		System.out.println(DB_PORT);
+
+		// Not an environment variable but important to know
+		System.out.println(DB_URL);
 	}
 }
