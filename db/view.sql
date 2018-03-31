@@ -64,7 +64,7 @@ SELECT
 	EXTRACT(year FROM visits.check_in) visit_checkin, 
 	EXTRACT(year FROM visits.check_out) visit_checkout, 
 	mri_scans.technician_notes AS mri_scan_technician_notes, 
-	mri_scans.vals AS mri_scan_vals, 
+	mri_scans.measurements_array AS measurements_array,
 	devices.manufacturer AS device_manufacturer, 
 	devices.model_number AS device_model_number, 
 	devices.hospital_location AS device_hospital_location, 
