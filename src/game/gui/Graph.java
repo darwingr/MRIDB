@@ -59,6 +59,7 @@ public class Graph {
 		colors.add(0xff009999);
 		colors.add(0xff990099);
 		colors.add(0xff999900);
+		
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -121,6 +122,10 @@ public class Graph {
 			r.drawText(Font.SMALL_STANDARD, attribs.get(usedColors.get(i)), x, y+height+32+i*20, usedColors.get(i));
 		}
 		
+		r.drawFillRect(x+96, y+height+224, 196, 2, 0xff000000);
+		for(float i = 0; i < 100; i+=.5f) {
+			drawPoint((float)Math.cos(i),(float)Math.tan(i),0xff000000,r);
+		}
 	}
 	
 	public void clear() {
@@ -155,7 +160,7 @@ public class Graph {
 	}
 	
 	public void drawPoint(float posX, float posY, int color, Renderer r) {
-		r.drawFillRect((int) (oX + xScale * posX) - 1, (int) (oY - yScale * posY) - 1, 2, 2, color);
+		r.drawFillRect((int) (oX + xScale * posX) - 2, (int) (oY - yScale * posY) - 2, 4, 4, color);
 	}
 
 }

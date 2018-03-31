@@ -18,7 +18,7 @@ import game.gui.Page;
 import models.UserModel;
 
 public class GameManager extends AbstractGame {
-
+	
 	private Log log;
 	private FilterManager filter;
 	private CommandLine patientSearch;
@@ -80,15 +80,30 @@ public class GameManager extends AbstractGame {
 					"" + new Random().nextInt(128) * new Random().nextFloat());
 
 		}
-		Float[] ages = new Float[100];
-		for (int i = 0; i < ages.length; i++) {
-			ages[i] = (float) new Random().nextInt(99) + 5;
-		}
-		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-		for (int i = 0; i < ages.length; i++) {
-			ages[i] = (float) new Random().nextInt(99) + 5;
-		}
-
+//		Float[] ages = new Float[100];
+//		for (int i = 0; i < ages.length; i++) {
+//			ages[i] = (float) new Random().nextInt(99) + 5;
+//		}
+//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+//		for (int i = 0; i < ages.length; i++) {
+//			ages[i] = (float) new Random().nextInt(99) + 5;
+//		}
+//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+//		for (int i = 0; i < ages.length; i++) {
+//			ages[i] = (float) new Random().nextInt(99) + 5;
+//		}
+//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+//		for (int i = 0; i < ages.length; i++) {
+//			ages[i] = (float) new Random().nextInt(99) + 5;
+//		}
+//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+//		for (int i = 0; i < ages.length; i++) {
+//			ages[i] = (float) new Random().nextInt(99) + 5;
+//		}
+//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
+//		for (int i = 0; i < ages.length; i++) {
+//			ages[i] = (float) new Random().nextInt(99) + 5;
+//		}
 	}
 
 	public void update(GameContainer gc, float dt) {
