@@ -6,12 +6,12 @@ import java.sql.Timestamp;
 public class DiagnosisModel extends ActiveRecord {
 	private static final String TABLE_NAME = "diagnoses";
 
-	private int       id;
-	private int       condition_id;
-	private int       patient_id;
-	private int       physician_id;
-	private int       physician_notes;
-	private Timestamp diagnosis_date;
+	private static int       id;
+	private static int       condition_id;
+	private static int       patient_id;
+	private static int       physician_id;
+	private static String    physician_notes;
+	private	static Date 	 diagnosis_date;
 
 	public DiagnosisModel() {
 		// TODO Auto-generated constructor stub

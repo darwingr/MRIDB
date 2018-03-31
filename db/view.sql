@@ -1,34 +1,34 @@
 CREATE or REPLACE VIEW patient_files AS
 SELECT 
-	patients.id AS "Patient: ID", 
-	patients.first_name AS "Patient:|First Name", 
-	patients.last_name AS "Patient:|Last Name", 
-	patients.address AS "Patient: Address",  
-	visits.gender AS"Visit: Gender", 
-	visits.dob AS "Visit: Date Of Birth", 
-	visits.check_in AS "Visit: Check In", 
-	visits.check_out AS "Visit: Check Out", 
-	genomes.sequence AS "Genome: Sequence", 
-	genomes.date_taken AS "Genome: Sample Date",
-	mri_scans.technician_notes AS "MRI Scan: Technician Notes",
-	technicians.first_name AS "Technician:|First Name", 
-	technicians.last_name AS "Technician:|Last Name", 
-	devices.manufacturer AS "Device: Manufacturer", 
-	devices.model_number AS "Device: Model Number", 
-	devices.hospital_location AS "Device: Location",
-	diagnoses.diagnoses_date AS "Diagnoses: Diagnoses Date",
-	diagnoses.physician_notes AS "Diagnoses: Physician Notes",
-	regimens.physician_notes AS "Regimen: Physician Notes", 
-	regimens.start_date AS "Regimen: Start Date",
-	conditions.name AS "Condition: Name", 
-	conditions.signs AS "Condition: Signs", 
-	conditions.symptoms AS "Condition: Symptoms",
-	treatments.treatment_type AS "Treatment: Type", 
-	treatments.description AS "Treatment: Description",
-	physicians.id AS "Physician: ID",
-	physicians.first_name AS "Physician:|First Name", 
-	physicians.last_name AS "Physician:|Last Name", 
-	physicians.specialty AS "Physician: Specialty" 
+	patients.id AS patient_id, 
+	patients.first_name AS patient_firstname, 
+	patients.last_name AS patient_lastname, 
+	patients.address AS patient_address,  
+	visits.gender AS visit_gender,
+	visits.dob AS visit_dob, 
+	visits.check_in AS visit_checkin, 
+	visits.check_out AS visit_checkout, 
+	genomes.sequence AS genome_sequence, 
+	genomes.date_taken AS genome_datetaken,
+	mri_scans.technician_notes AS mri_scan_technician_notes,
+	technicians.first_name AS technician_firstname, 
+	technicians.last_name AS technician_lastname, 
+	devices.manufacturer AS device_manufacturer, 
+	devices.model_number AS device_model_number, 
+	devices.hospital_location AS device_hospital_location,
+	diagnoses.diagnoses_date AS diagnosis_date,
+	diagnoses.physician_notes AS diagnosis_physician_notes,
+	regimens.physician_notes AS regimen_physician_notes, 
+	regimens.start_date AS regimen_start_date,
+	conditions.name AS condition_name, 
+	conditions.signs AS condition_signs, 
+	conditions.symptoms AS condition_symptoms,
+	treatments.treatment_type AS treatment_type, 
+	treatments.description AS treatment_description,
+	physicians.id AS physician_id,
+	physicians.first_name AS physician_firstname, 
+	physicians.last_name AS physician_lastname, 
+	physicians.specialty AS physician_specialty 
 FROM patients 
 	JOIN visits ON visits.patient_id = patients.id
 	JOIN genomes ON genomes.visit_id = visits.id 
@@ -43,38 +43,38 @@ FROM patients
 
 CREATE or REPLACE VIEW Doctor_Diagnoses AS
 SELECT
-	"Physician: ID",
-	"Physician:|First Name", 
-	"Physician:|Last Name",
-	"Condition: Name", 
-	"Condition: Signs", 
-	"Condition: Symptoms",
-	"Diagnoses: Diagnoses Date",
-	"Diagnoses: Physician Notes"
+	physician_id,
+	physician_firstname, 
+	physician_lastname,
+	condition_name, 
+	condition_signs, 
+	condition_symptoms,
+	diagnosis_date,
+	diagnosis_physician_notes
 FROM
 	patient_files
 WHERE
-	"Diagnoses: Diagnoses Date" >= sysdate-45;
+	diagnosis_date >= sysdate-45;
 	
 CREATE or REPLACE VIEW non_hipaa_authorized AS
 SELECT 
-	patients.id AS "Patient: ID", 
-	visits.gender AS "Visit: Gender", 
-	EXTRACT(year FROM visits.dob) "Visit: Date Of Birth", 
-	EXTRACT(year FROM visits.check_in) "Visit: Check In", 
-	EXTRACT(year FROM visits.check_out) "Visit: Check Out", 
-	mri_scans.technician_notes AS "MRI Scan: Technician Notes", 
-	mri_scans.vals AS "MRI Scan: Measurements", 
-	devices.manufacturer AS "Device: Manufacturer", 
-	devices.model_number AS "Device: Model Number", 
-	devices.hospital_location AS "Device: Location", 
-	regimens.physician_notes AS "Regimen: Physician Notes", 
-	EXTRACT(year FROM regimens.start_date) "Regimen: Start Date", 
-	conditions.name AS "Condition: Name", 
-	conditions.signs AS "Condition: Signs", 
-	conditions.symptoms AS "Condition: Symptoms", 
-	treatments.treatment_type"Treatment: Type", 
-	treatments.description AS "Treatment: Description"
+	patients.id AS patient_id, 
+	visits.gender AS visit_gender, 
+	EXTRACT(year FROM visits.dob) visit_dob, 
+	EXTRACT(year FROM visits.check_in) visit_checkin, 
+	EXTRACT(year FROM visits.check_out) visit_checkout, 
+	mri_scans.technician_notes AS mri_scan_technician_notes, 
+	mri_scans.measurements_array AS measurements_array,
+	devices.manufacturer AS device_manufacturer, 
+	devices.model_number AS device_model_number, 
+	devices.hospital_location AS device_hospital_location, 
+	regimens.physician_notes AS regimen_physician_notes, 
+	EXTRACT(year FROM regimens.start_date) regimen_start_date, 
+	conditions.name AS condition_name, 
+	conditions.signs AS condition_signs, 
+	conditions.symptoms AS condition_symptoms, 
+	treatments.treatment_type AS treatment_type,
+	treatments.description AS treatment_description
 FROM patients 
 	JOIN visits ON visits.patient_id = patients.id
 	JOIN mri_scans ON visits.id = mri_scans.visit_id

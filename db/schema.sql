@@ -11,7 +11,7 @@ DROP TABLE technicians CASCADE CONSTRAINT;
 DROP TABLE treatments CASCADE CONSTRAINT;
 DROP TABLE users CASCADE CONSTRAINT;
 DROP TABLE visits CASCADE CONSTRAINT;
-CREATE OR REPLACE TYPE numbers AS VARRAY(4788) of NUMBER;
+CREATE OR REPLACE TYPE ARRAY_OF_DOUBLE AS VARRAY(4788) of BINARY_DOUBLE;
 /
 
 CREATE TABLE conditions
@@ -68,7 +68,7 @@ CREATE TABLE mri_scans
     technician_id           NUMBER(5)         NOT NULL,
     visit_id                NUMBER(5)         NOT NULL,
     device_id               NUMBER(5)         NOT NULL,
-    vals                    numbers,
+    measurements_array      ARRAY_OF_DOUBLE,
     CONSTRAINT PK_MRI_Scans PRIMARY KEY (id)
 );
 
