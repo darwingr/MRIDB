@@ -1,6 +1,3 @@
-/**
- * 
- */
 package models;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,10 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author darwingroskleg
- *
- */
 class ActiveRecordTest {
 
 	/**
@@ -44,10 +37,4 @@ class ActiveRecordTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
-
 }

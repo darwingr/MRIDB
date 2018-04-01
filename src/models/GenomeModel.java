@@ -1,13 +1,7 @@
-/*
- * 
- */
 package models;
 import java.util.Date;
-/*
- * 
- */
 
-public class GenomeModel {
+public class GenomeModel extends ActiveRecord {
 	private static final String TABLE_NAME = "genomes";
 
 	private int    id;
@@ -19,4 +13,9 @@ public class GenomeModel {
 		// TODO Auto-generated constructor stub
 	}
 
+    @Override
+    public String table() { return "genomes";}
+
+    @Override
+    public int getID() { return id; }
 }

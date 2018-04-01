@@ -9,18 +9,15 @@ import java.sql.SQLException;
 
 import adapters.DBAdapter;
 
-/**
- *
- */
 public class MRIScanModel extends ActiveRecord {
 	private static final String TABLE_NAME = "mri_scans";
 	public static final int MEASUREMENTS_ARRAY_SIZE = 4788;
 
-	private int 		id;
-	private String 	technician_notes;
-	private int 		technician_id;
-	private int 		visit_id;
-	private int 		device_id;
+	private int     id;
+	private String  technician_notes;
+	private int     technician_id;
+	private int     visit_id;
+	private int     device_id;
 	private List<Double> measurements_array; // initialized in constructor
 
 	public static MRIScanModel findByID(int rec_id) throws SQLException {
@@ -53,11 +50,13 @@ public class MRIScanModel extends ActiveRecord {
 		measurements_array = new ArrayList<Double>(MEASUREMENTS_ARRAY_SIZE);
 	}
 
+    public String table() { return "mri_scans";}
+
 	public ArrayList<Double> getMeasurementSubset(int measurement_indices[]) {
 		ArrayList<Double> measurements_subset =
 				new ArrayList<Double>(MEASUREMENTS_ARRAY_SIZE);
 
-		for (int i:measurement_indices) {
+		for (int i : measurement_indices) {
 			measurements_subset.add(measurements_array.get(i));
 		}
 
@@ -68,8 +67,5 @@ public class MRIScanModel extends ActiveRecord {
 		return visit_id;
 	}
 
-	// Required to test findByID
-	public int getID() {
-        return id;
-    }
+	public int getID() { return id; }
 }

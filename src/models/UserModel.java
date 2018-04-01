@@ -8,14 +8,18 @@ import adapters.DBAdapter;
 public class UserModel extends ActiveRecord {
 	private static final String TABLE_NAME = "users";
 
-	private int    id;
-	private String username;
-	private String password;
-	private String first_name;
-	private String last_name;
-	private String email;
+	private int     id;
+	private String  username;
+	private String  password;
+	private String  first_name;
+	private String  last_name;
+	private String  email;
 	private boolean hipaa_authorized;
-	
+
+	public String fullName() {
+		return first_name + " " + last_name;
+	}
+
 	public static UserModel findByID(int user_id) throws SQLException {
 		UserModel user = new UserModel();
 		DBAdapter db = new DBAdapter();
@@ -49,6 +53,7 @@ public class UserModel extends ActiveRecord {
 		hipaa_authorized = authorized;
 	}
 
+    @Override
 	public String table() { return "users"; }
 
 	public boolean authenticate(String user_username, String user_password) throws SQLException {
@@ -63,9 +68,9 @@ public class UserModel extends ActiveRecord {
 		}
 		return user_exists;
 	}
-	
-	public String fullName() {
-		return first_name + " " + last_name;
+
+	public boolean isAuthorized() {
+		return hipaa_authorized;
 	}
 
 
@@ -131,16 +136,13 @@ public class UserModel extends ActiveRecord {
 		return success;
 	}
 
+    @Override
 	public int getID() { return id; }
 
 	public String getPassword() {
 		return password;
 	}
-	
-	public boolean isAuthorized() {
-		return hipaa_authorized;
-	}
-	
+
 	public String getEmail() {
 		return email;
 	}
