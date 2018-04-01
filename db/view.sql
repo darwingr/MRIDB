@@ -4,7 +4,7 @@ SELECT
 	patients.first_name AS patient_firstname, 
 	patients.last_name AS patient_lastname, 
 	patients.address AS patient_address,  
-	visits.gender ASvisit_gender, 
+	visits.gender AS visit_gender,
 	visits.dob AS visit_dob, 
 	visits.check_in AS visit_checkin, 
 	visits.check_out AS visit_checkout, 
@@ -16,7 +16,7 @@ SELECT
 	devices.manufacturer AS device_manufacturer, 
 	devices.model_number AS device_model_number, 
 	devices.hospital_location AS device_hospital_location,
-	diagnoses.diagnoses_date AS diagnosis_diagnosis_date,
+	diagnoses.diagnoses_date AS diagnosis_date,
 	diagnoses.physician_notes AS diagnosis_physician_notes,
 	regimens.physician_notes AS regimen_physician_notes, 
 	regimens.start_date AS regimen_start_date,
@@ -64,7 +64,7 @@ SELECT
 	EXTRACT(year FROM visits.check_in) visit_checkin, 
 	EXTRACT(year FROM visits.check_out) visit_checkout, 
 	mri_scans.technician_notes AS mri_scan_technician_notes, 
-	mri_scans.vals AS mri_scan_vals, 
+	mri_scans.measurements_array AS measurements_array,
 	devices.manufacturer AS device_manufacturer, 
 	devices.model_number AS device_model_number, 
 	devices.hospital_location AS device_hospital_location, 
@@ -73,7 +73,7 @@ SELECT
 	conditions.name AS condition_name, 
 	conditions.signs AS condition_signs, 
 	conditions.symptoms AS condition_symptoms, 
-	treatments.treatment_typetreatment_type, 
+	treatments.treatment_type AS treatment_type,
 	treatments.description AS treatment_description
 FROM patients 
 	JOIN visits ON visits.patient_id = patients.id

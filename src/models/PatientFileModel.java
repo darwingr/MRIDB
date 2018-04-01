@@ -70,7 +70,7 @@ public class PatientFileModel extends ActiveRecord {
 	
 	public boolean delete() throws SQLException {
 		DBAdapter db = new DBAdapter();
-		String sql = "DELETE FROM users WHERE id = '" + id + "'";
+		String sql = "DELETE FROM users WHERE id = '" + patient_id + "'";
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			success = rs.next();
@@ -87,7 +87,7 @@ public class PatientFileModel extends ActiveRecord {
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			success = rs.next();
-			patientfile.id = rs.getInt("patient_id");
+			patientfile.patient_id = rs.getInt("patient_id");
 			patientfile.first_name = rs.getString("patient_firstname");
 			patientfile.last_name = rs.getString("patient_lastname");
 			patientfile.address = rs.getString("patient_address");
@@ -146,6 +146,12 @@ public class PatientFileModel extends ActiveRecord {
 	    				"Specialty: " + physicians.specialty + "\n" +
 	    				"-------------------END OF REPORT------------------" + "\n";
 		return report;    
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return patient_id;
 	}
 
 	

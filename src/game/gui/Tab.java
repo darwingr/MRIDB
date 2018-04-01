@@ -2,11 +2,9 @@ package game.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import engine.GameContainer;
 import engine.Renderer;
-import game.gui.Graph.Point;
 
 public class Tab {
 

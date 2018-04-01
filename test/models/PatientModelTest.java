@@ -1,6 +1,3 @@
-/**
- * 
- */
 package models;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +16,6 @@ import java.sql.Timestamp;
 import adapters.DBAdapter;
 
 /**
- * @author darwingroskleg
  *
  */
 class PatientModelTest {
@@ -52,12 +48,10 @@ class PatientModelTest {
 	void tearDown() throws Exception {
 	}
 
-	// Broken example of how to test a unit
 	@Test
-	void fullNameTest() {
-		fail("Not yet implemented");
-		PatientModel p = new PatientModel("John", "Smith");
-		assertEquals(p.fullName(), "John Smith");
+	void testFindByID() throws SQLException {
+		PatientModel p = PatientModel.findByID(2);
+		assertEquals(2, p.getID());
 	}
 	
 	@Test
@@ -92,4 +86,25 @@ class PatientModelTest {
 		assertTrue(success);
 	}
 
+	@Test
+	void testFullName() {
+		PatientModel p = new PatientModel("John", "Smith");
+		assertEquals("John Smith", p.fullName());
+	}
+	
+	@Test
+	void testCreateDelete() throws SQLException {
+		PatientModel p = new PatientModel();
+		assertTrue(p.create());
+
+		// Cleanup
+		int id = p.getID();
+		assertTrue(p.delete());
+
+		// Double check
+		PatientModel p2 = PatientModel.findByID(id);
+		assertNotEquals(id, p2.getID());
+	}
+
+	
 }

@@ -12,7 +12,7 @@ public class CommandLine {
 
 	private final int BACKGROUND_COLOR = 0xff000000;
 	private final int FONT_COLOR = 0xffE5E5D1;
-	private String title;
+	private String title,defaultWord;
 	private List<String> text;
 	private int x, y;
 	private int width, height;
@@ -31,6 +31,7 @@ public class CommandLine {
 		this.height = height;
 		selected = false;
 		censor = false;
+		defaultWord = "";
 	}
 
 	public void censor() {
@@ -42,6 +43,7 @@ public class CommandLine {
 			if (timer(.5f, delta)) {
 				dispalyCursor = !dispalyCursor;
 			}
+			checkKey(gc, "/", KeyEvent.VK_SLASH);
 			checkKey(gc, "q", KeyEvent.VK_Q);
 			checkKey(gc, "w", KeyEvent.VK_W);
 			checkKey(gc, "e", KeyEvent.VK_E);
@@ -73,7 +75,8 @@ public class CommandLine {
 			checkKey(gc, ".", KeyEvent.VK_PERIOD);
 			checkKey(gc, "0", KeyEvent.VK_0);
 			checkKey(gc, "1", KeyEvent.VK_1);
-			checkKey(gc, "2", KeyEvent.VK_2);
+			if(!gc.getInput().isKey(KeyEvent.VK_SHIFT))
+				checkKey(gc, "2", KeyEvent.VK_2);
 			checkKey(gc, "3", KeyEvent.VK_3);
 			checkKey(gc, "4", KeyEvent.VK_4);
 			checkKey(gc, "5", KeyEvent.VK_5);
@@ -82,6 +85,10 @@ public class CommandLine {
 			checkKey(gc, "8", KeyEvent.VK_8);
 			checkKey(gc, "9", KeyEvent.VK_9);
 
+			
+			if(gc.getInput().isKeyDown(KeyEvent.VK_2)&&gc.getInput().isKey(KeyEvent.VK_SHIFT)) {
+				enterChar("@");
+			}
 			if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE))
 				enterChar(" ");
 			if (gc.getInput().isKeyDown(KeyEvent.VK_BACK_SPACE) && !gc.getInput().isKey(KeyEvent.VK_SHIFT))
@@ -105,6 +112,10 @@ public class CommandLine {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	
+	public void setWord(String word) {
+		text.add(word);
 	}
 
 	public String getWord() {

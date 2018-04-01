@@ -1,5 +1,6 @@
 package models;
 
+
 import adapters.DBAdapter;
 
 import java.sql.ResultSet;
@@ -11,6 +12,8 @@ import java.lang.reflect.Field;
  * This is the intended superclass of all other model objects.
  * Used as an abstract class, there is no instance of a active record.
  * Note that all subclasses must have TABLE_NAME initialized.
+ *
+ *
  *
  * The pattern you need to use when defining methods on any subclass where an
  * interaction with the database occurs is as follows:
@@ -25,9 +28,11 @@ import java.lang.reflect.Field;
  *    db.close(); // ALWAYS DO THIS
  * }
  * ```
+ * 
  * This will work for both static and instance methods.
  * For an example see how User.findByID() is implemented.
  * Note that you must close the db connection when you're done with it.
+ *
  *
  *
  * The pattern for initializing and using an instance of a subclass of an
@@ -40,67 +45,40 @@ import java.lang.reflect.Field;
  * } catch (Exception e) { e.printStackTrace(); System.out.println("MYERROR!"); }
  * leftSide.addButtonBranch(button_text, leftSide, 128, 256, 0, 64, 0, false, new String[] {"ADHD","DIABETES"});
  * ```
- * This is an example called from the GameManager and shows a user's name in a
+ * 
+ * The above is an example called from the GameManager and shows a user's name in a
  * button on screen.
  * Notice how we don't use any SQL and we don't need to close the connection,
  * that's all handled internally in the model's implementation.
  *
  */
-public class ActiveRecord {
-	private static final String TABLE_NAME = "records";
 
-	/*
-	 * Usage in a subclass: user = UserModel.findByID(5);
-	 */
-	public static ActiveRecord findByID(int rec_id) throws SQLException {
-		
-		DBAdapter db = new DBAdapter();
+//<<<<<<< HEAD
+//=======
+@SuppressWarnings("unused")
 
-		ResultSet rs = db.executeQuery("select * from " + TABLE_NAME + " where id = " + rec_id);
-		ResultSetMetaData rsmd = result.getMetaData();
-		int columns = rsmd.getColumnCount();
-		while (columns > 0) {
-			int col_type = rsmd.getColumnType(columns);
-			String col_label = rsmd.getColumnLabel(columns);
-			Field attribute = this.getClass().getField(col_label);
+abstract public class ActiveRecord {
 
-			switch (col_type) {
-				case 12: attribute.set(this.getClass(), )
-						 rs.getString(columns);
-						 break;
-			}
-			columns--;
-		}
-
-		try () {
-			asdf;
-		} catch (SQLException sqle) {
-            System.err.println("Exception occurred while processing Building ResultSet."); 
-        }
-
-		// TODO
-		// Something here to create the object from the given result set.
-		// Just passing the result set to the object leaves a lot of duplicate work to be done in each
-		// subclass.
-		
-		ActiveRecord record = new ActiveRecord();
-		return record;
-	}
-	
-	public static ActiveRecord findBy(String attribute, int rec_id) {
-		DBAdapter db = new DBAdapter();
-		ResultSet result = db.executeQuery(
-				"select * from " + TABLE_NAME + " where " + attribute + "=" + rec_id);
-		
-		// TODO
-		// Same as in findByID above.
-
-		ActiveRecord record = new ActiveRecord();
-		return record;
-	}
-	
+//>>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	public ActiveRecord() {
 		//constructor
 	}
 
+	public String table() { return "records"; }
+
+	public boolean delete() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "DELETE FROM "+ table() +" WHERE id = '" + getID() + "'";
+		boolean success = false;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} catch (Exception e) {
+            System.err.println("Exception occurred while deleting record.");
+		} finally {
+			db.close();
+		}
+		return success;
+	}
+
+	abstract public int getID();
 }

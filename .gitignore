@@ -1,5 +1,9 @@
 /build/
 
+# Don't commit environment variable values
+.env
+!.env.template
+
 lib/ojdbc8.jar
 
 tmp/*

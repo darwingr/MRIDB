@@ -58,4 +58,10 @@ public class PhysicianModel extends ActiveRecord {
 		PhysicianModel.last_name = last_name;
 	}
 
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
 }
