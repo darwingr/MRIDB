@@ -24,7 +24,8 @@ public class MRIScanModel extends ActiveRecord {
 		MRIScanModel scan = new MRIScanModel();
 		DBAdapter db = new DBAdapter();
 
-		try (ResultSet rs = db.executeQuery("select * from " + TABLE_NAME + " where id = " + rec_id)) {
+		String sql = "select * from " + scan.table() + " where id = " + rec_id;
+		try (ResultSet rs = db.executeQuery(sql)) {
 			rs.next();
 
 			scan.id = rs.getInt("id");
@@ -44,6 +45,40 @@ public class MRIScanModel extends ActiveRecord {
 		}
 
 		return scan;
+	}
+
+	public static ArrayList<MRIScanModel> scansForAgeRange(int low, int high) throws SQLException {
+		ArrayList<MRIScanModel> scans = new ArrayList<MRIScanModel>();
+		DBAdapter db = new DBAdapter();
+		String sql =
+				"SELECT * \n" +
+				"FROM mri_scans \n" +
+				"  JOIN visits ON visits.id = mri_scans.id \n" +
+				"WHERE \n" +
+				"  FLOOR( MONTHS_BETWEEN(SYSDATE, visits.dob) / 12 ) >= " + low + " \n" +
+				"  AND FLOOR( MONTHS_BETWEEN(SYSDATE, visits.dob) / 12 ) <= " + high;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			while (rs.next()) {
+				MRIScanModel scan = new MRIScanModel();
+				scan.id = rs.getInt("id");
+				scan.technician_notes = rs.getString("technician_notes");
+				scan.technician_id = rs.getInt("technician_id");
+				scan.visit_id = rs.getInt("visit_id");
+				scan.device_id = rs.getInt("device_id");
+
+				java.sql.Array db_vals = rs.getArray("measurements_array");
+				scan.measurements_array.addAll(
+						Arrays.asList((Double[]) db_vals.getArray())
+				);
+
+				scans.add(scan);
+			}
+		} catch (SQLException sqle) {
+            System.err.println("Exception occurred while building ResultSet after findByID.");
+		} finally {
+			db.close();
+		}
+		return scans;
 	}
 
 	public MRIScanModel() {
