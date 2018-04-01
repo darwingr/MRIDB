@@ -50,6 +50,19 @@ public class Section {
 		
 	}
 
+	public boolean isButtonActive(String tag) {
+		for (Button b : buttons) {
+			if (b.getText().equals(tag)) {
+				return b.isActive();
+			}
+		}
+		return false;
+	}
+	
+	public CommandLine getInput(int index) {
+		return inputs.get(index);
+	}
+	
 	public void addInput(String title, int xOff, int yOff, int width, int height) {
 		inputs.add(new CommandLine(title, x + xOff, y + yOff+32, width, height));
 	}

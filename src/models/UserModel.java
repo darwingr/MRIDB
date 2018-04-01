@@ -49,7 +49,7 @@ public class UserModel extends ActiveRecord {
 		hipaa_authorized = authorized;
 	}
 
-	@Override public String table() { return "users"; }
+	public String table() { return "users"; }
 
 	public boolean authenticate(String user_username, String user_password) throws SQLException {
 		DBAdapter db = new DBAdapter();
@@ -135,6 +135,14 @@ public class UserModel extends ActiveRecord {
 
 	public String getPassword() {
 		return password;
+	}
+	
+	public boolean isAuthorized() {
+		return hipaa_authorized;
+	}
+	
+	public String getEmail() {
+		return email;
 	}
 
 	// Use the change password method

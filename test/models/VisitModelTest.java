@@ -3,7 +3,10 @@ package models;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
+<<<<<<< HEAD
+=======
 import java.util.ArrayList;
+>>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 import java.util.Date;
 
 import org.junit.jupiter.api.AfterAll;
@@ -35,6 +38,15 @@ class VisitModelTest {
 	    VisitModel visit = VisitModel.findByID(2);
 	    assertEquals(2, visit.getID());
 	}
+<<<<<<< HEAD
+	
+	@Test
+	void testCreate() throws SQLException {
+		Date date1 = new Date(1979-1900, 06-1, 30);
+		VisitModel visit = new VisitModel(1, date1);
+		assertTrue(visit.create());
+		
+=======
  
 	@Test
 	void testFindByPatientID() throws SQLException {
@@ -61,6 +73,7 @@ class VisitModelTest {
 
 		VisitModel v2 = VisitModel.findByID(id);
 		assertNotEquals(id, v2.getID());
+>>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	}
 
 }

@@ -14,7 +14,7 @@ import adapters.DBAdapter;
  */
 public class MRIScanModel extends ActiveRecord {
 	private static final String TABLE_NAME = "mri_scans";
-	private static final int MEASUREMENTS_ARRAY_SIZE = 4788;
+	public static final int MEASUREMENTS_ARRAY_SIZE = 4788;
 
 	private int 		id;
 	private String 	technician_notes;
@@ -62,6 +62,10 @@ public class MRIScanModel extends ActiveRecord {
 		}
 
 		return measurements_subset;
+	}
+	
+	public int getVisitID() {
+		return visit_id;
 	}
 
 	// Required to test findByID

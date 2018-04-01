@@ -17,4 +17,10 @@ public class DiagnosisModel extends ActiveRecord {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
 }

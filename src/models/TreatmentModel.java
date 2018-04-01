@@ -20,6 +20,12 @@ public class TreatmentModel extends ActiveRecord {
     public TreatmentModel(String treatment) {
     	treatment = treatment_type;
 	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return id;
+	}
     
 
 }
