@@ -12,10 +12,9 @@ public class DeviceModel extends ActiveRecord {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return id;
-	}
+    @Override
+    public String table() { return "devices"; }
 
+	@Override
+	public int getID() { return id; }
 }

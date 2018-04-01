@@ -1,6 +1,3 @@
-/**
- * 
- */
 package adapters;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +12,8 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 
 /**
- * Tests the DBAdapter object, mostly by printing data for visual inspection than by assertions.
+ * Tests the DBAdapter object, mostly by printing data for visual inspection
+ * than by assertions.
  */
 class DBAdapterTest {
 	DBAdapter db;
@@ -57,7 +55,8 @@ class DBAdapterTest {
 	@Test
 	void testExecuteQuery() throws Exception {
 		int result_id;
-		try (ResultSet rs = db.executeQuery("SELECT * FROM diagnoses WHERE id = " + 2)) {
+        String sql = "SELECT * FROM diagnoses WHERE id = " + 2;
+		try (ResultSet rs = db.executeQuery(sql)) {
 			rs.next();	// Requires next() be called at least once
 			result_id = rs.getInt("id");
 

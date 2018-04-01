@@ -53,15 +53,11 @@ import java.lang.reflect.Field;
  *
  */
 
-//<<<<<<< HEAD
-//=======
 @SuppressWarnings("unused")
 
 abstract public class ActiveRecord {
 
-//>>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	public ActiveRecord() {
-		//constructor
 	}
 
 	public String table() { return "records"; }

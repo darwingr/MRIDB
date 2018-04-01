@@ -13,9 +13,8 @@ public class ConditionModel extends ActiveRecord {
 	}
 
 	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return id;
-	}
+	public String table() { return "conditions"; }
 
+	@Override
+	public int getID() { return id; }
 }

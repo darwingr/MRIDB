@@ -1,11 +1,5 @@
-/*
- * 
- */
 package models;
 import java.util.Date;
-/*
- * 
- */
 
 public class GenomeModel {
 	private static final String TABLE_NAME = "genomes";
@@ -19,4 +13,9 @@ public class GenomeModel {
 		// TODO Auto-generated constructor stub
 	}
 
+    @Override
+    public String table() { return "genomes";}
+
+    @Override
+    public int getID() { return id; }
 }

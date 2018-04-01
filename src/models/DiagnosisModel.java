@@ -11,16 +11,17 @@ public class DiagnosisModel extends ActiveRecord {
 	private static int       patient_id;
 	private static int       physician_id;
 	private static String    physician_notes;
-	private	static Date 	 diagnosis_date;
+	private	static Date      diagnosis_date;
 
 	public DiagnosisModel() {
 		// TODO Auto-generated constructor stub
 	}
 
+    @Override
+    public String table() { return "diagnoses"; }
+
 	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return id;
+	public int getID() { return id; }
 	}
 
 }
