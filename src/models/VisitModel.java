@@ -1,20 +1,16 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import adapters.DBAdapter;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-<<<<<<< HEAD
-import java.text.ParseException;
-=======
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
+//github.com/ThreeFourSeven/Database-Gui.git
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+
+import adapters.DBAdapter;
 
 /**
  *
@@ -25,7 +21,7 @@ public class VisitModel extends ActiveRecord {
 	private int       id;
 	private int       gender;
 	private Date      dob;
-	private Date      dob;		// FIXME This should be age (during visit) not dob
+	private float age;
 	private Timestamp check_in;
 	private Timestamp check_out;
 	private int       patient_id;	
@@ -82,6 +78,7 @@ public class VisitModel extends ActiveRecord {
 	
 	public VisitModel() {
 		this(1, new Date(1979-1900, 06-1, 30));
+		
 	}
 
 	public VisitModel(int gen, Date dateOfBirth) {
@@ -149,7 +146,6 @@ public class VisitModel extends ActiveRecord {
 		}
 		return success;
 	}
-
 
 	// Required to test findByID
 	public int getID() { return id; }

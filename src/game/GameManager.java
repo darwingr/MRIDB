@@ -7,6 +7,7 @@ import engine.AbstractGame;
 import engine.GameContainer;
 import engine.Renderer;
 import engine.gfx.Font;
+import game.gui.Attribute;
 import game.gui.Button;
 import game.gui.CommandLine;
 import game.gui.FilterManager;
@@ -14,6 +15,7 @@ import game.gui.Gui;
 import game.gui.Log;
 import game.gui.Page;
 import game.gui.PopUp;
+import models.PatientModel;
 import models.UserModel;
 
 public class GameManager extends AbstractGame {
@@ -29,13 +31,13 @@ public class GameManager extends AbstractGame {
 	private CommandLine userName;
 	private CommandLine password;
 	private UserModel user = new UserModel();
-	private PopUp editUser,addUser,addPatient;
+	private PopUp editUser,addUser,addPatient,removeUser;
 
 	public GameManager() {
 		filter = new FilterManager();
 		leftSideInit();
 		rightSideInit();
-		page = null;
+		page = new Page("Test", new Attribute[] {new Attribute("Brain Mass:","165")});
 
 		login = true;
 		if (login)
@@ -59,7 +61,14 @@ public class GameManager extends AbstractGame {
 		editUser.addInput(96, 64, 128, 32, "Email:");
 		editUser.addInput(96, 96, 128, 32, "Password:");
 		editUser.addCheckBox("HIPAA Authorized", 156, 144, 12);
+		removeUser = new PopUp("Remove User", 256, 128);
+		removeUser.addInput(128, 0, 128, 32, "UserID to delete");
 		addPatient = new PopUp("Add Patient", 256, 256);
+		addPatient.addInput(96, 0, 128, 32, "First Name:");
+		addPatient.addInput(96, 32, 128, 32, "Last Name:");
+		addPatient.addInput(96, 64, 128, 32, "Address:");
+		addPatient.addInput(96, 96, 128, 32, "Gender:");
+		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
 		
 	}
 
@@ -76,7 +85,8 @@ public class GameManager extends AbstractGame {
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 98, 78, 32);
 		leftSide.addButton("Add User", 256, 64, 0, false);
 		leftSide.addButton("Edit User", 320, 64, 0, false);
-		leftSide.addButton("Add Patient", 384, 64, 0, false);
+		leftSide.addButton("Delete User", 384, 64, 0, false);
+		leftSide.addButton("Add Patient", 444, 64, 0, false);
 
 	}
 
@@ -191,6 +201,28 @@ public class GameManager extends AbstractGame {
 		if(!editUser.isClosed()) {
 			editUser.update(gc, dt);
 		}
+		if(removeUser.shouldClose()) {
+			try {
+				UserModel u = user.findByID(Integer.parseInt(removeUser.getStringFromInput(0)));
+				u.delete();
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(!removeUser.isClosed()) {
+			removeUser.update(gc, dt);
+		}
+		if(addPatient.shouldClose()) {
+			PatientModel p = new PatientModel(addPatient.getStringFromInput(0),addPatient.getStringFromInput(1));
+			try {
+				p.create();
+			} catch (SQLException e) {
+				Log.print("Patient Failed to be added!");
+				e.printStackTrace();
+			}
+		}
 		if(!addPatient.isClosed()) {
 			addPatient.update(gc, dt);
 		}
@@ -233,11 +265,15 @@ public class GameManager extends AbstractGame {
 			editUser.setCheckBox(user.isAuthorized(), 0);
 			editUser.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Edit Patient")) {
+		if(leftSide.getTab(0).isButtonActive("Delete User")) {
+			removeUser.open();
+		}
+		if(leftSide.getTab(0).isButtonActive("Add Patient")) {
 			addPatient.open();
 		}
 		editUser.render(gc,r);
 		addUser.render(gc, r);
+		removeUser.render(gc, r);
 		addPatient.render(gc, r);
 	}
 
