@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 
 /**
@@ -64,6 +65,29 @@ class DBAdapterTest {
 			db.close();
 		}
 		assertEquals(2, result_id);
+	}
+
+	@Test
+	void testExecuteCall() throws Exception {
+		String plsql =
+				"DECLARE \n" +
+				"  a NUMBER := 5; \n" +
+				"  PROCEDURE squared(" +
+				"    x NUMBER \n" +
+				") IS \n" +
+				"BEGIN \n" +
+				"  ? := x * x; " +
+				"END;\n" +
+				"BEGIN \n" +
+				"  squared(a);\n" +
+				"END;";
+		int num;
+		try {
+			num = db.executeCall(plsql);
+		} finally {
+			db.close();
+		}
+		assertEquals(25, num);
 	}
 	
 	@Test
