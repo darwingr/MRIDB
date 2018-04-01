@@ -1,5 +1,6 @@
 package game.gui;
 
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -24,15 +25,18 @@ public class AttributeSearch {
 
 	}
 
-	public void update(GameContainer gc, float dt) {
+	public void update(GameContainer gc, FilterManager filter, float dt) {
 		input.update(gc, dt);
+		if(input.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+			search(input.getWord(),filter);
+		}
 	}
 
 	public void render(GameContainer gc, Renderer r) {
 		input.render(gc, r);
 	}
 
-	public float[] addMeasurementToGraph(String key, FilterManager filter) {
+	public float[] search(String key, FilterManager filter) {
 		MRIScanModel mri;
 		ArrayList<Float> vals = new ArrayList<Float>();
 		ArrayList<Float> ages = new ArrayList<Float>();
