@@ -50,7 +50,7 @@ public class PatientModel extends ActiveRecord {
 	public String table() { return "patients"; }
 
 	public String fullName() {
-		return getFirst_name() + getLast_name();
+		return getFirst_name() + " "+ getLast_name();
 	}
 
 	/*

@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
+import oracle.sql.DATE;
+
 import adapters.DBAdapter;
 
 public class VisitModel extends ActiveRecord {
@@ -18,16 +20,15 @@ public class VisitModel extends ActiveRecord {
 	private int       id;
 	private int       gender;
 	private Date      dob;
-	private float age;
 	private Timestamp check_in;
 	private Timestamp check_out;
 	private int       patient_id;
 
-	public static VisitModel findByID(int rec_id) throws SQLException {
+	public static VisitModel findByID(int id) throws SQLException {
 		VisitModel visit = new VisitModel();
 		DBAdapter db = new DBAdapter();
-        String sql = "select * from " + TABLE_NAME + " where id = " + rec_id;
-		try (ResultSet rs = db.executeQuery()) {
+        String sql = "select * from " + TABLE_NAME + " where id = " + id;
+		try (ResultSet rs = db.executeQuery(sql)) {
 			if (rs.next()) {
 				visit.id = rs.getInt("id");
 				visit.setGender(rs.getInt("gender"));
@@ -63,7 +64,7 @@ public class VisitModel extends ActiveRecord {
 			}
 		} catch (SQLException sqle) {
             String msg =
-                "Exception occurred while processing Building ResultSet."
+                "Exception occurred while processing Building ResultSet.";
             System.err.println(msg);
 		} finally {
 			db.close();
@@ -116,6 +117,12 @@ public class VisitModel extends ActiveRecord {
 			db.close();
 		}
 		return success;
+	}
+
+	public float getAge() {
+		float yrs = 2018-dob.getYear();
+		float months = 4-dob.getMonth();
+		return yrs + months/12; 
 	}
 
     @Override

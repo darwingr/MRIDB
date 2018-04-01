@@ -8,6 +8,7 @@ import engine.GameContainer;
 import engine.Renderer;
 import engine.gfx.Font;
 import game.gui.Attribute;
+import game.gui.AttributeSearch;
 import game.gui.Button;
 import game.gui.CommandLine;
 import game.gui.FilterManager;
@@ -15,6 +16,7 @@ import game.gui.Gui;
 import game.gui.Log;
 import game.gui.Page;
 import game.gui.PopUp;
+import models.PatientFileModel;
 import models.PatientModel;
 import models.UserModel;
 
@@ -32,6 +34,7 @@ public class GameManager extends AbstractGame {
 	private CommandLine password;
 	private UserModel user = new UserModel();
 	private PopUp editUser,addUser,addPatient,removeUser;
+	private AttributeSearch search;
 
 	public GameManager() {
 		filter = new FilterManager();
@@ -39,7 +42,7 @@ public class GameManager extends AbstractGame {
 		rightSideInit();
 		page = new Page("Test", new Attribute[] {new Attribute("Brain Mass:","165")});
 
-		login = true;
+		login = false;
 		if (login)
 			hippaAuthorized = false;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
@@ -69,7 +72,7 @@ public class GameManager extends AbstractGame {
 		addPatient.addInput(96, 64, 128, 32, "Address:");
 		addPatient.addInput(96, 96, 128, 32, "Gender:");
 		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
-		
+		search = new AttributeSearch(512,0,196,32);
 	}
 
 	private void leftSideInit() {
@@ -185,6 +188,7 @@ public class GameManager extends AbstractGame {
 			}
 			addUser.close();
 		}
+		search.update(gc, filter, dt);
 		if(!addUser.isClosed()) {
 			addUser.update(gc, dt);
 		}
@@ -226,7 +230,20 @@ public class GameManager extends AbstractGame {
 		if(!addPatient.isClosed()) {
 			addPatient.update(gc, dt);
 		}
-
+		if(patientSearch.getWord().length()>0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+			try {
+				PatientFileModel pfm = PatientFileModel.findByID(Integer.parseInt(patientSearch.getWord()));
+				String[] lines = pfm.printReport(pfm.getID()).split("\n");
+				Attribute[] attribs = new Attribute[lines.length];
+				for(int i = 0 ; i< lines.length; i++) {
+					attribs[i] = new Attribute(lines[i],"");
+				}
+				PatientModel p = PatientModel.findByID(pfm.getID());
+				page = new Page(p.fullName(),attribs);
+			} catch (NumberFormatException | SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void render(GameContainer gc, Renderer r) {
@@ -271,6 +288,7 @@ public class GameManager extends AbstractGame {
 		if(leftSide.getTab(0).isButtonActive("Add Patient")) {
 			addPatient.open();
 		}
+		search.render(gc, r);
 		editUser.render(gc,r);
 		addUser.render(gc, r);
 		removeUser.render(gc, r);
