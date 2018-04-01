@@ -123,9 +123,7 @@ public class Graph {
 		}
 		
 		r.drawFillRect(x+96, y+height+224, 196, 2, 0xff000000);
-		for(float i = 0; i < 100; i+=.5f) {
-			drawPoint((float)Math.cos(i),(float)Math.tan(i),0xff000000,r);
-		}
+		
 	}
 	
 	public void clear() {

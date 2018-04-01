@@ -15,6 +15,7 @@ import game.gui.FilterManager;
 import game.gui.Gui;
 import game.gui.Log;
 import game.gui.Page;
+import game.gui.PopUp;
 import models.UserModel;
 
 public class GameManager extends AbstractGame {
@@ -30,6 +31,7 @@ public class GameManager extends AbstractGame {
 	private CommandLine userName;
 	private CommandLine password;
 	private UserModel user = new UserModel();
+	private PopUp editUser,addUser,addPatient;
 
 	public GameManager() {
 		filter = new FilterManager();
@@ -41,9 +43,9 @@ public class GameManager extends AbstractGame {
 					"" + new Random().nextInt(567) * new Random().nextFloat());
 
 		}
-		page = new Page("Test", attribs);
+		page = null;
 
-		login = false;
+		login = true;
 		if (login)
 			hippaAuthorized = false;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
@@ -52,6 +54,16 @@ public class GameManager extends AbstractGame {
 		userName.setSelected(true);
 		patientSearch = new CommandLine("Search by ID:", 256, 0, 64, 32);
 		gate = 0;
+		
+		addUser = new PopUp("Add User", 256, 256);
+		addUser.addInput(96, 0, 128, 32, "First Name:");
+		addUser.addInput(96, 32, 128, 32, "Last Name:");
+		addUser.addInput(96, 64, 128, 32, "Email:");
+		addUser.addInput(96, 96, 128, 32, "Password:");
+		addUser.addCheckBox("HIPAA Authorized:", 156, 144, 12);
+		editUser = new PopUp("Edit User",256,256);
+		addPatient = new PopUp("Add Patient", 256, 256);
+		
 	}
 
 	private void leftSideInit() {
@@ -65,6 +77,9 @@ public class GameManager extends AbstractGame {
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Autism:", 128, 32, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 64, 78, 32);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 98, 78, 32);
+		leftSide.addButton("Add User", 256, 64, 0, false);
+		leftSide.addButton("Edit User", 320, 64, 0, false);
+		leftSide.addButton("Add Patient", 384, 64, 0, false);
 
 	}
 
@@ -74,36 +89,7 @@ public class GameManager extends AbstractGame {
 		rightSide.setGraph(0, 256, 0);
 		rightSide.getLastTabAdded().addOutPutLog(GameContainer.height - 128, 128);
 		log = rightSide.getLastTabAdded().getLog();
-		Attribute[] attribs = new Attribute[100];
-		for (int i = 0; i < 100; i++) {
-			attribs[i] = new Attribute("Name" + new Random().nextInt(100),
-					"" + new Random().nextInt(128) * new Random().nextFloat());
-
-		}
-//		Float[] ages = new Float[100];
-//		for (int i = 0; i < ages.length; i++) {
-//			ages[i] = (float) new Random().nextInt(99) + 5;
-//		}
-//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-//		for (int i = 0; i < ages.length; i++) {
-//			ages[i] = (float) new Random().nextInt(99) + 5;
-//		}
-//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-//		for (int i = 0; i < ages.length; i++) {
-//			ages[i] = (float) new Random().nextInt(99) + 5;
-//		}
-//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-//		for (int i = 0; i < ages.length; i++) {
-//			ages[i] = (float) new Random().nextInt(99) + 5;
-//		}
-//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-//		for (int i = 0; i < ages.length; i++) {
-//			ages[i] = (float) new Random().nextInt(99) + 5;
-//		}
-//		rightSide.getLastTabAdded().addGraphAttribute(attribs, ages);
-//		for (int i = 0; i < ages.length; i++) {
-//			ages[i] = (float) new Random().nextInt(99) + 5;
-//		}
+		
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -182,7 +168,15 @@ public class GameManager extends AbstractGame {
 				max = FilterManager.DEFAULT_AGE_UPPER_BOUND;
 		} catch(NumberFormatException e) {
 		}
-		
+		if(!addUser.isClosed()) {
+			addUser.update(gc, dt);
+		}
+		if(!editUser.isClosed()) {
+			editUser.update(gc, dt);
+		}
+		if(!addPatient.isClosed()) {
+			addPatient.update(gc, dt);
+		}
 
 	}
 
@@ -211,6 +205,18 @@ public class GameManager extends AbstractGame {
 
 		r.drawFillRect(145, 0, 512, 32, 0xffffffff);
 		patientSearch.render(gc, r);
+		if(leftSide.getTab(0).isButtonActive("Add User")) {
+			addUser.open();
+		}
+		if(leftSide.getTab(0).isButtonActive("Edit User")) {
+			editUser.open();
+		}
+		if(leftSide.getTab(0).isButtonActive("Edit Patient")) {
+			addPatient.open();
+		}
+		editUser.render(gc,r);
+		addUser.render(gc, r);
+		addPatient.render(gc, r);
 	}
 
 	public boolean isButton(Button b, String text) {
