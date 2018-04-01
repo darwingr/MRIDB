@@ -83,7 +83,7 @@ public class PatientFileModel extends ActiveRecord {
 	public static PatientFileModel findByID(int id) throws SQLException {
 		DBAdapter db = new DBAdapter();
 		PatientFileModel patientfile = new PatientFileModel();
-		String sql = "SELECT * FROM patient_files WHERE patients_id= '" + id + "'";	
+		String sql = "SELECT * FROM patient_files WHERE patient_id= '" + id + "'";	
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			success = rs.next();
