@@ -39,7 +39,7 @@ public class GameManager extends AbstractGame {
 		rightSideInit();
 		page = new Page("Test", new Attribute[] {new Attribute("Brain Mass:","165")});
 
-		login = true;
+		login = false;
 		if (login)
 			hippaAuthorized = false;
 		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);

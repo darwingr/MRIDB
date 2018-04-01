@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import adapters.DBAdapter;
+import oracle.sql.DATE;
 
 /**
  *
@@ -147,6 +148,12 @@ public class VisitModel extends ActiveRecord {
 		return success;
 	}
 
+	public float getAge() {
+		float yrs = 2018-dob.getYear();
+		float months = 4-dob.getMonth();
+		return yrs + months/12; 
+	}
+	
 	// Required to test findByID
 	public int getID() { return id; }
 
