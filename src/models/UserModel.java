@@ -20,14 +20,15 @@ public class UserModel extends ActiveRecord {
 		UserModel user = new UserModel();
 		DBAdapter db = new DBAdapter();
 		try (ResultSet rs = db.executeQuery("select * from " + user.table() + " where id = " + user_id)) {
-			rs.next();
-			user.id = rs.getInt("id");
-			user.username = rs.getString("username");
-			user.password = rs.getString("password");
-			user.first_name = rs.getString("first_name");
-			user.last_name = rs.getString("last_name");
-			user.email = rs.getString("email");
-			user.hipaa_authorized = rs.getBoolean("hipaa_authorized");
+			if (rs.next()) {
+				user.id = rs.getInt("id");
+				user.username = rs.getString("username");
+				user.password = rs.getString("password");
+				user.first_name = rs.getString("first_name");
+				user.last_name = rs.getString("last_name");
+				user.email = rs.getString("email");
+				user.hipaa_authorized = rs.getBoolean("hipaa_authorized");
+			}
 		} catch (SQLException sqle) {
             System.err.println("Exception occurred while processing Building ResultSet after findByID.");
 		} finally {
