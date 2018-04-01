@@ -22,6 +22,4 @@ public class DiagnosisModel extends ActiveRecord {
 
 	@Override
 	public int getID() { return id; }
-	}
-
 }

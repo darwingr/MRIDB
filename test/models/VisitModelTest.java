@@ -54,7 +54,6 @@ class VisitModelTest {
 		Date date = new Date(1979-1900, 06-1, 30);
 		VisitModel visit = new VisitModel(1, date);
 		assertTrue(visit.create(2));
-		System.out.println(visit.getID());
 
 		int id = visit.getID();
 		assertTrue(visit.delete());

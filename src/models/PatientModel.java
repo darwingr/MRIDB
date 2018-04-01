@@ -50,7 +50,7 @@ public class PatientModel extends ActiveRecord {
 	public String table() { return "patients"; }
 
 	public String fullName() {
-		return getFirst_name() + " "+ getLast_name();
+		return getFirstName() + " "+ getLastName();
 	}
 
 	/*
@@ -111,14 +111,10 @@ public class PatientModel extends ActiveRecord {
 		return super.delete();
 	}
 
-	public int getID() {
-		return id;
-	}
-
     @Override
-	public static int getId() { return id; }
+	public int getID() { return id; }
 
-	public static String getFirstName() {
+	public String getFirstName() {
 		return first_name;
 	}
 
@@ -126,7 +122,7 @@ public class PatientModel extends ActiveRecord {
 		PatientModel.first_name = first_name;
 	}
 
-	public static String getLastName() {
+	public String getLastName() {
 		return last_name;
 	}
 
@@ -134,11 +130,11 @@ public class PatientModel extends ActiveRecord {
 		PatientModel.last_name = last_name;
 	}
 
-	public static String getAddress() {
+	public String getAddress() {
 		return address;
 	}
 
-	public static void setAddress(String address) {
+	public void setAddress(String address) {
 		PatientModel.address = address;
 	}
 }

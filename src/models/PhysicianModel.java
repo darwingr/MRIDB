@@ -12,38 +12,36 @@ public class PhysicianModel extends ActiveRecord {
 	public PhysicianModel() {
 	}
 
-    public table() { return "physicians"; }
+    public String table() { return "physicians"; }
 	
 	public String fullname() {
     	return getFirst_name() + getLast_name();
 	}
 
     @Override
-	public static int getId() {
-		return id;
-	}
+	public int getID() { return id; }
 
-	public static String getSpecialty() {
+	public String getSpecialty() {
 		return specialty;
 	}
 
-	public static void setSpecialty(String specialty) {
+	public  void setSpecialty(String specialty) {
 		PhysicianModel.specialty = specialty;
 	}
 
-	public static String getFirst_name() {
+	public String getFirst_name() {
 		return first_name;
 	}
 
-	public static void setFirst_name(String first_name) {
+	public void setFirst_name(String first_name) {
 		PhysicianModel.first_name = first_name;
 	}
 
-	public static String getLast_name() {
+	public String getLast_name() {
 		return last_name;
 	}
 
-	public static void setLast_name(String last_name) {
+	public void setLast_name(String last_name) {
 		PhysicianModel.last_name = last_name;
 	}
 }

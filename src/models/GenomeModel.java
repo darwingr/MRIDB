@@ -1,7 +1,7 @@
 package models;
 import java.util.Date;
 
-public class GenomeModel {
+public class GenomeModel extends ActiveRecord {
 	private static final String TABLE_NAME = "genomes";
 
 	private int    id;
