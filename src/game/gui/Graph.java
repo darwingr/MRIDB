@@ -13,6 +13,7 @@ import engine.gfx.Font;
 public class Graph {
 
 	private int width, height, x, y, axisColor = 0xff000000, xScale, yScale, maxX, maxY, oX, oY;
+	private int displayScale = 4;
 	private String label, title;
 	private List<Integer> colors;
 	private List<Integer> usedColors;
@@ -81,13 +82,13 @@ public class Graph {
 		int ctr = 0;
 		for (int i = 0; oY - i > y; i += yScale) {
 			if (yScale > 8 && ctr % 2 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, oX - ("" + ctr).length() * 11 - 1, (oY - 6) - i, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr*displayScale, oX - ("" + ctr).length() * 11 - 1, (oY - 6) - i, 0xff000000);
 				r.drawRect(oX - 4, oY - i, 8, 1, 0xff000000);
 			} else if (yScale > 4 && ctr % 4 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, oX - ("" + ctr).length() * 11 - 1, (oY - 6) - i, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr*displayScale, oX - ("" + ctr).length() * 11 - 1, (oY - 6) - i, 0xff000000);
 				r.drawRect(oX - 4, oY - i, 8, 1, 0xff000000);
 			} else if (ctr % 16 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, oX - ("" + ctr).length() * 11 - 1, (oY - 6) - i, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr*displayScale, oX - ("" + ctr).length() * 11 - 1, (oY - 6) - i, 0xff000000);
 				r.drawRect(oX - 4, oY - i, 8, 1, 0xff000000);
 			} else {
 				r.drawRect(oX - 2, oY - i, 4, 1, 0xff000000);
@@ -97,13 +98,13 @@ public class Graph {
 		ctr = 0;
 		for (int j = 0; oX + j < x + width; j += xScale) {
 			if (xScale > 8 && ctr % 2 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 8, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr*displayScale, (oX - 4) + j, oY + 8, 0xff000000);
 				r.drawRect(oX + j, oY - 4, 1, 8, 0xff000000);
 			} else if (xScale > 4 && ctr % 4 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 8, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr*displayScale, (oX - 4) + j, oY + 8, 0xff000000);
 				r.drawRect(oX + j, oY - 4, 1, 8, 0xff000000);
 			} else if (ctr % 32 == 0) {
-				r.drawText(Font.SMALL_STANDARD, "" + ctr, (oX - 4) + j, oY + 8, 0xff000000);
+				r.drawText(Font.SMALL_STANDARD, "" + ctr*displayScale, (oX - 4) + j, oY + 8, 0xff000000);
 				r.drawRect(oX + j, oY - 4, 1, 8, 0xff000000);
 
 			} else {
@@ -122,7 +123,6 @@ public class Graph {
 			r.drawText(Font.SMALL_STANDARD, attribs.get(usedColors.get(i)), x, y+height+32+i*20, usedColors.get(i));
 		}
 		
-		r.drawFillRect(x+96, y+height+224, 196, 2, 0xff000000);
 		
 	}
 	
