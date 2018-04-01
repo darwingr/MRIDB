@@ -20,6 +20,11 @@ public class RegimenModel extends ActiveRecord {
 	public RegimenModel() {
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public int getID() {
+		return treatment_id;
+	}
 	
 
 }

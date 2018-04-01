@@ -24,11 +24,8 @@ public class VisitModel extends ActiveRecord {
 
 	private int       id;
 	private int       gender;
-<<<<<<< HEAD
 	private Date      dob;
-=======
 	private Date      dob;		// FIXME This should be age (during visit) not dob
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	private Timestamp check_in;
 	private Timestamp check_out;
 	private int       patient_id;	
@@ -37,7 +34,6 @@ public class VisitModel extends ActiveRecord {
 		VisitModel visit = new VisitModel();
 		DBAdapter db = new DBAdapter();
 		try (ResultSet rs = db.executeQuery("select * from " + TABLE_NAME + " where id = " + rec_id)) {
-<<<<<<< HEAD
 			rs.next();
 			visit.id = rs.getInt("id");
 			visit.setGender(rs.getString("gender").charAt(0));
@@ -45,7 +41,6 @@ public class VisitModel extends ActiveRecord {
 			visit.check_in = rs.getTimestamp("check_in");
 			visit.check_out = rs.getTimestamp("check_out");
 			visit.patient_id = rs.getInt("patient_id");
-=======
 			if (rs.next()) {
 				visit.id = rs.getInt("id");
 				visit.setGender(rs.getInt("gender"));
@@ -54,7 +49,6 @@ public class VisitModel extends ActiveRecord {
 				visit.check_out = rs.getTimestamp("check_out");
 				visit.patient_id = rs.getInt("patient_id");
 			}
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 		} catch (SQLException sqle) {
             System.err.println("Exception occurred while processing Building ResultSet after findByID.");
 		} finally {
@@ -62,8 +56,6 @@ public class VisitModel extends ActiveRecord {
 		}
 		return visit;
 	}
-<<<<<<< HEAD
-=======
 
 	public static ArrayList<VisitModel> findByPatientID(int pat_id) throws SQLException {
 		ArrayList<VisitModel> visits = new ArrayList<VisitModel>();
@@ -87,11 +79,9 @@ public class VisitModel extends ActiveRecord {
 		}
 		return visits;
 	}
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	
 	public VisitModel() {
 		this(1, new Date(1979-1900, 06-1, 30));
-<<<<<<< HEAD
 	}
 
 	public VisitModel(int gen, Date dateOfBirth) {
@@ -114,18 +104,9 @@ public class VisitModel extends ActiveRecord {
 			db.close();
 		}
 		return success;
-=======
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	}
 
-	public VisitModel(int gen, Date dateOfBirth) {
-		gender = gen;
-		dob = dateOfBirth;
-		check_in = Timestamp.valueOf(LocalDateTime.now());
-	}
-
-<<<<<<< HEAD
-	public char getGender() {
+	public int getGender() {
 		return gender;
 	}
 
@@ -133,15 +114,6 @@ public class VisitModel extends ActiveRecord {
 		this.gender = gender;
 	}
 
-	public Date getDob() {
-		return dob;
-	}
-
-	public void setDob(Date dob) {
-		VisitModel.dob = dob;
-	}
-
-=======
 	@Override public String table() { return "visits"; }
 
 	public boolean create(int pat_id) throws SQLException {
@@ -182,10 +154,6 @@ public class VisitModel extends ActiveRecord {
 	// Required to test findByID
 	public int getID() { return id; }
 
-	public int getGender() {
-		return gender;
-	}
-
 	public void setGender(int gen) {
 		gender = gen;
 	}
@@ -199,5 +167,4 @@ public class VisitModel extends ActiveRecord {
 	}
 
 	public int getPatientID() { return patient_id; }
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 }

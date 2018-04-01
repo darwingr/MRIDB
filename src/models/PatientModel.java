@@ -1,15 +1,12 @@
 package models;
 
-<<<<<<< HEAD
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Date;
-=======
-import java.util.ArrayList;
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
+//github.com/ThreeFourSeven/Database-Gui.git
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import adapters.DBAdapter;
 
@@ -19,31 +16,13 @@ import adapters.DBAdapter;
 public class PatientModel extends ActiveRecord {
 	public String TABLE_NAME = "patients";
 
-<<<<<<< HEAD
-	private int id;
-	private String first_name;
-	private String last_name;
-<<<<<<< HEAD
-=======
 	private static int 	   id;
 	private static String first_name;
 	private static String last_name;
 	private static String address;
 	private static String gender;
 	private static Date dob;
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
-=======
-	private String address;
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 
-<<<<<<< HEAD
-	/**
-	 * 
-	 */
-	public PatientModel(String fname,String lname) {
-		setFirst_name(fname);
-		setLast_name(lname);
-=======
 
 	public static PatientModel findByID(int patient_id) throws SQLException {
 		PatientModel patient = new PatientModel();
@@ -70,14 +49,12 @@ public class PatientModel extends ActiveRecord {
 	public PatientModel(String fname, String lname) {
 		first_name = fname;
 		last_name = lname;
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	}
 
 	@Override
 	public String table() { return "patients"; }
 	
 	public String fullName() {
-<<<<<<< HEAD
 		return getFirst_name() + getLast_name();
 	}
 
@@ -111,38 +88,6 @@ public class PatientModel extends ActiveRecord {
 
 	public static void setAddress(String address) {
 		PatientModel.address = address;
-	}
-	
-	public create() throws SQLException {
-		DBAdapter db = new DBAdapter();
-		boolean userExists = false;
-		String sql = 
-				"SELECT count(first_name), count(last_name)\n" + 
-				"FROM users " + 
-				"WHERE first_name = '" + first_name + "' " + 
-				"AND last_name = '" + last_name + "';";
-		try (ResultSet rs = db.executeQuery(sql)) {
-			userExists = rs.next();
-		}
-		boolean success = false;
-		if(!userExists) {
-			String sql2 = "INSERT INTO patients " + 
-						"VALUES (" + first_name + ", " + last_name + ");";
-			System.out.println("1=male, 2=female, 3=N/A");
-			VisitModel visit = new VisitModel();
-			visit.create();
-
-			try (ResultSet rs = db.executeQuery(sql3)) {
-				success = rs.next();
-			}finally {
-				db.close();
-			}
-		}
-		assertTrue(success);
-	}
-=======
-		return first_name + ' ' + last_name;
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	}
 
 	/*
@@ -207,7 +152,4 @@ public class PatientModel extends ActiveRecord {
 		return id;
 	}
 
-	public String getAddress() {
-		return address;
-	}
 }

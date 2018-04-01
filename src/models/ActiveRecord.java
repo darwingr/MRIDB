@@ -52,22 +52,14 @@ import java.lang.reflect.Field;
  * that's all handled internally in the model's implementation.
  *
  */
-<<<<<<< HEAD
 
-@SuppressWarnings("unused")
-
-public class ActiveRecord {
-	private static final String TABLE_NAME = "records";
-=======
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
-
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 @SuppressWarnings("unused")
 
 abstract public class ActiveRecord {
 
->>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
+//>>>>>>> branch 'master' of https://github.com/ThreeFourSeven/Database-Gui.git
 	public ActiveRecord() {
 		//constructor
 	}

@@ -2,13 +2,11 @@ package game;
 
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.Random;
 
 import engine.AbstractGame;
 import engine.GameContainer;
 import engine.Renderer;
 import engine.gfx.Font;
-import game.gui.Attribute;
 import game.gui.Button;
 import game.gui.CommandLine;
 import game.gui.FilterManager;
@@ -37,12 +35,6 @@ public class GameManager extends AbstractGame {
 		filter = new FilterManager();
 		leftSideInit();
 		rightSideInit();
-		Attribute[] attribs = new Attribute[100];
-		for (int i = 0; i < 100; i++) {
-			attribs[i] = new Attribute("Measurement In a certain region " + i * new Random().nextInt(100),
-					"" + new Random().nextInt(567) * new Random().nextFloat());
-
-		}
 		page = null;
 
 		login = true;
@@ -62,6 +54,11 @@ public class GameManager extends AbstractGame {
 		addUser.addInput(96, 96, 128, 32, "Password:");
 		addUser.addCheckBox("HIPAA Authorized:", 156, 144, 12);
 		editUser = new PopUp("Edit User",256,256);
+		editUser.addInput(96, 0, 128, 32, "First Name:");
+		editUser.addInput(96, 32, 128, 32, "Last Name:");
+		editUser.addInput(96, 64, 128, 32, "Email:");
+		editUser.addInput(96, 96, 128, 32, "Password:");
+		editUser.addCheckBox("HIPAA Authorized", 156, 144, 12);
 		addPatient = new PopUp("Add Patient", 256, 256);
 		
 	}
@@ -168,8 +165,28 @@ public class GameManager extends AbstractGame {
 				max = FilterManager.DEFAULT_AGE_UPPER_BOUND;
 		} catch(NumberFormatException e) {
 		}
+		if(addUser.shouldClose()) {
+			UserModel newUser = new UserModel(addUser.getStringFromInput(0),addUser.getStringFromInput(1),addUser.getStringFromInput(2),addUser.getStringFromInput(3),addUser.boxTicked("HIPAA Authorized:"));
+			try {
+				newUser.create();
+			} catch (SQLException e) {
+				Log.print("Failed to create new User!");
+				e.printStackTrace();
+			}
+			addUser.close();
+		}
 		if(!addUser.isClosed()) {
 			addUser.update(gc, dt);
+		}
+		if(editUser.shouldClose()) {
+			user = new UserModel(editUser.getStringFromInput(0),editUser.getStringFromInput(1),editUser.getStringFromInput(2),editUser.getStringFromInput(3),editUser.boxTicked("HIPAA Authorized:"));
+			try {
+				user.create();
+			} catch (SQLException e) {
+				Log.print("Failed to edit current user");
+				e.printStackTrace();
+			}
+			editUser.close();
 		}
 		if(!editUser.isClosed()) {
 			editUser.update(gc, dt);
@@ -209,6 +226,11 @@ public class GameManager extends AbstractGame {
 			addUser.open();
 		}
 		if(leftSide.getTab(0).isButtonActive("Edit User")) {
+			editUser.setStringFromInput(user.fullName().split(" ")[0], 0);
+			editUser.setStringFromInput(user.fullName().split(" ")[1], 1);
+			editUser.setStringFromInput(user.getEmail(), 2);
+			editUser.setStringFromInput(user.getPassword(), 3);
+			editUser.setCheckBox(user.isAuthorized(), 0);
 			editUser.open();
 		}
 		if(leftSide.getTab(0).isButtonActive("Edit Patient")) {

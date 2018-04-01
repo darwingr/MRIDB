@@ -14,8 +14,8 @@ public class PopUp {
 	private List<Button> buttons;
 	private List<CommandLine> inputs;
 	private List<CheckBox> boxes;
-	private boolean close;
-
+	private boolean close,shouldClose;
+	
 	public PopUp(String title, int width, int height) {
 		this.x = GameContainer.width / 2 - width / 2;
 		this.y = GameContainer.height / 2 - height / 2;
@@ -23,6 +23,7 @@ public class PopUp {
 		this.height = height;
 		this.title = title;
 		close = true;
+		shouldClose = false;
 		buttons = new ArrayList<Button>();
 		inputs = new ArrayList<CommandLine>();
 		boxes = new ArrayList<CheckBox>();
@@ -36,7 +37,7 @@ public class PopUp {
 			}
 			for (Button b : buttons) {
 				if(b.isActive() && b.getText().equals("Save & Exit"))
-					close();
+					shouldClose = true;
 				b.update(gc);
 			}
 			for (int i = 0; i < inputs.size(); i++) {
@@ -88,7 +89,19 @@ public class PopUp {
 	public String getStringFromInput(int inputID) {
 		return inputs.get(inputID).getWord();
 	}
+	
+	public void setStringFromInput(String text, int inputID) {
+		inputs.get(inputID).setWord(text);;
+	}
 
+	public void setCheckBox(boolean active, int checkID) {
+		boxes.get(checkID).setActive(active);
+	}
+	
+	public boolean shouldClose() {
+		return shouldClose;
+	}
+	
 	public boolean isClosed() {
 		return close;
 	}

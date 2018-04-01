@@ -25,6 +25,12 @@ public class TechnicianModel extends ActiveRecord {
 		return first_name + last_name;
 	}
 
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
 
 	
 	

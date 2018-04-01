@@ -12,7 +12,7 @@ public class CommandLine {
 
 	private final int BACKGROUND_COLOR = 0xff000000;
 	private final int FONT_COLOR = 0xffE5E5D1;
-	private String title;
+	private String title,defaultWord;
 	private List<String> text;
 	private int x, y;
 	private int width, height;
@@ -31,6 +31,7 @@ public class CommandLine {
 		this.height = height;
 		selected = false;
 		censor = false;
+		defaultWord = "";
 	}
 
 	public void censor() {
@@ -105,6 +106,10 @@ public class CommandLine {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	
+	public void setWord(String word) {
+		text.add(word);
 	}
 
 	public String getWord() {
