@@ -9,6 +9,7 @@ import engine.gfx.Font;
 
 public class Page {
 
+	private final int CHAR_MAX = 50;
 	private final int TEXT_OFFSET = 176;
 
 	private int scrollBarPos = 0;
@@ -21,9 +22,15 @@ public class Page {
 		this.title = title;
 		lines = new ArrayList<Attribute>();
 		for (int i = 0; i < data.length; i++) {
-			lines.add(data[i]);
-			
+			if (data[i].getDisplayText().length() > CHAR_MAX) {
+				String b = data[i].getDisplayText().substring(0, CHAR_MAX-1);
+				String a = data[i].getDisplayText().substring(CHAR_MAX);
+				lines.add(new Attribute(a, ""));
+				lines.add(new Attribute(b, ""));
+			} else
+				lines.add(data[i]);
 		}
+		
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -34,10 +41,11 @@ public class Page {
 	}
 
 	public void render(GameContainer gc, Renderer r) {
-		r.drawText(Font.STANDARD, title, TEXT_OFFSET, 32-scrollBarPos, 0xff000000);
-		r.drawFillRect(TEXT_OFFSET, 56-scrollBarPos, title.length() * 10, 1, 0xff000000);
+		r.drawText(Font.STANDARD, title, TEXT_OFFSET, 32 - scrollBarPos, 0xff000000);
+		r.drawFillRect(TEXT_OFFSET, 56 - scrollBarPos, title.length() * 10, 1, 0xff000000);
 		for (int i = 0; i < lines.size(); i++) {
-			r.drawText(Font.SMALL_STANDARD, "-" + lines.get(i).getDisplayText(), TEXT_OFFSET, (64 + i * spacing)-scrollBarPos, 0xff000000);
+			r.drawText(Font.SMALL_STANDARD, "-" + lines.get(i).getDisplayText(), TEXT_OFFSET,
+					(64 + i * spacing) - scrollBarPos, 0xff000000);
 		}
 	}
 

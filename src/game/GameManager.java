@@ -40,7 +40,7 @@ public class GameManager extends AbstractGame {
 		filter = new FilterManager();
 		leftSideInit();
 		rightSideInit();
-		page = new Page("Test", new Attribute[] {new Attribute("Brain Mass:","165")});
+		page = null;
 
 		login = false;
 		if (login)

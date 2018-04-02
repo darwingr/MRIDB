@@ -27,6 +27,11 @@ public class AttributeSearch {
 		input.render(gc, r);
 	}
 	
+	public Attribute[] search(FilterManager filter) {
+		Attribute[] attribs;
+		
+	}
+	
 	public String getWord() {
 		return input.getWord();
 	}
