@@ -14,7 +14,7 @@ public class Attribute {
 	}
 
 	public String getDisplayText() {
-		return name + ": " + data + " " + units;
+		return name + ": " + data;
 	}
 
 	public String getDataAsString() {

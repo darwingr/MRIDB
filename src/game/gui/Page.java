@@ -9,7 +9,7 @@ import engine.gfx.Font;
 
 public class Page {
 
-	private final int CHAR_MAX = 50;
+	private final int CHAR_MAX = 90;
 	private final int TEXT_OFFSET = 176;
 
 	private int scrollBarPos = 0;

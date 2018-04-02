@@ -65,16 +65,19 @@ public class AttributeSearch {
 			ArrayList<MRIScanModel> mris = MRIScanModel.scansForAgeRange((int) filter.getAgeRange()[0],
 					(int) filter.getAgeRange()[1]);
 			for (int i = 0; i < mris.size(); i++) {
+				Log.print("# of values "+ vals.size());
+				Log.print("$ of ages " + a.size());
+				Log.print("# of MRIS "+ i + "/"+mris.size());
 				VisitModel v = VisitModel.findByID(mris.get(i).getVisitID());
 				switch (filter.genderFilter()) {
 				case FilterManager.MALE_ONLY:
-					if (v.getGender() == 0) {
+					if (v.getGender() == 1) {
 						vals.add(mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
 						a.add(v.getAge());
 					}
 					break;
 				case FilterManager.FEMALE_ONLY:
-					if (v.getGender() == 1) {
+					if (v.getGender() == 2) {
 						vals.add(mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
 						a.add(v.getAge());
 					}
@@ -88,8 +91,6 @@ public class AttributeSearch {
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
 		}
-		Log.print("# of values "+ vals.size());
-		Log.print("$ of ages " + a.size());
 		attribs = new Attribute[vals.size()];
 		ages = new float[a.size()];
 		for(int i = 0; i < attribs.length; i++) {

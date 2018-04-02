@@ -60,12 +60,8 @@ public class GameManager extends AbstractGame {
 		addUser.addInput(96, 64, 128, 32, "Email:");
 		addUser.addInput(96, 96, 128, 32, "Password:");
 		addUser.addCheckBox("HIPAA Authorized:", 156, 144, 12);
-		editUser = new PopUp("Edit User",256,256);
-		editUser.addInput(96, 0, 128, 32, "First Name:");
-		editUser.addInput(96, 32, 128, 32, "Last Name:");
-		editUser.addInput(96, 64, 128, 32, "Email:");
-		editUser.addInput(96, 96, 128, 32, "Password:");
-		editUser.addCheckBox("HIPAA Authorized", 156, 144, 12);
+		editUser = new PopUp("Edit User",256,128);
+		editUser.addInput(112, 0, 128, 32, "New Password:");
 		removeUser = new PopUp("Remove User", 256, 128);
 		removeUser.addInput(128, 0, 128, 32, "UserID to delete");
 		addPatient = new PopUp("Add Patient", 256, 256);
@@ -89,7 +85,7 @@ public class GameManager extends AbstractGame {
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 64, 78, 32);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 98, 78, 32);
 		leftSide.addButton("Add User", 256, 64, 0, false);
-		leftSide.addButton("Edit User", 320, 64, 0, false);
+		leftSide.addButton("Edit", 320, 64, 0, false);
 		leftSide.addButton("Delete User", 384, 64, 0, false);
 		leftSide.addButton("Add Patient", 444, 64, 0, false);
 
@@ -200,12 +196,10 @@ public class GameManager extends AbstractGame {
 			addUser.update(gc, dt);
 		}
 		if(editUser.shouldClose()) {
-			user = new UserModel(editUser.getStringFromInput(0),editUser.getStringFromInput(1),editUser.getStringFromInput(2),editUser.getStringFromInput(3),editUser.boxTicked("HIPAA Authorized:"));
 			try {
-				user.create();
-			} catch (SQLException e) {
-				Log.print("Failed to edit current user");
-				e.printStackTrace();
+				user.changePassword(editUser.getStringFromInput(0));
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
 			editUser.close();
 		}
@@ -214,7 +208,7 @@ public class GameManager extends AbstractGame {
 		}
 		if(removeUser.shouldClose()) {
 			try {
-				UserModel u = user.findByID(Integer.parseInt(removeUser.getStringFromInput(0)));
+				UserModel u = UserModel.findByID(Integer.parseInt(removeUser.getStringFromInput(0)));
 				u.delete();
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -281,12 +275,7 @@ public class GameManager extends AbstractGame {
 		if(leftSide.getTab(0).isButtonActive("Add User")) {
 			addUser.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Edit User")) {
-			editUser.setStringFromInput(user.fullName().split(" ")[0], 0);
-			editUser.setStringFromInput(user.fullName().split(" ")[1], 1);
-			editUser.setStringFromInput(user.getEmail(), 2);
-			editUser.setStringFromInput(user.getPassword(), 3);
-			editUser.setCheckBox(user.isAuthorized(), 0);
+		if(leftSide.getTab(0).isButtonActive("Edit")) {
 			editUser.open();
 		}
 		if(leftSide.getTab(0).isButtonActive("Delete User")) {
