@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
@@ -301,7 +303,12 @@ public class GameManager extends AbstractGame {
 
 	public static void main(String[] args) {
 		GameContainer gc = new GameContainer(new GameManager());
-		gc.setScale(2);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		if (screenSize.width <= 1280) {
+			gc.setScale(1);
+		} else {
+			gc.setScale(2);
+		}
 		gc.start();
 	}
 

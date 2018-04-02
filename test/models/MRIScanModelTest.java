@@ -36,6 +36,12 @@ class MRIScanModelTest {
 	}
 
 	@Test
+	void testScansForAgeRange() throws SQLException {
+		ArrayList<MRIScanModel> scans = MRIScanModel.scansForAgeRange(11, 15);
+		assertEquals(72, scans.size());
+	}
+
+	@Test
 	void testGetMeasurementSubset() throws Exception {
 		MRIScanModel scan = MRIScanModel.findByID(2);
 		int subset_index[] = { 0, 3, 4787 };

@@ -1,7 +1,5 @@
-/**
- * 
- */
 package models;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -9,10 +7,6 @@ import java.util.Date;
 
 import adapters.DBAdapter;
 
-/**
- * Author: cynthiaforgeron
- *
- */
 public class PatientFileModel extends ActiveRecord {
 	private static final String TABLE_NAME = "patient_files";
 	
@@ -64,22 +58,7 @@ public class PatientFileModel extends ActiveRecord {
 		private static String sequence;
 		private static String date_taken;
 	}
-	
-	public PatientFileModel() {
-	}
-	
-	public boolean delete() throws SQLException {
-		DBAdapter db = new DBAdapter();
-		String sql = "DELETE FROM users WHERE id = '" + patient_id + "'";
-		boolean success = false;
-		try (ResultSet rs = db.executeQuery(sql)) {
-			success = rs.next();
-		} finally {
-			db.close();
-		}
-		return success;
-	}
-	
+
 	public static PatientFileModel findByID(int id) throws SQLException {
 		DBAdapter db = new DBAdapter();
 		PatientFileModel patientfile = new PatientFileModel();
@@ -114,7 +93,25 @@ public class PatientFileModel extends ActiveRecord {
 		}
 		return patientfile;
 	}
-	
+
+	public PatientFileModel() {
+	}
+
+	@Override
+	public String table() { return "patient_files"; }
+
+	public boolean delete() throws SQLException {
+		DBAdapter db = new DBAdapter();
+		String sql = "DELETE FROM users WHERE id = '" + patient_id + "'";
+		boolean success = false;
+		try (ResultSet rs = db.executeQuery(sql)) {
+			success = rs.next();
+		} finally {
+			db.close();
+		}
+		return success;
+	}
+
 	public static String printReport(int id) 
 	{
 	    String report = "                      PATIENT FILE                 " + 
@@ -153,17 +150,4 @@ public class PatientFileModel extends ActiveRecord {
 		// TODO Auto-generated method stub
 		return patient_id;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
 }
