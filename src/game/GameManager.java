@@ -180,6 +180,11 @@ public class GameManager extends AbstractGame {
 				max = FilterManager.DEFAULT_AGE_UPPER_BOUND;
 		} catch(NumberFormatException e) {
 		}
+		
+		if(search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+			search.search(search.getWord(), filter);
+		}
+		
 		if(addUser.shouldClose()) {
 			UserModel newUser = new UserModel(addUser.getStringFromInput(0),addUser.getStringFromInput(1),addUser.getStringFromInput(2),addUser.getStringFromInput(3),addUser.boxTicked("HIPAA Authorized:"));
 			try {

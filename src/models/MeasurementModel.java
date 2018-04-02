@@ -32,6 +32,10 @@ public class MeasurementModel extends ActiveRecord {
 		return measurement;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+	
 	public MeasurementModel() {
 	}
 
