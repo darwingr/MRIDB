@@ -97,7 +97,6 @@ public class PatientModel extends ActiveRecord {
 			}
 		} else {
 			System.out.println("Patient exists!");
-			return success;
 		}
 		db.close();
 		return success;
