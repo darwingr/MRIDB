@@ -48,6 +48,11 @@ public class MRIScanModel extends ActiveRecord {
 	}
 
 	public static ArrayList<MRIScanModel> scansForAgeRange(int low, int high) throws SQLException {
+		return scansForAgeRange(low, high, -1);
+	}
+
+	public static ArrayList<MRIScanModel> scansForAgeRange(int low, int high, int genderFilter)
+			throws SQLException {
 		ArrayList<MRIScanModel> scans = new ArrayList<MRIScanModel>();
 		DBAdapter db = new DBAdapter();
 		String sql =
@@ -71,7 +76,10 @@ public class MRIScanModel extends ActiveRecord {
 						Arrays.asList((Double[]) db_vals.getArray())
 				);
 
-				scans.add(scan);
+				if (genderFilter == -1)
+					scans.add(scan);
+				else if (rs.getInt("visits.gender") == genderFilter)
+					scans.add(scan);
 			}
 		} catch (SQLException sqle) {
             System.err.println("Exception occurred while building ResultSet after findByID.");
