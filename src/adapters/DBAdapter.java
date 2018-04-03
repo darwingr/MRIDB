@@ -12,11 +12,6 @@ import java.sql.DatabaseMetaData;
 import oracle.jdbc.pool.OracleDataSource;
 import oracle.jdbc.OracleConnection;
 
-
-/**
- *
- *
- */
 public class DBAdapter {
 	final static String DB_USERNAME = System.getenv("DB_USERNAME");
 	final static String DB_PASSWORD = System.getenv("DB_PASSWORD");
@@ -42,7 +37,7 @@ public class DBAdapter {
      * when the program first starts to run.
      * Returns a boolean so you can decide to exit the program prematurely.
      */
-    public static boolean checkEnvironmentVariables() {
+    public static boolean checkEnvironment() {
         boolean success = true;
         String var_names[] = {
             "DB_USERNAME",

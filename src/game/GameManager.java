@@ -18,9 +18,12 @@ import game.gui.Gui;
 import game.gui.Log;
 import game.gui.Page;
 import game.gui.PopUp;
+
 import models.PatientFileModel;
 import models.PatientModel;
 import models.UserModel;
+
+import adapters.EnvironmentAdapter;
 
 public class GameManager extends AbstractGame {
 	
@@ -296,6 +299,8 @@ public class GameManager extends AbstractGame {
 	}
 
 	public static void main(String[] args) {
+		EnvironmentAdapter.setup();
+
 		GameContainer gc = new GameContainer(new GameManager());
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		if (screenSize.width <= 1280) {
