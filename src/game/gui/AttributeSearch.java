@@ -5,31 +5,11 @@ import java.util.ArrayList;
 
 import engine.GameContainer;
 import engine.Renderer;
+import game.gui.DataSet;
 import models.MRIScanModel;
 import models.MeasurementModel;
 
 public class AttributeSearch {
-
-	public class DataSet {
-		private Attribute[] attribs;
-		private float[] ages;
-
-		public DataSet(Attribute[] attribs, float[] ages) {
-			this.attribs = attribs;
-			this.ages = ages;
-
-		}
-
-		public Attribute[] getAttribs() {
-			return attribs;
-		}
-
-		public float[] getAges() {
-			return ages;
-		}
-
-	}
-
 	private int x, y, width, height;
 	private CommandLine input;
 	private Attribute[] uAttribs;
@@ -55,7 +35,7 @@ public class AttributeSearch {
 	public DataSet search(String key, FilterManager filter) {
 		String measurementName = "DEFAULT_NAME";
 		Attribute[] attribs;
-		float[] ages;
+		Float[] ages;
 		ArrayList<MRIScanModel> mris;
 
 		try {
@@ -66,19 +46,19 @@ public class AttributeSearch {
 					filter.genderFilter());
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
-			return new DataSet(new Attribute[0], new float[0]);
+			return new DataSet(new Attribute[0], new Float[0]);
 		}
 
 		attribs = new Attribute[mris.size()];
-		ages = new float[mris.size()];
+		ages = new Float[mris.size()];
 		for (int i=0; i<mris.size(); i++) {
 			attribs[i] = new Attribute(
 					measurementName,
 					"" + mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
-			ages[i] = mris.get(i).getVisitAge();
+			ages[i] = (float) mris.get(i).getVisitAge();
 		}
 
-		return new DataSet(attribs,ages);
+		return new DataSet(attribs, ages);
 	}
 
 	public String getWord() {

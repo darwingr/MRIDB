@@ -150,7 +150,7 @@ public class Graph {
 		int color = getColor();
 		this.attribs.put(color, attribs[0].getName());
 		for(int i = 0; i < ages.length;i ++) {
-			points.add(new Point(ages[i],attribs[i].getDataAsFloat(),color));
+			points.add(new Point(ages[i], attribs[i].getDataAsFloat()/displayScale, color));
 		}
 		
 	}

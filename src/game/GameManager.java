@@ -18,6 +18,7 @@ import game.gui.Gui;
 import game.gui.Log;
 import game.gui.Page;
 import game.gui.PopUp;
+import game.gui.DataSet;
 
 import models.PatientFileModel;
 import models.PatientModel;
@@ -174,7 +175,9 @@ public class GameManager extends AbstractGame {
 		filter.filterAge(min, max);
 		
 		if(search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
-			search.search(search.getWord(), filter);
+			DataSet ds = search.search(search.getWord(), filter);
+			// TODO Pass graphing here
+			rightSide.getTab(0).addGraphAttribute(ds.getAttribs(), ds.getAges());
 		}
 		if(!addUser.isClosed()) {
 			addUser.update(gc, dt);
