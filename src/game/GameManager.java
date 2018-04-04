@@ -54,7 +54,7 @@ public class GameManager extends AbstractGame {
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
 		userName.setSelected(true);
-		patientSearch = new CommandLine("Search by ID:", 256, 0, 64, 32);
+		patientSearch = new CommandLine("", 2, 32, 142, 32);
 		gate = 0;
 		
 		addUser = new PopUp("Add User", 256, 256);
@@ -80,11 +80,11 @@ public class GameManager extends AbstractGame {
 		leftSide = new Gui();
 		leftSide.addTab(0, 0, 144, GameContainer.height - 1);
 		leftSide.addButton("Logout", GameContainer.height - 65, 64, 0, false);
-		leftSide.addSection("Filters", 0, 256, 0);
-		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Male:", 62, 8, 8);
-		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 62, 32, 8);
-		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 64, 78, 32);
-		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 98, 78, 32);
+		leftSide.addSection("Measurements", 0, 256, 0);
+		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Male:", 48, 64, 8);
+		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 128, 64, 8);
+		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 96, 78, 32);
+		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 128, 78, 32);
 		leftSide.addButton("Add User", 256, 64, 0, false);
 		leftSide.addButton("Edit", 320, 64, 0, false);
 		leftSide.addButton("Delete User", 384, 64, 0, false);
