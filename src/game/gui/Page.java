@@ -9,7 +9,7 @@ import engine.gfx.Font;
 
 public class Page {
 
-	private final int CHAR_MAX = 90;
+	private final int CHAR_MAX = 60;
 	private final int TEXT_OFFSET = 176;
 
 	private int scrollBarPos = 0;
@@ -25,8 +25,8 @@ public class Page {
 			if (data[i].getDisplayText().length() > CHAR_MAX) {
 				String b = data[i].getDisplayText().substring(0, CHAR_MAX-1);
 				String a = data[i].getDisplayText().substring(CHAR_MAX);
-				lines.add(new Attribute(a, ""));
 				lines.add(new Attribute(b, ""));
+				lines.add(new Attribute(a, ""));
 			} else
 				lines.add(data[i]);
 		}
