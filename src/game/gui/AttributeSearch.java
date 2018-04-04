@@ -7,7 +7,6 @@ import engine.GameContainer;
 import engine.Renderer;
 import models.MRIScanModel;
 import models.MeasurementModel;
-import models.VisitModel;
 
 public class AttributeSearch {
 
@@ -55,48 +54,30 @@ public class AttributeSearch {
 
 	public DataSet search(String key, FilterManager filter) {
 		String measurementName = "DEFAULT_NAME";
-		ArrayList<Double> vals = new ArrayList<Double>();
-		ArrayList<Float> a = new ArrayList<Float>();
 		Attribute[] attribs;
 		float[] ages;
+		ArrayList<MRIScanModel> mris;
+
 		try {
-			MeasurementModel m = MeasurementModel.findByID(Integer.parseInt(key));
-			measurementName = m.getLabel();
-			ArrayList<MRIScanModel> mris = MRIScanModel.scansForAgeRange((int) filter.getAgeRange()[0],
-					(int) filter.getAgeRange()[1]);
-			for (int i = 0; i < mris.size(); i++) {
-				Log.print("# of values "+ vals.size());
-				Log.print("$ of ages " + a.size());
-				Log.print("# of MRIS "+ i + "/"+mris.size());
-				VisitModel v = VisitModel.findByID(mris.get(i).getVisitID());
-				switch (filter.genderFilter()) {
-				case FilterManager.MALE_ONLY:
-					if (v.getGender() == 1) {
-						vals.add(mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
-						a.add(v.getAge());
-					}
-					break;
-				case FilterManager.FEMALE_ONLY:
-					if (v.getGender() == 2) {
-						vals.add(mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
-						a.add(v.getAge());
-					}
-					break;
-				case FilterManager.ALL_GENDERS:
-					vals.add(mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
-					a.add(v.getAge());
-					break;
-				}
-			}
+			measurementName = MeasurementModel.findByID(Integer.parseInt(key)).getLabel();
+			mris = MRIScanModel.scansForAgeRange(
+					(int) filter.getAgeRange()[0],
+					(int) filter.getAgeRange()[1],
+					filter.genderFilter());
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
+			return new DataSet(new Attribute[0], new float[0]);
 		}
-		attribs = new Attribute[vals.size()];
-		ages = new float[a.size()];
-		for(int i = 0; i < attribs.length; i++) {
-			attribs[i] = new Attribute(measurementName,""+vals.get(i));
-			ages[i] = a.get(i);
+
+		attribs = new Attribute[mris.size()];
+		ages = new float[mris.size()];
+		for (int i=0; i<mris.size(); i++) {
+			attribs[i] = new Attribute(
+					measurementName,
+					"" + mris.get(i).getMeasurementSubset(new int[] { Integer.parseInt(key) }).get(0));
+			ages[i] = mris.get(i).getVisitAge();
 		}
+
 		return new DataSet(attribs,ages);
 	}
 
