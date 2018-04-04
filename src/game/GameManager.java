@@ -248,6 +248,18 @@ public class GameManager extends AbstractGame {
 				e.printStackTrace();
 			}
 		}
+		if(leftSide.getTab(0).isButtonActive("Add User")) {
+			addUser.open();
+		}
+		if(leftSide.getTab(0).isButtonActive("Edit")) {
+			editUser.open();
+		}
+		if(leftSide.getTab(0).isButtonActive("Delete User")) {
+			removeUser.open();
+		}
+		if(leftSide.getTab(0).isButtonActive("Add Patient")) {
+			addPatient.open();
+		}
 	}
 
 	public void render(GameContainer gc, Renderer r) {
@@ -275,18 +287,6 @@ public class GameManager extends AbstractGame {
 
 		r.drawFillRect(145, 0, 512, 32, 0xffffffff);
 		patientSearch.render(gc, r);
-		if(leftSide.getTab(0).isButtonActive("Add User")) {
-			addUser.open();
-		}
-		if(leftSide.getTab(0).isButtonActive("Edit")) {
-			editUser.open();
-		}
-		if(leftSide.getTab(0).isButtonActive("Delete User")) {
-			removeUser.open();
-		}
-		if(leftSide.getTab(0).isButtonActive("Add Patient")) {
-			addPatient.open();
-		}
 		search.render(gc, r);
 		editUser.render(gc,r);
 		addUser.render(gc, r);
