@@ -153,7 +153,13 @@ There are no end to end tests.
 
 ## Deployment
 
-_Add additional notes about how to deploy this on a live system_
+To create an executable jar file in eclipse go to `File > Export > Java > Runnable Jar File`.
+Then click next then finish.
+
+To run you must have a script to load the environment then run the following:
+```
+java -jar JSDB.jar
+```
 
 ## Built With
 

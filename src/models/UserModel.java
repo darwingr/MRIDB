@@ -139,6 +139,10 @@ public class UserModel extends ActiveRecord {
     @Override
 	public int getID() { return id; }
 
+    public String getUsername() {
+    		return username;
+    }
+
 	public String getPassword() {
 		return password;
 	}

@@ -55,6 +55,12 @@ class UserModelTest {
 		UserModel user = new UserModel();
 		assertTrue(!user.authenticate("dgroskleg", "XXX"));
 	}
+
+	@Test
+	void testUsernameConstruction() {
+		UserModel user = new UserModel("John", "Smith", "", "", true);
+		assertEquals("jsmith", user.getUsername());
+	}
 	
 	@Test
 	void testDeleteThenCreate() throws SQLException {
