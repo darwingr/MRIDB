@@ -303,7 +303,7 @@ public class GameManager extends AbstractGame {
 
 		GameContainer gc = new GameContainer(new GameManager());
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		if (screenSize.width <= 1280) {
+		if (screenSize.width <= 1920) {
 			gc.setScale(1);
 		} else {
 			gc.setScale(2);
