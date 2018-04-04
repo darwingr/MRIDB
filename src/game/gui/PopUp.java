@@ -74,6 +74,12 @@ public class PopUp {
 		return false;
 	}
 	
+	public void clearTexts() {
+		for(CommandLine l: inputs) {
+			l.clearText();
+		}
+	}
+	
 	public void addCheckBox(String text, int xOff, int yOff, int size) {
 		boxes.add(new CheckBox(text,x+xOff,y+yOff+32,size));
 	}
@@ -108,10 +114,12 @@ public class PopUp {
 
 	public void open() {
 		close = false;
+		shouldClose = false;
 	}
 
 	public void close() {
 		close = true;
+		shouldClose = true;
 	}
 
 	public int getX() {

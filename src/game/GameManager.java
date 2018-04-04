@@ -46,7 +46,7 @@ public class GameManager extends AbstractGame {
 		leftSideInit();
 		rightSideInit();
 		page = null;
-
+		
 		login = false;
 		if (login)
 			hippaAuthorized = false;
@@ -71,7 +71,7 @@ public class GameManager extends AbstractGame {
 		addPatient.addInput(96, 0, 128, 32, "First Name:");
 		addPatient.addInput(96, 32, 128, 32, "Last Name:");
 		addPatient.addInput(96, 64, 128, 32, "Address:");
-		addPatient.addInput(96, 96, 128, 32, "Gender:");
+		addPatient.addInput(96, 96, 128, 32, "Gender(M,F,U)");
 		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
 		search = new AttributeSearch(512,0,196,32);
 	}
@@ -173,11 +173,14 @@ public class GameManager extends AbstractGame {
 		if(search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			search.search(search.getWord(), filter);
 		}
-		
-		if(addUser.shouldClose()) {
+		if(!addUser.isClosed()) {
+			addUser.update(gc, dt);
+		}
+		if(addUser.shouldClose() && !addUser.isClosed()) {
 			UserModel newUser = new UserModel(addUser.getStringFromInput(0),addUser.getStringFromInput(1),addUser.getStringFromInput(2),addUser.getStringFromInput(3),addUser.boxTicked("HIPAA Authorized:"));
 			try {
 				if(newUser.create()) {
+					addUser.clearTexts();
 					addUser.close();
 				}
 			} catch (SQLException e) {
@@ -187,9 +190,6 @@ public class GameManager extends AbstractGame {
 			addUser.close();
 		}
 		search.update(gc, filter, dt);
-		if(!addUser.isClosed()) {
-			addUser.update(gc, dt);
-		}
 		if(editUser.shouldClose()) {
 			try {
 				user.changePassword(editUser.getStringFromInput(0));
@@ -214,14 +214,18 @@ public class GameManager extends AbstractGame {
 		if(!removeUser.isClosed()) {
 			removeUser.update(gc, dt);
 		}
-		if(addPatient.shouldClose()) {
+		if(addPatient.shouldClose() && !addPatient.isClosed()) {
 			PatientModel p = new PatientModel(addPatient.getStringFromInput(0),addPatient.getStringFromInput(1));
 			try {
-				p.create();
+				if(p.create()) {
+					addPatient.close();
+					addPatient.clearTexts();
+				}
 			} catch (SQLException e) {
 				Log.print("Patient Failed to be added!");
 				e.printStackTrace();
 			}
+			addPatient.close();
 		}
 		if(!addPatient.isClosed()) {
 			addPatient.update(gc, dt);
