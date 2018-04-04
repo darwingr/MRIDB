@@ -189,6 +189,11 @@ public class Tab {
 
 	}
 
+	public void clearGraph() {
+		if(graph!=null) 
+			graph.clear();
+	}
+	
 	public Log getLog() {
 		return log;
 	}

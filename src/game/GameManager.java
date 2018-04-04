@@ -92,6 +92,7 @@ public class GameManager extends AbstractGame {
 		leftSide.addButton("Edit", 320, 64, 0, false);
 		leftSide.addButton("Delete User", 384, 64, 0, false);
 		leftSide.addButton("Add Patient", 444, 64, 0, false);
+		leftSide.addButton("Reset Graph", 508, 64, 0, false);
 
 	}
 
@@ -176,7 +177,6 @@ public class GameManager extends AbstractGame {
 		
 		if(search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			DataSet ds = search.search(search.getWord(), filter);
-			// TODO Pass graphing here
 			rightSide.getTab(0).addGraphAttribute(ds.getAttribs(), ds.getAges());
 		}
 		if(!addUser.isClosed()) {
@@ -263,6 +263,10 @@ public class GameManager extends AbstractGame {
 		if(leftSide.getTab(0).isButtonActive("Add Patient")) {
 			addPatient.open();
 		}
+		if(leftSide.getTab(0).isButtonActive("Reset Graph")) {
+			rightSide.getTab(0).clearGraph();
+		}
+		
 	}
 
 	public void render(GameContainer gc, Renderer r) {

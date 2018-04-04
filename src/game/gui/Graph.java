@@ -13,7 +13,7 @@ import engine.gfx.Font;
 public class Graph {
 
 	private int width, height, x, y, axisColor = 0xff000000, xScale, yScale, oX, oY;
-	private int displayScale = 5;
+	private int displayScale = 150;
 	private String label, title;
 	private List<Integer> colors;
 	private List<Integer> usedColors;

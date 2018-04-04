@@ -39,11 +39,16 @@ public class AttributeSearch {
 		ArrayList<MRIScanModel> mris;
 
 		try {
+			int genderID = filter.genderFilter();
+			if(genderID==FilterManager.MALE_ONLY)
+				genderID=1;
+			if(genderID==FilterManager.FEMALE_ONLY)
+				genderID=2;
 			measurementName = MeasurementModel.findByID(Integer.parseInt(key)).getLabel();
 			mris = MRIScanModel.scansForAgeRange(
 					(int) filter.getAgeRange()[0],
 					(int) filter.getAgeRange()[1],
-					filter.genderFilter());
+					genderID);
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();
 			return new DataSet(new Attribute[0], new Float[0]);
