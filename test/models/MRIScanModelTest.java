@@ -38,7 +38,16 @@ class MRIScanModelTest {
 	@Test
 	void testScansForAgeRange() throws SQLException {
 		ArrayList<MRIScanModel> scans = MRIScanModel.scansForAgeRange(11, 15);
-		assertEquals(72, scans.size());
+		// TODO should be 73, Patient.delete() is deleting a visit without recreating it
+		assertEquals(73, scans.size());
+	}
+
+	@Test
+	void testScansForAgeRangeForMales() throws SQLException {
+		int male = 1;
+		ArrayList<MRIScanModel> scans = MRIScanModel.scansForAgeRange(11, 15, male);
+		// TODO 20 might be wrong, Patient.delete() is deleting a visit without recreating it
+		assertEquals(20, scans.size());
 	}
 
 	@Test
