@@ -83,8 +83,6 @@ public class GameManager extends AbstractGame {
 		leftSide.addSection("Filters", 0, 256, 0);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Male:", 62, 8, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 62, 32, 8);
-		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("ADHD: ", 128, 8, 8);
-		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Autism:", 128, 32, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 64, 78, 32);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 98, 78, 32);
 		leftSide.addButton("Add User", 256, 64, 0, false);
@@ -113,8 +111,6 @@ public class GameManager extends AbstractGame {
 				login = false;
 			boolean mActive = leftSide.getTab(0).isCheckBoxActive("Male:", 0);
 			boolean fActive = leftSide.getTab(0).isCheckBoxActive("Female:", 0);
-			boolean adhdActive = leftSide.getTab(0).isCheckBoxActive("ADHD: ", 0);
-			boolean autismActive = leftSide.getTab(0).isCheckBoxActive("Autism:", 0);
 			if (mActive == fActive)
 				filter.filter(FilterManager.ALL_GENDERS);
 			else {
@@ -122,14 +118,7 @@ public class GameManager extends AbstractGame {
 					filter.filter(FilterManager.MALE_ONLY);
 				if (fActive)
 					filter.filter(FilterManager.FEMALE_ONLY);
-			}
-			if (adhdActive == autismActive) {
-				filter.filter(FilterManager.ALL_DISORDERS);
-			} else {
-				if (adhdActive)
-					filter.filter(FilterManager.ADHD_ONLY);
-				if (autismActive)
-					filter.filter(FilterManager.AUTISM_ONLY);
+			
 			}
 
 		} else {// Login Screen
@@ -168,7 +157,7 @@ public class GameManager extends AbstractGame {
 		float min = FilterManager.DEFAULT_AGE_LOWER_BOUND;
 		try {
 			min = Float.parseFloat(leftSide.getLastTabAdded().getSections().get(0).getInput(0).getWord());
-			if (min > FilterManager.DEFAULT_AGE_LOWER_BOUND)
+			if (min < FilterManager.DEFAULT_AGE_LOWER_BOUND)
 				min = FilterManager.DEFAULT_AGE_LOWER_BOUND;
 		} catch (NumberFormatException e) {
 		}
@@ -179,6 +168,7 @@ public class GameManager extends AbstractGame {
 				max = FilterManager.DEFAULT_AGE_UPPER_BOUND;
 		} catch(NumberFormatException e) {
 		}
+		filter.filterAge(min, max);
 		
 		if(search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			search.search(search.getWord(), filter);
@@ -187,7 +177,9 @@ public class GameManager extends AbstractGame {
 		if(addUser.shouldClose()) {
 			UserModel newUser = new UserModel(addUser.getStringFromInput(0),addUser.getStringFromInput(1),addUser.getStringFromInput(2),addUser.getStringFromInput(3),addUser.boxTicked("HIPAA Authorized:"));
 			try {
-				newUser.create();
+				if(newUser.create()) {
+					addUser.close();
+				}
 			} catch (SQLException e) {
 				Log.print("Failed to create new User!");
 				e.printStackTrace();
@@ -237,7 +229,7 @@ public class GameManager extends AbstractGame {
 		if(patientSearch.getWord().length()>0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			try {
 				PatientFileModel pfm = PatientFileModel.findByID(Integer.parseInt(patientSearch.getWord()));
-				String[] lines = pfm.printReport(pfm.getID()).split("\n");
+				String[] lines = PatientFileModel.printReport(pfm.getID()).split("\n");
 				Attribute[] attribs = new Attribute[lines.length];
 				for(int i = 0 ; i< lines.length; i++) {
 					attribs[i] = new Attribute(lines[i],"");

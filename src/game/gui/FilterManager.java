@@ -2,7 +2,7 @@ package game.gui;
 
 public class FilterManager {
 
-	public static final int MALE_ONLY = 0, FEMALE_ONLY = 1, ALL_GENDERS = 2, ADHD_ONLY = 3, AUTISM_ONLY = 4,
+	public static final int MALE_ONLY = 0, FEMALE_ONLY = 1, ALL_GENDERS = 2, ADHD_ONLY = 3,
 			ALL_DISORDERS = 5;
 	public static final float DEFAULT_AGE_LOWER_BOUND = .1f, DEFAULT_AGE_UPPER_BOUND = 120;
 
@@ -33,9 +33,6 @@ public class FilterManager {
 			break;
 		case ALL_GENDERS:
 			genderFilter = ALL_GENDERS;
-			break;
-		case AUTISM_ONLY:
-			disorderFilter = AUTISM_ONLY;
 			break;
 		case ADHD_ONLY:
 			disorderFilter = ADHD_ONLY;
