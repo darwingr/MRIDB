@@ -121,8 +121,8 @@ public class Graph {
 			r.drawText(Font.SMALL_STANDARD, attribs.get(usedColors.get(i)), x, y+height+32+i*20, usedColors.get(i));
 		}
 		
-		for(int i = 0; i < 120; i++) {
-			drawPoint(i, i, 0xff000000, r);
+		for(int i = 0; i < 100; i++) {
+			drawPoint(i, (float)Math.log(i)*i, 0xff44FF00, r);
 		}
 		
 		
