@@ -20,6 +20,9 @@ public class MRIScanModel extends ActiveRecord {
 	private int     device_id;
 	private List<Double> measurements_array; // initialized in constructor
 
+    // Additional attribute from visit
+	private int     visit_age;
+
 	public static MRIScanModel findByID(int rec_id) throws SQLException {
 		MRIScanModel scan = new MRIScanModel();
 		DBAdapter db = new DBAdapter();
@@ -56,9 +59,17 @@ public class MRIScanModel extends ActiveRecord {
 		ArrayList<MRIScanModel> scans = new ArrayList<MRIScanModel>();
 		DBAdapter db = new DBAdapter();
 		String sql =
-				"SELECT * \n" +
+				"SELECT \n" +
+				"  mri_scans.id AS id, \n" +
+				"  technician_notes, \n" +
+				"  technician_id, \n" +
+				"  visit_id, \n" +
+				"  device_id, \n" +
+				"  measurements_array, \n" +
+				"  FLOOR( MONTHS_BETWEEN(SYSDATE, visits.dob) / 12 ) AS visit_age, \n" +
+				"  visits.gender AS visit_gender \n" +
 				"FROM mri_scans \n" +
-				"  JOIN visits ON visits.id = mri_scans.id \n" +
+				"  JOIN visits ON visits.id = mri_scans.visit_id \n" +
 				"WHERE \n" +
 				"  FLOOR( MONTHS_BETWEEN(SYSDATE, visits.dob) / 12 ) >= " + low + " \n" +
 				"  AND FLOOR( MONTHS_BETWEEN(SYSDATE, visits.dob) / 12 ) <= " + high;
@@ -76,13 +87,17 @@ public class MRIScanModel extends ActiveRecord {
 						Arrays.asList((Double[]) db_vals.getArray())
 				);
 
+				scan.visit_age = rs.getInt("visit_age");
+
 				if (genderFilter == -1)
 					scans.add(scan);
-				else if (rs.getInt("visits.gender") == genderFilter)
+				else if (rs.getInt("visit_gender") == genderFilter)
 					scans.add(scan);
 			}
 		} catch (SQLException sqle) {
-            System.err.println("Exception occurred while building ResultSet after findByID.");
+            System.err.println("Exception occurred while building ResultSet for scansForAgeRange.");
+            System.err.println("\nSQL statement:\n" + sql);
+            sqle.printStackTrace();
 		} finally {
 			db.close();
 		}
@@ -110,5 +125,8 @@ public class MRIScanModel extends ActiveRecord {
 		return visit_id;
 	}
 
+	@Override
 	public int getID() { return id; }
+	
+	public int getVisitAge() { return visit_age; }
 }

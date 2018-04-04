@@ -26,6 +26,7 @@ public class MeasurementModel extends ActiveRecord {
 			}
 		} catch (SQLException sqle) {
             System.err.println("Exception occurred while processing Building ResultSet after findByID.");
+            sqle.printStackTrace();
 		} finally {
 			db.close();
 		}
