@@ -27,6 +27,8 @@ import adapters.EnvironmentAdapter;
 
 public class GameManager extends AbstractGame {
 	
+	private UserModel CURRENT_USER = null;
+	
 	private Log log;
 	private FilterManager filter;
 	private CommandLine patientSearch;
@@ -54,7 +56,7 @@ public class GameManager extends AbstractGame {
 		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
 		password.censor();
 		userName.setSelected(true);
-		patientSearch = new CommandLine("", 2, 32, 142, 32);
+		patientSearch = new CommandLine("Patient Search by ID:", 356, 0, 64, 32);
 		gate = 0;
 		
 		addUser = new PopUp("Add User", 256, 256);
@@ -73,7 +75,7 @@ public class GameManager extends AbstractGame {
 		addPatient.addInput(96, 64, 128, 32, "Address:");
 		addPatient.addInput(96, 96, 128, 32, "Gender(M,F,U)");
 		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
-		search = new AttributeSearch(512,0,196,32);
+		search = new AttributeSearch(1,32,142,32);
 	}
 
 	private void leftSideInit() {
@@ -132,7 +134,8 @@ public class GameManager extends AbstractGame {
 			try {
 				if (gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 					try {
-						if (user.authenticate(userName.getWord(), password.getWord())) {
+						if (user.authenticate(userName.getWord(), password.getWord()).isLoggedIn()) {
+							CURRENT_USER = UserModel.findByID(user.authenticate(userName.getWord(), password.getWord()).getUserID());
 							hippaAuthorized = true;
 							userName.clearText();
 							password.clearText();
@@ -181,7 +184,6 @@ public class GameManager extends AbstractGame {
 			try {
 				if(newUser.create()) {
 					addUser.clearTexts();
-					addUser.close();
 				}
 			} catch (SQLException e) {
 				Log.print("Failed to create new User!");
@@ -190,9 +192,10 @@ public class GameManager extends AbstractGame {
 			addUser.close();
 		}
 		search.update(gc, filter, dt);
-		if(editUser.shouldClose()) {
+		if(editUser.shouldClose() && !editUser.isClosed()) {
 			try {
-				user.changePassword(editUser.getStringFromInput(0));
+				CURRENT_USER.changePassword(editUser.getStringFromInput(0));
+				editUser.clearTexts();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -201,7 +204,7 @@ public class GameManager extends AbstractGame {
 		if(!editUser.isClosed()) {
 			editUser.update(gc, dt);
 		}
-		if(removeUser.shouldClose()) {
+		if(removeUser.shouldClose() && !removeUser.isClosed()) {
 			try {
 				UserModel u = UserModel.findByID(Integer.parseInt(removeUser.getStringFromInput(0)));
 				u.delete();
@@ -210,6 +213,7 @@ public class GameManager extends AbstractGame {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			removeUser.close();
 		}
 		if(!removeUser.isClosed()) {
 			removeUser.update(gc, dt);

@@ -8,6 +8,31 @@ import adapters.DBAdapter;
 public class UserModel extends ActiveRecord {
 	private static final String TABLE_NAME = "users";
 
+	public class LoginRequest {
+	private boolean loggedIn;
+		private int userID;
+		public LoginRequest() {
+			loggedIn = false;
+			userID = -1;
+		}
+		
+		public boolean isLoggedIn() {
+			return loggedIn;
+		}
+		
+		public int getUserID() {
+			return userID;
+		}
+		
+		public void setLoggedIn(boolean success) {
+			loggedIn = success;
+		}
+		
+		public void setID(int id) {
+			userID = id;
+		}
+	}
+	
 	private int     id;
 	private String  username;
 	private String  password;
@@ -42,6 +67,7 @@ public class UserModel extends ActiveRecord {
 	}
 
 	public UserModel() {
+		
 	}
 
 	public UserModel(String fname, String lname, String email_addr, String passwrd, boolean authorized) {
@@ -56,7 +82,7 @@ public class UserModel extends ActiveRecord {
     @Override
 	public String table() { return "users"; }
 
-	public boolean authenticate(String user_username, String user_password) throws SQLException {
+	public LoginRequest authenticate(String user_username, String user_password) throws SQLException {
 		DBAdapter db = new DBAdapter();
 		String sql = "select * from users where username = '" + user_username
 				+ "' AND password = '" + user_password + "'";
@@ -66,7 +92,20 @@ public class UserModel extends ActiveRecord {
 		} finally {
 			db.close();
 		}
-		return user_exists;
+		LoginRequest lr = new LoginRequest();
+		lr.setLoggedIn(user_exists);
+		UserModel user = new UserModel();
+		try (ResultSet rs = db.executeQuery("select id from " + user.table() + " where username = " + "'" + user_username + "'" )) {
+			if (rs.next()) {
+				user.id = rs.getInt("id");
+			}
+		} catch (SQLException sqle) {
+            System.err.println("Exception occurred while processing Building ResultSet after findByID.");
+		} finally {
+			db.close();
+		}
+		lr.setID(user.id);
+		return lr;
 	}
 
 	public boolean isAuthorized() {
