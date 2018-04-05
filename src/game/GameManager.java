@@ -77,6 +77,7 @@ public class GameManager extends AbstractGame {
 		addPatient.addInput(96, 96, 128, 32, "Gender(M,F,U)");
 		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
 		search = new AttributeSearch(1,32,142,32);
+		//page = new Page("test", new Attribute[] {new Attribute("I went to the shop to count up how dumb i am for using this hose in the wrong spot one day i thought i was a nod","")});
 	}
 
 	private void leftSideInit() {
@@ -237,7 +238,7 @@ public class GameManager extends AbstractGame {
 		if(!addPatient.isClosed()) {
 			addPatient.update(gc, dt);
 		}
-		if(patientSearch.getWord().length()>0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+		if(patientSearch.getWord().length()>0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER) && CURRENT_USER.isAuthorized()) {
 			try {
 				PatientFileModel pfm = PatientFileModel.findByID(Integer.parseInt(patientSearch.getWord()));
 				String[] lines = PatientFileModel.printReport(pfm.getID()).split("\n");

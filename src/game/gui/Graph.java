@@ -46,7 +46,7 @@ public class Graph {
 		yScale = 1;
 		label = "Units ";
 		title = "Measurement to Age";
-		oX = x + 32;
+		oX = x + 56;
 		oY = y + height - 33;
 		points = new ArrayList<Point>();
 		colors = new ArrayList<Integer>();

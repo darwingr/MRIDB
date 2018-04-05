@@ -9,7 +9,7 @@ import engine.gfx.Font;
 
 public class Page {
 
-	private final int CHAR_MAX = 60;
+	private final int CHAR_MAX = 40;
 	private final int TEXT_OFFSET = 176;
 
 	private int scrollBarPos = 0;
@@ -31,7 +31,26 @@ public class Page {
 	}
 
 	public void wrapString(String s, List<Attribute> texts) {
+		List<String> splits = new ArrayList<String>();
+		if ((s.length() / CHAR_MAX) <= 1) {
+			texts.add(new Attribute(s, ""));
+			return;
+		}
+		int ctr = 0;
+		for (int i = 1; i < s.length(); i++) {
+			if (i % CHAR_MAX == 0) {
+				splits.add(s.substring(ctr * CHAR_MAX, i));
+				ctr++;
+			} else {
+				if(i==s.length()-1) {
+					splits.add(s.substring(ctr*CHAR_MAX, s.length()));
+				}
+ 			}
+		}
 		
+		for(String str: splits) {
+			texts.add(new Attribute(str,""));
+		}
 	}
 
 	public void update(GameContainer gc, float dt) {
