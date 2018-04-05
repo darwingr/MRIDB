@@ -14,7 +14,7 @@ What things you need to install the software:
 
  - git
  - Java version 8
- - Java development kit (jdk) - possibly not required
+ - Java development kit (jdk)
  - Running instance of Oracle DB version 11
  - Eclipse (must have the built-in support for git, otherwise use comman)
 
@@ -49,10 +49,9 @@ A step by step series of examples that tell you have to get a development env ru
 
 ## Data
 All the data used is stored with the source code under `db/data/`.
-It originally derives from 3 different data sets:
- - ABIDE
- - ???
- - ???
+It originally derives from these data sets:
+ - BCH - Boston Children's Hospital (ADHD)
+ - ABIDE (autism)
 
 All data was anonymized long before it reached our hands.
 We've also generated random data using [mockaroo](https://www.mockaroo.com/).
