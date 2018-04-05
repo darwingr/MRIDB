@@ -9,30 +9,31 @@ public class UserModel extends ActiveRecord {
 	private static final String TABLE_NAME = "users";
 
 	public class LoginRequest {
-	private boolean loggedIn;
-		private int userID;
+		private boolean loggedIn;
+		private int     userID;
+
 		public LoginRequest() {
 			loggedIn = false;
 			userID = -1;
 		}
-		
+
 		public boolean isLoggedIn() {
 			return loggedIn;
 		}
-		
+
 		public int getUserID() {
 			return userID;
 		}
-		
+
 		public void setLoggedIn(boolean success) {
 			loggedIn = success;
 		}
-		
+
 		public void setID(int id) {
 			userID = id;
 		}
 	}
-	
+
 	private int     id;
 	private String  username;
 	private String  password;
@@ -40,10 +41,6 @@ public class UserModel extends ActiveRecord {
 	private String  last_name;
 	private String  email;
 	private boolean hipaa_authorized;
-
-	public String fullName() {
-		return first_name + " " + last_name;
-	}
 
 	public static UserModel findByID(int user_id) throws SQLException {
 		UserModel user = new UserModel();
@@ -81,6 +78,10 @@ public class UserModel extends ActiveRecord {
 
     @Override
 	public String table() { return "users"; }
+
+	public String fullName() {
+		return first_name + " " + last_name;
+	}
 
 	public LoginRequest authenticate(String user_username, String user_password) throws SQLException {
 		DBAdapter db = new DBAdapter();
