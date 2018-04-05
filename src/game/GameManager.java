@@ -139,7 +139,7 @@ public class GameManager extends AbstractGame {
 					try {
 						if (user.authenticate(userName.getWord(), password.getWord()).isLoggedIn()) {
 							CURRENT_USER = UserModel.findByID(user.authenticate(userName.getWord(), password.getWord()).getUserID());
-							hippaAuthorized = true;
+							hippaAuthorized = CURRENT_USER.isAuthorized();
 							userName.clearText();
 							password.clearText();
 							password.setDisplayCursor(false);
@@ -175,11 +175,13 @@ public class GameManager extends AbstractGame {
 		} catch(NumberFormatException e) {
 		}
 		filter.filterAge(min, max);
-		
-		if(search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+
+		// Data is passed to the graph
+		if (search.getWord().length() > 0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			DataSet ds = search.search(search.getWord(), filter);
 			rightSide.getTab(0).addGraphAttribute(ds.getAttribs(), ds.getAges());
 		}
+
 		if(!addUser.isClosed()) {
 			addUser.update(gc, dt);
 		}
@@ -238,20 +240,34 @@ public class GameManager extends AbstractGame {
 		if(!addPatient.isClosed()) {
 			addPatient.update(gc, dt);
 		}
-		if(patientSearch.getWord().length()>0 && gc.getInput().isKeyDown(KeyEvent.VK_ENTER) && CURRENT_USER.isAuthorized()) {
-			try {
-				PatientFileModel pfm = PatientFileModel.findByID(Integer.parseInt(patientSearch.getWord()));
-				String[] lines = PatientFileModel.printReport(pfm.getID()).split("\n");
-				Attribute[] attribs = new Attribute[lines.length];
-				for(int i = 0 ; i< lines.length; i++) {
-					attribs[i] = new Attribute(lines[i],"");
+
+		// Showing PatientFile with user authorization check
+		if (patientSearch.getWord().length()>0
+				&& gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
+			if (hippaAuthorized) {
+				try {
+					PatientFileModel pfm = PatientFileModel.findByID(Integer.parseInt(patientSearch.getWord()));
+					String[] lines = PatientFileModel.printReport(pfm.getID()).split("\n");
+					Attribute[] attribs = new Attribute[lines.length];
+					for (int i = 0 ; i < lines.length; i++) {
+						attribs[i] = new Attribute(lines[i],"");
+					}
+					PatientModel p = PatientModel.findByID(pfm.getID());
+					page = new Page(p.fullName(),attribs);
+				} catch (NumberFormatException | SQLException e) {
+					e.printStackTrace();
 				}
-				PatientModel p = PatientModel.findByID(pfm.getID());
-				page = new Page(p.fullName(),attribs);
-			} catch (NumberFormatException | SQLException e) {
-				e.printStackTrace();
+			} else {
+				String authorization_error_title = "UNAUTHORIZED ACTION";
+				String authorization_error_details =
+						"You are logged in as a user that is not authorized to view patient data.\n";
+				Attribute[] attribs = new Attribute[1];
+				attribs[0] = new Attribute(authorization_error_details, "");
+
+				page = new Page(authorization_error_title, attribs);
 			}
 		}
+
 		if(leftSide.getTab(0).isButtonActive("Add User")) {
 			addUser.open();
 		}
