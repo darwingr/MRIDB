@@ -66,33 +66,34 @@ public class GameManager extends AbstractGame {
 		addUser.addInput(96, 64, 128, 32, "Email:");
 		addUser.addInput(96, 96, 128, 32, "Password:");
 		addUser.addCheckBox("HIPAA Authorized:", 156, 144, 12);
-		editUser = new PopUp("Edit User",256,128);
+		editUser = new PopUp("Password", 256, 128);
 		editUser.addInput(112, 0, 128, 32, "New Password:");
 		removeUser = new PopUp("Remove User", 256, 128);
 		removeUser.addInput(128, 0, 128, 32, "UserID to delete");
-		addPatient = new PopUp("Add Patient", 256, 256);
-		addPatient.addInput(96, 0, 128, 32, "First Name:");
-		addPatient.addInput(96, 32, 128, 32, "Last Name:");
-		addPatient.addInput(96, 64, 128, 32, "Address:");
-		addPatient.addInput(96, 96, 128, 32, "Gender(M,F,U)");
-		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
+		addPatient = new PopUp("Add Patient", 320, 256);
+		addPatient.addInput(176,   0, 128, 32, "First Name:");
+		addPatient.addInput(176,  32, 128, 32, "Last Name:");
+		addPatient.addInput(176,  64, 128, 32, "Address:");
+		addPatient.addInput(176,  96, 128, 32, "Gender (M=1,F=2,?=3):");
+		addPatient.addInput(176, 128, 128, 32, "DOB (mm/dd/yyyy):");
 		search = new AttributeSearch(1,32,142,32);
 	}
 
 	private void leftSideInit() {
 		leftSide = new Gui();
 		leftSide.addTab(0, 0, 144, GameContainer.height - 1);
-		leftSide.addButton("Logout", GameContainer.height - 65, 64, 0, false);
 		leftSide.addSection("Measurements", 0, 256, 0);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Male:", 48, 64, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addCheckbox("Female:", 128, 64, 8);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Min Age:", 64, 96, 78, 32);
 		leftSide.getLastTabAdded().getSections().get(0).addInput("Max Age:", 64, 128, 78, 32);
-		leftSide.addButton("Add User", 256, 64, 0, false);
-		leftSide.addButton("Edit", 320, 64, 0, false);
-		leftSide.addButton("Delete User", 384, 64, 0, false);
-		leftSide.addButton("Add Patient", 444, 64, 0, false);
 
+		leftSide.addButton("Add Patient", 256, 64, 0, false);
+		leftSide.addButton("Add User",    384, 64, 0, false);//64
+		leftSide.addButton("Delete User", 448, 64, 0, false);//444-384
+
+		leftSide.addButton("Password", GameContainer.height - (65*2), 64, 0, false);
+		leftSide.addButton("Logout",   GameContainer.height - 65,     64, 0, false);
 	}
 
 	private void rightSideInit() {
@@ -183,7 +184,12 @@ public class GameManager extends AbstractGame {
 			addUser.update(gc, dt);
 		}
 		if(addUser.shouldClose() && !addUser.isClosed()) {
-			UserModel newUser = new UserModel(addUser.getStringFromInput(0),addUser.getStringFromInput(1),addUser.getStringFromInput(2),addUser.getStringFromInput(3),addUser.boxTicked("HIPAA Authorized:"));
+			UserModel newUser = new UserModel(
+					addUser.getStringFromInput(0),
+					addUser.getStringFromInput(1),
+					addUser.getStringFromInput(2),
+					addUser.getStringFromInput(3),
+					addUser.boxTicked("HIPAA Authorized:") );
 			try {
 				if(newUser.create()) {
 					addUser.clearTexts();
@@ -195,7 +201,10 @@ public class GameManager extends AbstractGame {
 			addUser.close();
 		}
 		search.update(gc, filter, dt);
+
+		// Editing the current user (change password
 		if(editUser.shouldClose() && !editUser.isClosed()) {
+			// TODO Handle bad inputs
 			try {
 				CURRENT_USER.changePassword(editUser.getStringFromInput(0));
 				editUser.clearTexts();
@@ -267,7 +276,7 @@ public class GameManager extends AbstractGame {
 		if(leftSide.getTab(0).isButtonActive("Add User")) {
 			addUser.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Edit")) {
+		if(leftSide.getTab(0).isButtonActive("Password")) {
 			editUser.open();
 		}
 		if(leftSide.getTab(0).isButtonActive("Delete User")) {
