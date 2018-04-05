@@ -41,7 +41,7 @@ public class GameManager extends AbstractGame {
 	private CommandLine userName;
 	private CommandLine password;
 	private UserModel user = new UserModel();
-	private PopUp editUser,addUser,addPatient,removeUser;
+	private PopUp editUser, addUser, addPatient, removeUser, unauthorizedAlert;
 	private AttributeSearch search;
 
 	public GameManager() {
@@ -59,7 +59,8 @@ public class GameManager extends AbstractGame {
 		userName.setSelected(true);
 		patientSearch = new CommandLine("Patient Search by ID:", 356, 0, 64, 32);
 		gate = 0;
-		
+
+		unauthorizedAlert = new PopUp("Unauthorized Action", 416, 64);
 		addUser = new PopUp("Add User", 256, 256);
 		addUser.addInput(96, 0, 128, 32, "First Name:");
 		addUser.addInput(96, 32, 128, 32, "Last Name:");
@@ -76,6 +77,7 @@ public class GameManager extends AbstractGame {
 		addPatient.addInput(96, 64, 128, 32, "Address:");
 		addPatient.addInput(96, 96, 128, 32, "Gender(M,F,U)");
 		addPatient.addInput(96, 128, 128, 32, "DOB(m/d/y):");
+
 		search = new AttributeSearch(1,32,142,32);
 		//page = new Page("test", new Attribute[] {new Attribute("I went to the shop to count up how dumb i am for using this hose in the wrong spot one day i thought i was a nod","")});
 	}
@@ -182,6 +184,13 @@ public class GameManager extends AbstractGame {
 			rightSide.getTab(0).addGraphAttribute(ds.getAttribs(), ds.getAges());
 		}
 
+		// Alert PopUp for Unauthorized user action
+		if (!unauthorizedAlert.isClosed()) unauthorizedAlert.update(gc, dt);
+		if (unauthorizedAlert.shouldClose() && !unauthorizedAlert.isClosed()) {
+			unauthorizedAlert.clearTexts();
+			unauthorizedAlert.close();
+		}
+
 		if(!addUser.isClosed()) {
 			addUser.update(gc, dt);
 		}
@@ -268,19 +277,28 @@ public class GameManager extends AbstractGame {
 			}
 		}
 
-		if(leftSide.getTab(0).isButtonActive("Add User")) {
-			addUser.open();
+		if (leftSide.getTab(0).isButtonActive("Add User")) {
+			if (hippaAuthorized)
+				addUser.open();
+			else
+				unauthorizedAlert.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Edit")) {
+		if (leftSide.getTab(0).isButtonActive("Edit")) {
 			editUser.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Delete User")) {
-			removeUser.open();
+		if (leftSide.getTab(0).isButtonActive("Delete User")) {
+			if (hippaAuthorized)
+				removeUser.open();
+			else
+				unauthorizedAlert.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Add Patient")) {
-			addPatient.open();
+		if (leftSide.getTab(0).isButtonActive("Add Patient")) {
+			if (hippaAuthorized)
+				addPatient.open();
+			else
+				unauthorizedAlert.open();
 		}
-		if(leftSide.getTab(0).isButtonActive("Reset Graph")) {
+		if (leftSide.getTab(0).isButtonActive("Reset Graph")) {
 			rightSide.getTab(0).clearGraph();
 		}
 		
@@ -312,6 +330,8 @@ public class GameManager extends AbstractGame {
 		r.drawFillRect(145, 0, 512, 32, 0xffffffff);
 		patientSearch.render(gc, r);
 		search.render(gc, r);
+
+		unauthorizedAlert.render(gc, r);
 		editUser.render(gc,r);
 		addUser.render(gc, r);
 		removeUser.render(gc, r);
