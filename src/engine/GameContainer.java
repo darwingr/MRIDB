@@ -14,7 +14,7 @@ public class GameContainer implements Runnable {
 	private final double UPDATE_CAP = 1.0 / 60.0;
 	public static final int width = 1080, height = 720;
 	private float scale = 1f;
-	private String title = "Jouvanile Diseases Database";
+	private String title = "Juvanile Statistical Database (JSDB)";
 	
 	
 	public GameContainer(AbstractGame game) {
