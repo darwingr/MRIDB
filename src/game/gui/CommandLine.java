@@ -184,4 +184,32 @@ public class CommandLine {
 		selected = false;
 	}
 
+	public boolean validateIsInt() {
+		try {
+			int n = Integer.parseInt(getWord());
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean validateIsNumber() {
+		return getWord().matches("[-+]?\\d*\\.?\\d+");
+	}
+
+	public boolean validateIsPositive() {
+		// Assumes is a number
+		double value = Double.parseDouble(getWord());
+		return (value >= 0);
+	}
+
+	public boolean validateWithinWidthLimit(int width_limit) {
+		int length = getWord().length();
+		if (validateIsNumber() && !validateIsPositive()) length--;
+		return (length <= width_limit);
+	}
+
+	public boolean validateNotEmpty() {
+		return (!getWord().isEmpty());
+	}
 }

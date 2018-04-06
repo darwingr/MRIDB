@@ -41,7 +41,7 @@ public class GameManager extends AbstractGame {
 	private CommandLine userName;
 	private CommandLine password;
 	private UserModel user = new UserModel();
-	private PopUp editUser, addUser, addPatient, removeUser, unauthorizedAlert;
+	private PopUp editUser, addUser, addPatient, removeUser, unauthorizedAlert, invalidInputAlert;
 	private AttributeSearch search;
 
 	public GameManager() {
@@ -61,6 +61,8 @@ public class GameManager extends AbstractGame {
 		gate = 0;
 
 		unauthorizedAlert = new PopUp("Unauthorized Action", 416, 64);
+		invalidInputAlert = new PopUp("Invalid Input", 416, 64);
+
 		addUser = new PopUp("Add User", 256, 256);
 		addUser.addInput(96,  0, 128, 32, "First Name:");
 		addUser.addInput(96, 32, 128, 32, "Last Name:");
@@ -187,11 +189,18 @@ public class GameManager extends AbstractGame {
 			rightSide.getTab(0).addGraphAttribute(ds.getAttribs(), ds.getAges());
 		}
 
-		// Alert PopUp for Unauthorized user action
+		// Alert PopUp for unauthorized user action
 		if (!unauthorizedAlert.isClosed()) unauthorizedAlert.update(gc, dt);
 		if (unauthorizedAlert.shouldClose() && !unauthorizedAlert.isClosed()) {
 			unauthorizedAlert.clearTexts();
 			unauthorizedAlert.close();
+		}
+
+		// Alert PopUp for invalid user input
+		if (!invalidInputAlert.isClosed()) invalidInputAlert.update(gc, dt);
+		if (invalidInputAlert.shouldClose() && !invalidInputAlert.isClosed()) {
+			invalidInputAlert.clearTexts();
+			invalidInputAlert.close();
 		}
 
 		if(!addUser.isClosed()) {
@@ -264,14 +273,21 @@ public class GameManager extends AbstractGame {
 				&& gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			if (hippaAuthorized) {
 				try {
-					PatientFileModel pfm = PatientFileModel.findByID(Integer.parseInt(patientSearch.getWord()));
-					String[] lines = PatientFileModel.printReport(pfm.getID()).split("\n");
-					Attribute[] attribs = new Attribute[lines.length];
-					for (int i = 0 ; i < lines.length; i++) {
-						attribs[i] = new Attribute(lines[i],"");
+					if (!patientSearch.validateIsInt()
+						|| !patientSearch.validateIsPositive()) {
+						invalidInputAlert.open();
+						patientSearch.clearText();
+					} else {
+						int patient_id_input = Integer.parseInt(patientSearch.getWord());
+						PatientFileModel pfm = PatientFileModel.findByID(patient_id_input);
+						String[] lines = PatientFileModel.printReport(pfm.getID()).split("\n");
+						Attribute[] attribs = new Attribute[lines.length];
+						for (int i = 0 ; i < lines.length; i++) {
+							attribs[i] = new Attribute(lines[i],"");
+						}
+						PatientModel p = PatientModel.findByID(pfm.getID());
+						page = new Page(p.fullName(),attribs);
 					}
-					PatientModel p = PatientModel.findByID(pfm.getID());
-					page = new Page(p.fullName(),attribs);
 				} catch (NumberFormatException | SQLException e) {
 					e.printStackTrace();
 				}
@@ -341,6 +357,7 @@ public class GameManager extends AbstractGame {
 		search.render(gc, r);
 
 		unauthorizedAlert.render(gc, r);
+		invalidInputAlert.render(gc, r);
 		editUser.render(gc,r);
 		addUser.render(gc, r);
 		removeUser.render(gc, r);
