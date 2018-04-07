@@ -1,11 +1,11 @@
 package adapters;
 
-import java.lang.reflect.Field;
 import java.util.Properties;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.lang.reflect.Field;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
 
@@ -13,16 +13,13 @@ import oracle.jdbc.pool.OracleDataSource;
 import oracle.jdbc.OracleConnection;
 
 public class DBAdapter {
-	final static String DB_USERNAME = System.getenv("DB_USERNAME");
-	final static String DB_PASSWORD = System.getenv("DB_PASSWORD");
-	final static String DB_SERVICE_NAME = System.getenv("DB_SERVICE_NAME");
-	final static String DB_HOST = System.getenv("DB_HOST");
-	final static String DB_PORT = System.getenv("DB_PORT");
+	static String DB_USERNAME = System.getProperty("DB_USERNAME");
+	static String DB_PASSWORD = System.getProperty("DB_PASSWORD");
+	static String DB_SERVICE_NAME = System.getProperty("DB_SERVICE_NAME");
+	static String DB_HOST = System.getProperty("DB_HOST");
+	static String DB_PORT = System.getProperty("DB_PORT");
 
-	final static String DB_URL = "jdbc:oracle:thin:@(DESCRIPTION = "
-			+ "(ADDRESS = (HOST = " + DB_HOST + ")(PORT = " + DB_PORT + ")(PROTOCOL = TCP))"
-			+ "(CONNECT_DATA = (SERVICE_NAME = " + DB_SERVICE_NAME + "))"
-			+ ")";
+	static String DB_URL;
 
 
 	private OracleDataSource ods;
@@ -31,44 +28,58 @@ public class DBAdapter {
 	private ResultSet result;
 	private CallableStatement callable_statement;
 
-    /*
-     * Purpose:
-     * To test if all the environment variables were declared and initialized
-     * when the program first starts to run.
-     * Returns a boolean so you can decide to exit the program prematurely.
-     */
-    public static boolean checkEnvironment() {
-        boolean success = true;
-        String var_names[] = {
-            "DB_USERNAME",
-            "DB_PASSWORD",
-            "DB_SERVICE_NAME",
-            "DB_HOST",
-            "DB_PORT"
-        };
+	/*
+	 * Purpose:
+	 * To test if all the environment variables were declared and initialized
+	 * when the program first starts to run.
+	 * It first checks if the variable is defined as a JVM system properties and then checks if it was
+	 * defined as an environment variable if the property was blank.
+	 * Thus environment variables override system properties.
+	 * Returns a boolean so you can decide to exit the program prematurely.
+	 * 
+	 * SIDE EFFECTS:
+	 *   all env vars are set, final statics on DBAdapter class
+	 *   DB_URL is set
+	 */
+	public static boolean checkEnvironment() {
+	    boolean success = true;
+	    String var_names[] = {
+	        "DB_USERNAME",
+	        "DB_PASSWORD",
+	        "DB_SERVICE_NAME",
+	        "DB_HOST",
+	        "DB_PORT"
+	    };
+	
+	    for (String name : var_names){
+	        String error_msg = "CONFIGURATION ERROR: the environment variable "
+	            + name + " was unset! Setup either environment variables or java system properties before"
+	            + " running the program again.";
 
-        for (String name : var_names){
-            String error_msg = "CONFIGURATION ERROR: the environment variable "
-                + name + " was unset! Setup environment variables before "
-                + "running the program again.";
+	        try {
+	            Class<DBAdapter> aClass = DBAdapter.class;
+	            Field env_var = aClass.getDeclaredField(name);
+	            // overwrite property
+	            if (System.getenv(name) != null) env_var.set(aClass, System.getenv(name));
+	            if (env_var.get(null) == null || "".equals(env_var.get(null))) {
+	                System.err.println(error_msg);
+	                success = false;
+	            }
+	        } catch (Exception e) {
+	        		System.err.println(e);
+	        		String de = "Missing declaration error: expected " + name + " to be declared on DBAdapter.";
+	        		System.err.println(de); 
+	            success = false;
+	        }
+	    }
+		DB_URL = "jdbc:oracle:thin:@(DESCRIPTION = "
+				+ "(ADDRESS = (HOST = " + DB_HOST + ")(PORT = " + DB_PORT + ")(PROTOCOL = TCP))"
+				+ "(CONNECT_DATA = (SERVICE_NAME = " + DB_SERVICE_NAME + "))"
+				+ ")";
+	    return success;
+	}
 
-            try {
-                Class<DBAdapter> aClass = DBAdapter.class;
-                Field env_var = aClass.getDeclaredField(name);
-                if (env_var.get(null) == null || "".equals(env_var.get(null))) {
-                    System.err.println(error_msg);
-                    success = false;
-                }
-            } catch (Exception e) {
-                System.err.println(e);
-                System.err.println(error_msg);
-                success = false;
-            }
-        }
-        return success;
-    }
-
-	/**
+    /**
 	 *
 	 *
 	 */

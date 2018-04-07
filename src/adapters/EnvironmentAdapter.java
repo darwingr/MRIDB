@@ -8,5 +8,4 @@ public class EnvironmentAdapter {
 
 	public EnvironmentAdapter() {
 	}
-
 }
