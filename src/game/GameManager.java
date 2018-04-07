@@ -3,12 +3,15 @@ package game;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import engine.AbstractGame;
 import engine.GameContainer;
 import engine.Renderer;
 import engine.gfx.Font;
+import game.gui.AlertPopUp;
 import game.gui.Attribute;
 import game.gui.AttributeSearch;
 import game.gui.Button;
@@ -61,7 +64,7 @@ public class GameManager extends AbstractGame {
 		gate = 0;
 
 		unauthorizedAlert = new PopUp("Unauthorized Action", 416, 64);
-		invalidInputAlert = new PopUp("Invalid Input", 416, 64);
+		invalidInputAlert = new AlertPopUp("Invalid Input", 416, 64);
 
 		addUser = new PopUp("Add User", 256, 256);
 		addUser.addInput(96,  0, 128, 32, "First Name:");
@@ -74,7 +77,7 @@ public class GameManager extends AbstractGame {
 		removeUser = new PopUp("Remove User", 256, 128);
 		removeUser.addInput(128, 0, 128, 32, "UserID to delete");
 		addPatient = new PopUp("Add Patient", 320, 256);
-		addPatient.addInput(176,  0, 128, 32, "First Name:");
+		addPatient.addInput(176,   0, 128, 32, "First Name:");
 		addPatient.addInput(176,  32, 128, 32, "Last Name:");
 		addPatient.addInput(176,  64, 128, 32, "Address:");
 		addPatient.addInput(176,  96, 128, 32, "Gender (M=1,F=2,?=3):");
@@ -166,7 +169,9 @@ public class GameManager extends AbstractGame {
 				e.printStackTrace();
 			}
 		}
+
 		patientSearch.update(gc, dt);
+
 		float min = FilterManager.DEFAULT_AGE_LOWER_BOUND;
 		try {
 			min = Float.parseFloat(leftSide.getLastTabAdded().getSections().get(0).getInput(0).getWord());
@@ -203,78 +208,141 @@ public class GameManager extends AbstractGame {
 			invalidInputAlert.close();
 		}
 
-		if(!addUser.isClosed()) {
-			addUser.update(gc, dt);
-		}
-		if(addUser.shouldClose() && !addUser.isClosed()) {
-			UserModel newUser = new UserModel(
-					addUser.getStringFromInput(0),
-					addUser.getStringFromInput(1),
-					addUser.getStringFromInput(2),
-					addUser.getStringFromInput(3),
-					addUser.boxTicked("HIPAA Authorized:") );
-			try {
-				if(newUser.create()) {
-					addUser.clearTexts();
+		// Add User - validation
+		if (!addUser.isClosed()) addUser.update(gc, dt);
+		if (addUser.shouldClose() && !addUser.isClosed()) {
+			if (!(
+				// First Name
+				addUser.validNotEmpty(0)
+				&& addUser.validWidth(0, 20)
+				// Last Name
+				&& addUser.validNotEmpty(1)
+				&& addUser.validWidth(1, 20)
+				// Email Address
+				&& addUser.validNotEmpty(2)
+				&& addUser.validWidth(2, 50)
+				&& addUser.validEmailAddress(2)
+				// Password
+				&& addUser.validNotEmpty(3)
+				&& addUser.validWidth(3, 8)
+			)) {
+				invalidInputAlert.open();
+				addUser.close();
+			} else {
+				UserModel newUser = new UserModel(
+						addUser.getStringFromInput(0),
+						addUser.getStringFromInput(1),
+						addUser.getStringFromInput(2),
+						addUser.getStringFromInput(3),
+						addUser.boxTicked("HIPAA Authorized:") );
+				try {
+					if(newUser.create()) {
+						addUser.clearTexts();
+					}
+				} catch (SQLException e) {
+					Log.print("Failed to create new User!");
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				Log.print("Failed to create new User!");
-				e.printStackTrace();
+				addUser.close();
 			}
-			addUser.close();
 		}
 		search.update(gc, filter, dt);
 
-		// Editing the current user (change password)
+		// Change Password - validation
 		if (editUser.shouldClose() && !editUser.isClosed()) {
-			try {
-				CURRENT_USER.changePassword(editUser.getStringFromInput(0));
-				editUser.clearTexts();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			if (!(
+				// New password
+				editUser.validNotEmpty(0)
+				&& editUser.validWidth(0, 8)
+			)) {
+				invalidInputAlert.open();
+				editUser.close();
+			} else {
+				try {
+					CURRENT_USER.changePassword(editUser.getStringFromInput(0));
+					editUser.clearTexts();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				editUser.close();
 			}
-			editUser.close();
 		}
 		if (!editUser.isClosed()) editUser.update(gc, dt);
 
-		if(removeUser.shouldClose() && !removeUser.isClosed()) {
-			try {
-				UserModel u = UserModel.findByID(Integer.parseInt(removeUser.getStringFromInput(0)));
-				u.delete();
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			removeUser.close();
-		}
-		if(!removeUser.isClosed()) {
-			removeUser.update(gc, dt);
-		}
-		if(addPatient.shouldClose() && !addPatient.isClosed()) {
-			PatientModel p = new PatientModel(addPatient.getStringFromInput(0),addPatient.getStringFromInput(1));
-			try {
-				if(p.create()) {
-					addPatient.close();
-					addPatient.clearTexts();
+		// Delete User - validation
+		if (removeUser.shouldClose() && !removeUser.isClosed()) {
+			if (!(
+				// User ID
+				removeUser.validNotEmpty(0)
+				&& removeUser.validInt(0)
+				&& removeUser.validPositiveNumber(0)
+			)) {
+				invalidInputAlert.open();
+				removeUser.close();
+			} else {
+				try {
+					UserModel u = UserModel.findByID(Integer.parseInt(removeUser.getStringFromInput(0)));
+					u.delete();
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				Log.print("Patient Failed to be added!");
-				e.printStackTrace();
+				removeUser.close();
 			}
-			addPatient.close();
 		}
-		if(!addPatient.isClosed()) {
-			addPatient.update(gc, dt);
-		}
+		if (!removeUser.isClosed()) removeUser.update(gc, dt);
 
-		// Showing PatientFile with user authorization check
+		// Add Patient - validation
+		if (addPatient.shouldClose() && !addPatient.isClosed()) {
+			if (!(
+				// First Name
+				addPatient.validNotEmpty(0)
+				&& addPatient.validWidth(0, 15)
+				// Last Name
+				&& addPatient.validNotEmpty(1)
+				&& addPatient.validWidth(1, 20)
+				// Address
+				&& addPatient.validWidth(2, 30)
+				// Gender
+				&& addPatient.validNotEmpty(3)
+				&& addPatient.validInt(3)
+				&& addPatient.validIntMember(3, Arrays.asList(1, 2, 3))
+				// DOB
+				&& addPatient.validNotEmpty(4)
+				&& addPatient.validDate(4, "MM/dd/yyyy")
+				&& addPatient.validDateInPast(4, "MM/dd/yyyy")
+			)) {
+				invalidInputAlert.open();
+				addPatient.close();
+			} else {
+				PatientModel p = new PatientModel(
+						addPatient.getStringFromInput(0),
+						addPatient.getStringFromInput(1) );
+				try {
+					if(p.create()) {
+						addPatient.close();
+						addPatient.clearTexts();
+					}
+				} catch (SQLException e) {
+					Log.print("Patient Failed to be added!");
+					e.printStackTrace();
+				}
+				addPatient.close();
+			}
+		}
+		if (!addPatient.isClosed()) addPatient.update(gc, dt);
+
+		// PatientFile Report - authorization and validation
 		if (patientSearch.getWord().length()>0
 				&& gc.getInput().isKeyDown(KeyEvent.VK_ENTER)) {
 			if (hippaAuthorized) {
 				try {
-					if (!patientSearch.validateIsInt()
-						|| !patientSearch.validateIsPositive()) {
+					if (!(
+						// Patient ID
+						patientSearch.validInt()
+						&& patientSearch.validPositiveNumber()
+					)) {
 						invalidInputAlert.open();
 						patientSearch.clearText();
 					} else {
@@ -302,6 +370,7 @@ public class GameManager extends AbstractGame {
 			}
 		}
 
+		// Left Menu Buttons - click detection and authorization
 		if (leftSide.getTab(0).isButtonActive("Add User")) {
 			if (hippaAuthorized)
 				addUser.open();

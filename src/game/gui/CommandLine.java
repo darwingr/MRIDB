@@ -4,6 +4,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import engine.GameContainer;
 import engine.Renderer;
 import engine.gfx.Font;
@@ -184,7 +188,8 @@ public class CommandLine {
 		selected = false;
 	}
 
-	public boolean validateIsInt() {
+	// Validations on user inputs
+	public boolean validInt() {
 		try {
 			int n = Integer.parseInt(getWord());
 		} catch (NumberFormatException nfe) {
@@ -193,23 +198,63 @@ public class CommandLine {
 		return true;
 	}
 
-	public boolean validateIsNumber() {
+	public boolean validNumber() {
 		return getWord().matches("[-+]?\\d*\\.?\\d+");
 	}
 
-	public boolean validateIsPositive() {
+	public boolean validPositiveNumber() {
 		// Assumes is a number
 		double value = Double.parseDouble(getWord());
 		return (value >= 0);
 	}
 
-	public boolean validateWithinWidthLimit(int width_limit) {
+	public boolean validIntMember(List<Integer> keys) {
+		// Assumes is Integer
+		int n = Integer.parseInt(getWord());
+		return keys.contains(n);
+	}
+
+	public boolean validWidth(int width_limit) {
 		int length = getWord().length();
-		if (validateIsNumber() && !validateIsPositive()) length--;
+		if (validNumber() && !validPositiveNumber()) length--;
 		return (length <= width_limit);
 	}
 
-	public boolean validateNotEmpty() {
+	public boolean validNotEmpty() {
 		return (!getWord().isEmpty());
+	}
+
+	public boolean validDate(String date_format) {
+		try {
+			SimpleDateFormat df = new SimpleDateFormat(date_format);
+			df.setLenient(false);
+			df.parse(getWord());
+			return true;
+		} catch (ParseException pe) {
+			return false;
+		}
+	}
+
+	// Expected format "dd/MM/yy"
+	// NOTE DB constraint on visits requires dob <= check_in
+	public boolean validDateInPast(String date_format) {
+		// Up to 24 hour slack is acceptable
+		Calendar today = Calendar.getInstance();
+		SimpleDateFormat sdtf = new SimpleDateFormat(date_format);
+		// Assumes is proper date so exception returns false
+		Calendar input_date = Calendar.getInstance();
+		try {
+			input_date.setTime(sdtf.parse(getWord()));
+		} catch (ParseException pe) {
+			return false;
+		}
+		if (today.compareTo(input_date) < 0) return false;
+		return true;
+	}
+
+	public boolean validEmailAddress() {
+		java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("^.+@.+\\..+$");
+		java.util.regex.Matcher matcher = pattern.matcher(getWord());
+		return matcher.matches();
 	}
 }

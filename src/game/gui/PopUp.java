@@ -10,11 +10,15 @@ import engine.gfx.Font;
 public class PopUp {
 
 	private String title;
-	private int x, y, width, height;
-	private List<Button> buttons;
-	private List<CommandLine> inputs;
-	private List<CheckBox> boxes;
-	private boolean close,shouldClose;
+	protected int x;
+	protected int y;
+	private int width;
+	private int height;
+	protected List<Button> buttons;
+	protected List<CommandLine> inputs;
+	protected List<CheckBox> boxes;
+	protected boolean close;
+	protected boolean shouldClose;
 	
 	public PopUp(String title, int width, int height) {
 		this.x = GameContainer.width / 2 - width / 2;
@@ -130,4 +134,59 @@ public class PopUp {
 		return y;
 	}
 
+	// Validations on user inputs (CommandLine)
+	// SIDE EFFECT: clears the CommandLine if invalid
+	public boolean validInt(int input_id) {
+		boolean is_valid = inputs.get(input_id).validInt();
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validNumber(int input_id) {
+		boolean is_valid = inputs.get(input_id).validNumber();
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validPositiveNumber(int input_id) {
+		boolean is_valid = inputs.get(input_id).validPositiveNumber();
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validIntMember(int input_id, List<Integer> keys) {
+		boolean is_valid = inputs.get(input_id).validIntMember(keys);
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validWidth(int input_id, int width_limit) {
+		boolean is_valid = inputs.get(input_id).validWidth(width_limit);
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validNotEmpty(int input_id) {
+		boolean is_valid = inputs.get(input_id).validNotEmpty();
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validDate(int input_id, String date_format) {
+		boolean is_valid = inputs.get(input_id).validDate(date_format);
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validDateInPast(int input_id, String date_format) {
+		boolean is_valid = inputs.get(input_id).validDateInPast(date_format);
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
+
+	public boolean validEmailAddress(int input_id) {
+		boolean is_valid = inputs.get(input_id).validEmailAddress();
+		if (!is_valid) inputs.get(input_id).clearText();
+		return is_valid;
+	}
 }
