@@ -1,6 +1,10 @@
 # JSDB - Juvenile Statistical Database
 
-_One Paragraph of project description goes here_
+This application was made for a 2nd year data base class. The user can send SQL commands to a DB running on a university server by using a bare bones GUI rendered on a pixel graphics engine. The DB contains thousands of specific brain measurements on appoximatly 4700 patients. Some of the features available are a user login, patient file lookup, and graph for you to display specifc measurements across a specified search domain. 
+
+# Todo
+
+Add some screenshots of the login, graphing, and search options.
 
 ## Getting Started
 
