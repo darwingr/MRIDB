@@ -1,6 +1,6 @@
 # JSDB - Juvenile Statistical Database
 
-_One Paragraph of project description goes here_
+_A desktop GUI for querying, parameter selection (including SVM), machine learning model training and visualizing large volumetric data taken from fMRI brain scans of over 4,000 patients (exclusive access). This was developed over three months with three colleagues using our own graphics rendering engine. The app is written in Java and works on Windows as well as Mac._
 
 ## Getting Started
 
