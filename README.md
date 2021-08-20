@@ -1,6 +1,9 @@
 # JSDB - Juvenile Statistical Database
 
-This application was made for a 2nd year database class. The user can send SQL commands to a DB running on a university server by using a bare-bones GUI rendered on a pixel graphics engine. The DB contains thousands of specific brain measurements on approximately 1600 patients. Some of the features available are a user login, patient file lookup, and graph for you to display specifc measurements across a specified search domain. 
+_A desktop GUI for querying, parameter selection (including SVM), machine learning model training and visualizing volumetric data taken from fMRI brain scans of over 4,000 patients (exclusive access). This application was developed over three months with three colleagues using our (Seven's) own pixel graphics engine.
+
+The app is written in Java and works on Windows as well as Mac. The user can send SQL commands to a DB running on a university server. The DB contains thousands of specific brain measurements. Some of the features available are a user login, patient file lookup, and plotting for specifc measurements across a specified search domain. 
+
 
 # Todo
 
