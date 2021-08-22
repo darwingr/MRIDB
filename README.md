@@ -1,8 +1,8 @@
 # JSDB - Juvenile Statistical Database
 
-_A desktop GUI for querying, parameter selection (including SVM), machine learning model training and visualizing volumetric data taken from fMRI brain scans of over 4,000 patients (exclusive access). This application was developed over three months with three colleagues using our (Seven's) own pixel graphics engine.
+_A desktop GUI for querying, parameter selection (including SVM), machine learning model training and visualizing volumetric data taken from fMRI brain scans of over 4,000 patients (exclusive access). This application was developed over three months with three colleagues using our (Seven's) own pixel graphics engine._
 
-The app is written in Java and works on Windows as well as Mac. The user can send SQL commands to a DB running on a university server. The DB contains thousands of specific brain measurements. Some of the features available are a user login, patient file lookup, and plotting for specifc measurements across a specified search domain. 
+_The app is written in Java and works on Windows as well as Mac. The user can send SQL commands to a DB running on a university server. The DB contains thousands of specific brain measurements. Some of the features available are a user login, patient file lookup, and plotting for specifc measurements across a specified search domain._
 
 
 # Todo
@@ -190,7 +190,7 @@ See also the list of [contributors](https://github.com/ThreeFourSeven/Database-G
 
 ## License
 
-This project is licensed **NOT** under the MIT License - **DO NOT** see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
