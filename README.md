@@ -56,10 +56,11 @@ A step by step series of examples that tell you have to get a development env ru
 
 ## Data
 All the data used is stored with the source code under `db/data/`.
-It originally derives from these data sets:
+The MRI data derives from these data sets:
  - BCH - Boston Children's Hospital (ADHD)
  - ABIDE (autism)
 
+Brain MRI image data was preprocessed with [FreeSurfer](https://surfer.nmr.mgh.harvard.edu).
 All data was anonymized long before it reached our hands.
 We've also generated random data using [mockaroo](https://www.mockaroo.com/).
 
