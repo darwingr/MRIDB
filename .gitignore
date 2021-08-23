@@ -1,10 +1,14 @@
 /build/
+*.app
+packr-all*.jar
+lib/ojdbc8.jar
+jsdb*.jar
+
 
 # Don't commit environment variable values
 .env
 !.env.template
 
-lib/ojdbc8.jar
 
 tmp/*
 !tmp/.keep

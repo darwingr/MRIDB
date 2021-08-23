@@ -15,15 +15,21 @@ These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes. See deployment for notes on
 how to deploy the project on a live system.
 
-### Prerequisites
 
-What things you need to install the software:
+### Run Requirements
 
+ - Running instance of Oracle DB version 11 (Docker works well for local dev)
+ - Java version 8 (if running from a jar file)
+
+
+### Development Requirements
+
+ - Everything under Run Requirements
  - git
- - Java version 8
- - Java development kit (jdk)
- - Running instance of Oracle DB version 11
+ - Java development kit (jdk) 1.8
  - Eclipse (must have the built-in support for git, otherwise use comman)
+ - ojdbc8.jar — the oracle database interfaces and drivers for Java
+ - packr-all.jar — [Packr](https://github.com/libgdx/packr) release packaging
 
 
 ### Installing
