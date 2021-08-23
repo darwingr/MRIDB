@@ -105,16 +105,16 @@ run-from-jar() {
 #   Otherwise change the info.plist from the applescript
 
 
-# --cachejre 'build/packr-cache' \
-# --minimizejre 'hard' \
-# --useZgcIfSupportedOs \
 # --vmargs Xmx1G XstartOnFirstThread \
+# --useZgcIfSupportedOs \
 make-mac-app() {
   make-app-jar
   rm -rf "$APP_DIR_NAME"
 
   java -jar packr-all.jar --verbose \
     --platform mac \
+    --cachejre 'build/packr-cache' \
+    --minimizejre 'hard' \
     --jdk "$JAVA_HOME" \
     --executable $APP_LABEL \
     --classpath "$APP_JAR" lib/ojdbc8.jar \

@@ -1,5 +1,7 @@
 /build/
 *.app
+*.app.zip
+*.dmg
 packr-all*.jar
 lib/ojdbc8.jar
 jsdb*.jar

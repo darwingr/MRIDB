@@ -33,4 +33,9 @@ class MeasurementModelTest {
 		MeasurementModel m = MeasurementModel.findByID(2);
 		assertEquals(2, m.getID());
 	}
+
+	@Test
+	void testFilterByCohensD() throws SQLException {
+		
+	}
 }

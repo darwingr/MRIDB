@@ -60,7 +60,8 @@ public class DBAdapter {
 	            Class<DBAdapter> aClass = DBAdapter.class;
 	            Field env_var = aClass.getDeclaredField(name);
 	            // overwrite property
-	            if (System.getenv(name) != null) env_var.set(aClass, System.getenv(name));
+	            if (System.getenv(name) != null)
+	            	env_var.set(aClass, System.getenv(name));
 	            if (env_var.get(null) == null || "".equals(env_var.get(null))) {
 	                System.err.println(error_msg);
 	                success = false;
