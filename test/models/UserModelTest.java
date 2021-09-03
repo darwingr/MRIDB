@@ -47,13 +47,13 @@ class UserModelTest {
 	@Test
 	void testAuthenticatePasses() throws SQLException {
 		UserModel user = new UserModel();
-		assertTrue(user.authenticate("dgroskleg", "csci275"));
+		assertTrue(user.authenticate("dgroskleg", "csci275").isLoggedIn());
 	}
 
 	@Test
 	void testAuthenticateFails() throws SQLException {
 		UserModel user = new UserModel();
-		assertTrue(!user.authenticate("dgroskleg", "XXX"));
+		assertFalse(user.authenticate("dgroskleg", "XXX").isLoggedIn());
 	}
 
 	@Test
