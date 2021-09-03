@@ -58,9 +58,6 @@ import java.lang.reflect.Field;
 
 abstract public class ActiveRecord {
 
-	public ActiveRecord() {
-	}
-
 	public String table() { return "records"; }
 
 	public boolean delete() throws SQLException {
