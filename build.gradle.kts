@@ -1,8 +1,7 @@
-
 plugins {
   java
   `java-library`
-//  application
+  application
 }
 
 repositories {
@@ -24,6 +23,9 @@ sourceSets {
     java {
       setSrcDirs(listOf("src"))
     }
+    resources {
+      setSrcDirs(listOf("res"))
+    }
   }
 
   test {
@@ -42,7 +44,8 @@ tasks.test {
 //  options.compilerArgs.add("-Xlint:unchecked")
 //}
 
-//application {
-//  // Define the main class for the application.
-//  mainClass.set("MRIDB.App")
-//}
+application {
+  // Define the main class for the application.
+  mainClass.set("game.GameManager")
+  //executableDir = "custom_bin_dir"
+}
