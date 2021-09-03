@@ -3,7 +3,7 @@ package adapters;
 public class EnvironmentAdapter {
 
 	public static boolean setup() {
-			return DBAdapter.checkEnvironment();
+			return OracleDBAdapter.checkEnvironment();
 	}
 
 	public EnvironmentAdapter() {

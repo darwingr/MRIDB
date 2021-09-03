@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 class UserModelTest {
 
@@ -73,7 +74,7 @@ class UserModelTest {
 		assertTrue(clone.create());
 
 		// NASTY cleanup, so we can keep testing on 1
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql =
 				"UPDATE users \n" +
 				"SET id = 3 \n" +

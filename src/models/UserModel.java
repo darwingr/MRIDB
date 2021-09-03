@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 public class UserModel extends ActiveRecord {
 	private static final String TABLE_NAME = "users";
@@ -44,7 +45,7 @@ public class UserModel extends ActiveRecord {
 
 	public static UserModel findByID(int user_id) throws SQLException {
 		UserModel user = new UserModel();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		try (ResultSet rs = db.executeQuery("select * from " + user.table() + " where id = " + user_id)) {
 			if (rs.next()) {
 				user.id = rs.getInt("id");
@@ -84,7 +85,7 @@ public class UserModel extends ActiveRecord {
 	}
 
 	public LoginRequest authenticate(String user_username, String user_password) throws SQLException {
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql = "select * from users where username = '" + user_username
 				+ "' AND password = '" + user_password + "'";
 		boolean user_exists = false;
@@ -124,7 +125,7 @@ public class UserModel extends ActiveRecord {
 	 */
 	public boolean create() throws SQLException {
 		boolean success = false;
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String plsql = 
 				"DECLARE \n" +
 				"  rec_id NUMBER; \n" +
@@ -158,7 +159,7 @@ public class UserModel extends ActiveRecord {
 	// then try instead to implement your code as a method on this class and call save() from there.
 	// Note that we don't save or change ID, ever.
 	private boolean save() throws SQLException {
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql = "UPDATE "+TABLE_NAME+"\n" +
 					 "SET username = '" + username + "', \n" +
 					 "    password = '" + password + "', \n" +

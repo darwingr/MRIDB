@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 public class MeasurementModel extends ActiveRecord {
 	private static final String TABLE_NAME = "measurements";
@@ -15,7 +16,7 @@ public class MeasurementModel extends ActiveRecord {
 
 	public static MeasurementModel findByID(int id) throws SQLException {
 		MeasurementModel measurement = new MeasurementModel();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql = "SELECT * FROM " + measurement.table() + " WHERE id = " + id;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			if (rs.next()) {

@@ -2,6 +2,7 @@ package models;
 
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -18,7 +19,7 @@ import java.lang.reflect.Field;
  * The pattern you need to use when defining methods on any subclass where an
  * interaction with the database occurs is as follows:
  * ```
- * DBAdapter db = new DBAdapter();
+ * DBAdapter db = new OracleDBAdapter();
  *    try (ResultSet rs = db.executeQuery("sql query here")) {
  *    rs.next();
  *    // do stuff with the result set, see oracle docs on ResultSet
@@ -63,7 +64,7 @@ abstract public class ActiveRecord {
 	public String table() { return "records"; }
 
 	public boolean delete() throws SQLException {
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql = "DELETE FROM "+ table() +" WHERE id = '" + getID() + "'";
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {

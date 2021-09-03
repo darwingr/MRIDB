@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 class PatientModelTest {
 

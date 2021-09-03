@@ -12,11 +12,11 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 
 /**
- * Tests the DBAdapter object, mostly by printing data for visual inspection
+ * Tests the OracleDBAdapter object, mostly by printing data for visual inspection
  * than by assertions.
  */
-class DBAdapterTest {
-	DBAdapter db;
+class OracleDBAdapterTest {
+	OracleDBAdapter db;
 
 	/**
 	 * @throws java.lang.Exception
@@ -37,7 +37,7 @@ class DBAdapterTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		db = new DBAdapter();
+		db = new OracleDBAdapter();
 	}
 
 	/**

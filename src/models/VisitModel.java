@@ -13,6 +13,7 @@ import java.util.Date;
 import oracle.sql.DATE;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 public class VisitModel extends ActiveRecord {
 	private static final String TABLE_NAME = "visits";
@@ -26,7 +27,7 @@ public class VisitModel extends ActiveRecord {
 
 	public static VisitModel findByID(int id) throws SQLException {
 		VisitModel visit = new VisitModel();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
         String sql = "select * from " + TABLE_NAME + " where id = " + id;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			if (rs.next()) {
@@ -49,7 +50,7 @@ public class VisitModel extends ActiveRecord {
 
 	public static ArrayList<VisitModel> findByPatientID(int pat_id) throws SQLException {
 		ArrayList<VisitModel> visits = new ArrayList<VisitModel>();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE patient_id = " + pat_id;
 		try (ResultSet rs = db.executeQuery(sql)) {
 			while (rs.next()) {
@@ -74,7 +75,6 @@ public class VisitModel extends ActiveRecord {
 
 	public VisitModel() {
 		this(1, new Date(1979-1900, 06-1, 30));
-		
 	}
 
 	public VisitModel(int gen, Date dateOfBirth) {
@@ -89,7 +89,7 @@ public class VisitModel extends ActiveRecord {
 	public boolean create(int pat_id) throws SQLException {
 		boolean success = false;
 		patient_id = pat_id;
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		DateFormat df = DateFormat.getDateInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String plsql =
@@ -128,9 +128,9 @@ public class VisitModel extends ActiveRecord {
     @Override
 	public int getID() { return id; }
 
-    public int getGender () {
-        return gender;
-    }
+	public int getGender () {
+		return gender;
+	}
 
 	public void setGender(int gen) {
 		gender = gen;

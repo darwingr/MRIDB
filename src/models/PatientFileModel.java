@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 public class PatientFileModel extends ActiveRecord {
 	private static final String TABLE_NAME = "patient_files";
@@ -60,7 +61,7 @@ public class PatientFileModel extends ActiveRecord {
 	}
 
 	public static PatientFileModel findByID(int id) throws SQLException {
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		PatientFileModel patientfile = new PatientFileModel();
 		String sql = "SELECT * FROM patient_files WHERE patient_id= '" + id + "'";	
 		boolean success = false;
@@ -101,7 +102,7 @@ public class PatientFileModel extends ActiveRecord {
 	public String table() { return "patient_files"; }
 
 	public boolean delete() throws SQLException {
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql = "DELETE FROM users WHERE id = '" + patient_id + "'";
 		boolean success = false;
 		try (ResultSet rs = db.executeQuery(sql)) {

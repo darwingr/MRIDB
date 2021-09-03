@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 public class MRIScanModel extends ActiveRecord {
 	private static final String TABLE_NAME = "mri_scans";
@@ -25,7 +26,7 @@ public class MRIScanModel extends ActiveRecord {
 
 	public static MRIScanModel findByID(int rec_id) throws SQLException {
 		MRIScanModel scan = new MRIScanModel();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 
 		String sql = "select * from " + scan.table() + " where id = " + rec_id;
 		try (ResultSet rs = db.executeQuery(sql)) {
@@ -57,7 +58,7 @@ public class MRIScanModel extends ActiveRecord {
 	public static ArrayList<MRIScanModel> scansForAgeRange(int low, int high, int genderFilter)
 			throws SQLException {
 		ArrayList<MRIScanModel> scans = new ArrayList<MRIScanModel>();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		String sql =
 				"SELECT \n" +
 				"  mri_scans.id AS id, \n" +

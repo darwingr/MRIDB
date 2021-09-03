@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import adapters.DBAdapter;
+import adapters.OracleDBAdapter;
 
 public class PatientModel extends ActiveRecord {
 	public String TABLE_NAME = "patients";
@@ -21,7 +22,7 @@ public class PatientModel extends ActiveRecord {
 
 	public static PatientModel findByID(int patient_id) throws SQLException {
 		PatientModel patient = new PatientModel();
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		try (ResultSet rs = db.executeQuery("select * from " + patient.TABLE_NAME + " where id = " + patient_id)) {
 			if (rs.next()) {
 				patient.id = rs.getInt("id");
@@ -59,7 +60,7 @@ public class PatientModel extends ActiveRecord {
 	 */
 	public boolean create() throws SQLException {
 		boolean success = false;
-		DBAdapter db = new DBAdapter();
+		DBAdapter db = new OracleDBAdapter();
 		boolean patientExists = false;
 		String patient_query = 
 				"SELECT id \n" + //count(first_name), count(last_name)\n" + 
