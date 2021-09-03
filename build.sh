@@ -140,16 +140,21 @@ make-mac-app() {
 
 
 # Check if the script was sourced or run from the command line
+#   and if
 if [ "$0" == "$BASH_SOURCE" ]
 then
   # Check if the function exists (bash specific)
-  if declare -f "$1" > /dev/null
+  if [ $# -ge 1 ] && declare -f "$1" > /dev/null
   then
     # call arguments verbatim
     "$@"
   else
     # Show a helpful error
-    echo "'$1' is not a known function name" >&2
+    if [ $# -ge 1 ]; then
+      echo -n "'$1' is not a known function name, " >&2
+    fi
+    echo "try one of the following arguments: " >&2
+    compgen -P "    " -A function
     exit 1
   fi
 fi
