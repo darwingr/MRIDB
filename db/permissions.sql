@@ -1,0 +1,15 @@
+GRANT SELECT, INSERT, UPDATE, DELETE ON conditions   TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON devices      TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON patients     TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON physicians   TO x2008ofj, x2009jpe, x2014gve, x2016mou:
+GRANT SELECT, INSERT, UPDATE, DELETE ON technicians  TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON diagnoses    TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON visits       TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON genomes      TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON measurements TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON mri_scans    TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON treatments   TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON regimens     TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+GRANT SELECT, INSERT, UPDATE, DELETE ON users        TO x2008ofj, x2009jpe, x2014gve, x2016mou;
+
+exit
