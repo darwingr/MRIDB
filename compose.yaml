@@ -1,0 +1,17 @@
+version: "3"
+
+# docker pull store/oracle/database-enterprise:12.2.0.1
+# mapped to default port 1521 on 0.0.0.0
+services:
+  oracledb:
+    image: store/oracle/database-enterprise:12.2.0.1-slim
+      # https://hub.docker.com/u/darwingr/content/sub-94fa088c-9659-4ce0-9ef1-7255e97190e9
+      # default username/password sys/Oradoc_db1
+    volumes:
+      - './db:/db'
+      - './tmp:/home/oracle/tmp'
+      - './bin:/appbin'
+    env_file:
+      - './.env'
+    ports:
+      - "127.0.0.1:1521:1521"

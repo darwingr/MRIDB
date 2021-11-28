@@ -1,0 +1,31 @@
+{
+  "entries": {
+    "tap": {
+      "instantclienttap/instantclient": {
+        "revision": "eba8e478f942ca8edbcf44237d0a5570d3df3e0d"
+      }
+    },
+    "brew": {
+      "instantclient-sqlplus": {
+        "version": "19.8.0.0.0dbru",
+        "bottle": false
+      },
+      "instantclient-tools": {
+        "version": "19.8.0.0.0dbru",
+        "bottle": false
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "big_sur": {
+        "HOMEBREW_VERSION": "3.3.5-61-g4c3f325",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "b50ea92ff602b832057912c76ec8fc585ed45368",
+        "CLT": "13.0.0.0.1.1630607135",
+        "Xcode": "13.0",
+        "macOS": "11.6.1"
+      }
+    }
+  }
+}
