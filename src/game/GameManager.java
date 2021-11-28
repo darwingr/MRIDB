@@ -30,21 +30,28 @@ import models.UserModel;
 import adapters.EnvironmentAdapter;
 
 public class GameManager extends AbstractGame {
-	
+
 	private UserModel CURRENT_USER = null;
-	
+
 	private Log log;
 	private FilterManager filter;
 	private CommandLine patientSearch;
 	private Page page;
 	private Gui leftSide, rightSide;
-	private boolean login, hippaAuthorized;
+	private boolean login,
+            hippaAuthorized;
 	private int gate;
 
 	private CommandLine userName;
 	private CommandLine password;
+
 	private UserModel user = new UserModel();
-	private PopUp editUser, addUser, addPatient, removeUser, unauthorizedAlert, invalidInputAlert;
+	private PopUp editUser,
+			addUser,
+			addPatient,
+			removeUser,
+			unauthorizedAlert,
+			invalidInputAlert;
 	private AttributeSearch search;
 
 	public GameManager() {
@@ -52,12 +59,18 @@ public class GameManager extends AbstractGame {
 		leftSideInit();
 		rightSideInit();
 		page = null;
-		
+
 		login = false;
 		if (login)
 			hippaAuthorized = false;
-		userName = new CommandLine("Username:", GameContainer.width / 2 - 128, GameContainer.height / 2, 256, 64);
-		password = new CommandLine("Password:", GameContainer.width / 2 - 128, GameContainer.height / 2 + 96, 256, 64);
+		userName = new CommandLine("Username:",
+				GameContainer.width / 2 - 128,
+				GameContainer.height / 2,
+				256, 64);
+		password = new CommandLine("Password:",
+				GameContainer.width / 2 - 128,
+				GameContainer.height / 2 + 96,
+				256, 64);
 		password.censor();
 		userName.setSelected(true);
 		patientSearch = new CommandLine("Patient Search by ID:", 356, 0, 64, 32);
@@ -113,7 +126,7 @@ public class GameManager extends AbstractGame {
 		rightSide.setGraph(0, 256, 0);
 		rightSide.getLastTabAdded().addOutPutLog(GameContainer.height - 128, 128);
 		log = rightSide.getLastTabAdded().getLog();
-		
+
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -133,7 +146,7 @@ public class GameManager extends AbstractGame {
 					filter.filter(FilterManager.MALE_ONLY);
 				if (fActive)
 					filter.filter(FilterManager.FEMALE_ONLY);
-			
+
 			}
 
 		} else {// Login Screen
@@ -395,7 +408,7 @@ public class GameManager extends AbstractGame {
 		if (leftSide.getTab(0).isButtonActive("Reset Graph")) {
 			rightSide.getTab(0).clearGraph();
 		}
-		
+
 	}
 
 	public void render(GameContainer gc, Renderer r) {

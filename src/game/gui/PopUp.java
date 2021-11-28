@@ -19,7 +19,7 @@ public class PopUp {
 	protected List<CheckBox> boxes;
 	protected boolean close;
 	protected boolean shouldClose;
-	
+
 	public PopUp(String title, int width, int height) {
 		this.x = GameContainer.width / 2 - width / 2;
 		this.y = GameContainer.height / 2 - height / 2;
@@ -31,7 +31,8 @@ public class PopUp {
 		buttons = new ArrayList<Button>();
 		inputs = new ArrayList<CommandLine>();
 		boxes = new ArrayList<CheckBox>();
-		buttons.add(new Button(x + width * 2 / 4, y, width / 2, 32).setTitle("Save & Exit", false));
+		buttons.add(new Button(x + width * 2 / 4, y, width / 2, 32)
+				.setTitle("Save & Close", false));
 	}
 
 	public void update(GameContainer gc, float dt) {
@@ -77,17 +78,17 @@ public class PopUp {
 		}
 		return false;
 	}
-	
+
 	public void clearTexts() {
 		for(CommandLine l: inputs) {
 			l.clearText();
 		}
 	}
-	
+
 	public void addCheckBox(String text, int xOff, int yOff, int size) {
 		boxes.add(new CheckBox(text,x+xOff,y+yOff+32,size));
 	}
-	
+
 	public void addButton(String text, int xOff, int yOff, int width, int height) {
 		buttons.add(new Button(x + xOff, y + yOff + 32, width, height).setTitle(text, false));
 	}
@@ -99,7 +100,7 @@ public class PopUp {
 	public String getStringFromInput(int inputID) {
 		return inputs.get(inputID).getWord();
 	}
-	
+
 	public void setStringFromInput(String text, int inputID) {
 		inputs.get(inputID).setWord(text);;
 	}
@@ -107,11 +108,11 @@ public class PopUp {
 	public void setCheckBox(boolean active, int checkID) {
 		boxes.get(checkID).setActive(active);
 	}
-	
+
 	public boolean shouldClose() {
 		return shouldClose;
 	}
-	
+
 	public boolean isClosed() {
 		return close;
 	}
