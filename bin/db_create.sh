@@ -20,19 +20,13 @@ set -o nounset    # Exposes unset variables
 : "${DB_ADMIN_USERNAME:-sys}"
 : "${DB_ADMIN_PASSWORD:-Oradoc_db1}"
 
-# <connect_identifier> can be in the form of Net Service Name or Easy Connect.
-#    @[<net_service_name> | [//]Host[:Port]/<service_name>]
-#connect_identifier="$DB_HOST:$DB_PORT/$DB_SERVICE_NAME"
-pdb_connect_identifier="127.0.0.1:1521/ORCLPDB1.localdomain"
-cdb_connect_identifier="127.0.0.1:1521/ORCLCDB.localdomain"
+source _database.sh
 
-container_name="mridb-oracledb-1"
-
-#docker exec -it $container_name bash -c "
-#  source /home/oracle/.bashrc
-#  sqlplus sys/Oradoc_db1@$cdb_connect_identifier as sysdba \
-#    @db/dba_archivelog.sql
-#"
+docker exec -it $container_name bash -c "
+  source /home/oracle/.bashrc
+  sqlplus sys/Oradoc_db1@$cdb_connect_identifier as sysdba \
+    @db/dba_archivelog.sql
+"
 
 docker exec -it $container_name bash -c "
   source /home/oracle/.bashrc
