@@ -17,6 +17,7 @@ set -o nounset    # Exposes unset variables
 # TODO move this to a dockerfile build command
 # Some vars should be centralized in commited env file for running tests, etc.
 
+# These are defaults to the docker container
 : "${DB_ADMIN_USERNAME:-sys}"
 : "${DB_ADMIN_PASSWORD:-Oradoc_db1}"
 

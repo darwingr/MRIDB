@@ -1,4 +1,3 @@
-
 # Load Environment
 if [ ! -f .env ]; then
   echo "Project is missing a '.env' file!"
