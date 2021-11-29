@@ -20,7 +20,7 @@ set -o nounset    # Exposes unset variables
 : "${DB_ADMIN_USERNAME:-sys}"
 : "${DB_ADMIN_PASSWORD:-Oradoc_db1}"
 
-source _database.sh
+source bin/_database.sh
 
 docker exec -it $container_name bash -c "
   source /home/oracle/.bashrc

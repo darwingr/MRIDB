@@ -14,7 +14,7 @@ set -o nounset    # Exposes unset variables
 #set -o xtrace     # Print command traces before executing command.
 
 
-source _database.sh
+source bin/_database.sh
 
 # Cleanup old logs
 rm -f tmp/*.ctl.log
