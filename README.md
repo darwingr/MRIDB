@@ -1,13 +1,33 @@
 # JSDB - Juvenile Statistical Database
+Original project including issue tracker found at [ThreeFourSeven/Database-Gui](https://github.com/ThreeFourSeven/Database-Gui).
 
-_A desktop GUI for querying, parameter selection (including SVM), machine learning model training and visualizing volumetric data taken from fMRI brain scans of over 4,000 patients (exclusive access). This application was developed over three months with three colleagues using our (Seven's) own pixel graphics engine._
+This project has two parts and follows a client server model:
+1. _A desktop GUI application for querying, parameter selection (including SVM), machine learning model training and visualizing volumetric data taken from fMRI brain scans of over 4,000 patients (exclusive access). 
+This application was developed over three months with three colleagues using our (Seven's) own pixel graphics engine._ _The app is written in Java and works on Windows as well as Mac. The user can send SQL commands to a DB running on a university server.
 
-_The app is written in Java and works on Windows as well as Mac. The user can send SQL commands to a DB running on a university server. The DB contains thousands of specific brain measurements. Some of the features available are a user login, patient file lookup, and plotting for specifc measurements across a specified search domain._
-
+2. Automation for quick oracle database server provisioning, initializing / migration, data seeding and resetting / reloading.
+The DB contains thousands of specific brain measurements. Some of the features available are a user login, patient file lookup, and plotting for specific measurements across a specified search domain._
 
 # Todo
 
 Add some screenshots of the login, graphing, and search options.
+
+# About the Project
+## Built With
+# Getting Started
+## Prerequisites
+## Installation
+## Contributing
+# Usage
+## Run App
+## Preview
+
+# Development
+- Configure environment variables if non-standard for dev/testing
+- Provision local database instances by running `docker-compose build`
+- Initialize and seed the dev/testing databases by running `???`
+- The app should be good from here to connect.
+- Explore the docker image using `docker exec -it mridb_oracledb_1 /bin/bash`
 
 ## Getting Started
 
@@ -66,7 +86,7 @@ The MRI data derives from these data sets:
  - BCH - Boston Children's Hospital (ADHD)
  - ABIDE (autism)
 
-Brain MRI image data was preprocessed with [FreeSurfer](https://surfer.nmr.mgh.harvard.edu).
+Brain MRI image data was preprocessed with [3D Slicer](https://www.slicer.org) and [FreeSurfer](https://surfer.nmr.mgh.harvard.edu).
 All data was anonymized long before it reached our hands.
 We've also generated random data using [mockaroo](https://www.mockaroo.com/).
 
@@ -164,7 +184,7 @@ class.
 There are no end to end tests.
 
 
-## Deployment
+## Distribute
 
 To create an executable jar file in eclipse go to `File > Export > Java > Runnable Jar File`.
 Then click next then finish.
