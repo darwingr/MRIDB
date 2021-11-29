@@ -16,9 +16,15 @@ set -o nounset    # Exposes unset variables
 
 source bin/_database.sh
 
-sqlplus_cmd "$DB_USERNAME/$DB_PASSWORD@//$connect_identifier" @db/drop.sql
-sqlplus_cmd "$DB_USERNAME/$DB_PASSWORD@//$connect_identifier" @db/schema.sql
+function schemaLoad() {
+  local db_username="$1"
+  local db_password="$2"
+  sqlplus "$db_username/$db_password@//$connect_identifier" @db/drop.sql
+  sqlplus "$db_username/$db_password@//$connect_identifier" @db/schema.sql
+  sqlplus "$db_username/$db_password@//$connect_identifier" @db/alter.sql
+  #sqlplus "$db_username/$db_password@//$connect_identifier" @db/permissions.sql
+  sqlplus "$db_username/$db_password@//$connect_identifier" @db/view.sql
+}
 
-sqlplus_cmd "$DB_USERNAME/$DB_PASSWORD@$connect_identifier" @db/alter.sql
-#sqlplus_cmd "$DB_USERNAME/$DB_PASSWORD@$connect_identifier" @db/permissions.sql
-sqlplus_cmd "$DB_USERNAME/$DB_PASSWORD@$connect_identifier" @db/view.sql
+schemaLoad "mridb_dev"  "mridb_dev"
+schemaLoad "mridb_test" "mridb_test"

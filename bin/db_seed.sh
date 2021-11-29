@@ -23,12 +23,6 @@ rm -f tmp/sqlldr-*.log
 for file in db/loaders/*.ctl; do
   echo "***********************************************************$file"
   [ -e "$file" ] || continue # guard against no globs
-  #sqlldr_cmd userid="$DB_USERNAME/$DB_PASSWORD@$connect_identifier AS SYSDBA" \
-  # "\' -> \'\''
-  # "'  -> '\''
-  # \'  -> '\''
-  # '   -> 
-  # \"  -> "
-  # userid="$DB_USERNAME/$DB_PASSWORD@$DB_SERVICE_NAME", \
-  sqlldr_cmd "$file"
+  sqlldr_cmd "mridb_dev"  "mridb_dev"  "$file"
+  sqlldr_cmd "mridb_test" "mridb_test" "$file"
 done

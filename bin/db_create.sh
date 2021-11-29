@@ -23,14 +23,11 @@ set -o nounset    # Exposes unset variables
 
 source bin/_database.sh
 
-docker exec -it $container_name bash -c "
-  source /home/oracle/.bashrc
-  sqlplus sys/Oradoc_db1@$cdb_connect_identifier as sysdba \
-    @db/dba_archivelog.sql
-"
+sqlplus sys/Oradoc_db1@$cdb_connect_identifier as sysdba \
+  @db/dba_archivelog.sql
 
-docker exec -it $container_name bash -c "
-  source /home/oracle/.bashrc
-  sqlplus sys/Oradoc_db1@$pdb_connect_identifier as sysdba \
-    @db/dba_create.sql mridb_dev
-"
+sqlplus sys/Oradoc_db1@$pdb_connect_identifier as sysdba \
+  @db/dba_create.sql "mridb_dev"
+
+sqlplus sys/Oradoc_db1@$pdb_connect_identifier as sysdba \
+  @db/dba_create.sql "mridb_test"
